@@ -1,0 +1,114 @@
+{% load static %}
+{% load i18n %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/post_items.css' %}">
+  <link rel="stylesheet" href="{% static 'css/_post_list.css' %}">
+{% endblock %}
+<div class="timeline-content">
+  <div class="timeline">
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".map"> {% trans "Shortcuts to map" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    {% for list in post_list %}
+    <div class="timeline-container user">
+      {% if list.user.icon_url %}
+      <div style="background-image: url({{ list.user.icon_url }});" class="timeline-icon"></div>
+      {% else %}
+      <div style="background-image: url({% static 'icon/LandLim_Human.png' %});" class="timeline-icon"></div>
+      {% endif %}
+      <div class="timeline-body">
+          <h4 class="timeline-title"><a class="timeline-in-a" href="{% url 'post:post_details' list.pk %}"><span class="badge">タイトル</span></a></h4>
+          {% if list.postimage_set.first %}
+          <p class="text-align-center"><img class="timeline-content-image" src="{{ list.postimage_set.first.thumbnail_url }}"></p>
+          {% endif %}
+          <p>{{ list.text | safe | linebreaksbr | truncatechars:110 }}</p>
+          <p style="display:inline;" class="timeline-subtitle">6 Hours Ago - Hiiro Uhiyama</p>
+          <p class="timeline-subtitle-rightside">
+            <i class="far fa-thumbs-up i-style-timeline"></i> {{ list.like_count }}
+            <i class="far fa-thumbs-down i-style-timeline"></i> 5
+            <i class="far fa-bookmark i-style-timeline"></i> {{ list.bookmark_count }}
+            <i class="far fa-comments i-style-timeline"></i> {{ list.comment_count }}
+            <i class="far fa-eye i-style-timeline"></i> {{ list.watched_count }}
+            <div class="share-div">
+              <a class="share-a" href="#"></a>
+              <a class="share-a" href="#"></a>
+            </div>
+          </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<style>
+.nav-links {
+margin-top: 10.5px;
+padding: 2.5px;
+display: flex;
+justify-content: center;
+background: none;
+width: 65.5%;
+margin: 0 auto;
+}
+.pager {
+  width: 35.5px;
+  height: 35.5px;
+  margin: 2.5px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 35.5px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  background: none;
+  color: black;
+  transition: .3s;
+}
+.pager:hover {
+  background: #009600;
+  border-radius: 100%;
+  transform: rotate(360deg);
+  text-decoration: none;
+  color: #ffffff
+}
+.current {
+  background: #009600;
+  border-radius: 100%;
+}
+.dots {
+  background: none;
+}
+.margin-p {
+  margin-bottom: 2.5px;
+  padding-top: 0.5px;
+  padding-bottom: 0.5px;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.blue {
+  color: royalblue;
+}
+.circle {
+  width: 50px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
+	object-position: 0px 0px;
+  margin: 1.5px;
+  padding: 1.5px;
+}
+.list {
+  text-align: right;
+}
+</style>

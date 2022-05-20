@@ -1,0 +1,892 @@
+{% load i18n %}
+{% load static %}
+<!--さあ。<br>あなたのローカルに目を向けよう。-->
+<!-- mapbox maptiler -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name=”viewport” content=”width=device-width,initial-scale=1.0″>
+<meta name="google-site-verification" content="nqrkORHu7zjwGNk58vqBIpuL44lC-UQlPwp7TfD6H1A" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<title>ランドリム｜LandLim Web版</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="{% block description %}{% endblock %}" />
+<meta name="keywords" content="{% block keyword %}{% endblock %}" />
+<meta name="format-detection" content="email=no,telephone=no,address=no">
+<meta name="msapplication-TileImage" content="{% static 'images/joshua-aragon-EaB4Ml7C7fE-unsplash.jpg' %}" />
+<meta name="msapplication-TileColor" content="#EEEEEE" />
+<meta property="og:url" content="" />
+<meta property="og:title" content="{% block og_title %}ランドリム｜LandLim Web版{% endblock %}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{% block top_image %}{% static 'images/joshua-aragon-EaB4Ml7C7fE-unsplash.jpg' %}{% endblock %}" />
+<meta property="og:site_name" content="ランドリム｜LandLim Web版"/>
+<meta property="og:description" content="{% block og_description %}{% endblock %}" />
+<meta property="og:locale" content="ja_JP" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="" />
+<meta name="twitter:creator" content="" />
+<meta property="og:url" content="" />
+<meta property="og:title" content="{% block twitter_title %}ランドリム｜LandLim Web版{% endblock %}" />
+<meta property="og:description" content="{% block twitter_description %}{% endblock %}" />
+<link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/vnd.microsoft.icon">
+<meta name="application-name" content="ランドリム｜LandLim Web版"/>
+<meta name="msapplication-square70x70logo" content="small.jpg"/>
+<meta name="msapplication-square150x150logo" content="medium.jpg"/>
+<meta name="msapplication-wide310x150logo" content="wide.jpg"/>
+<meta name="msapplication-square310x310logo" content="large.jpg"/>
+<meta name="msapplication-TileColor" content="#FAA500"/>
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'icon/apple-touch-icon.png' %}">
+<link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}"/>
+<link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
+<link rel="stylesheet" href="https://designsupply-web.com/assets/vender/bootstrap/css/bootstrap.min.css" type="text/css">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css'>
+<link rel="stylesheet" href="{% static 'css/landlim_highlight.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/landlim_popup.css' %}">
+<link rel="stylesheet" href="{% static 'css/landlim_icon_pulse.css' %}">
+<link rel='stylesheet' href="{% static 'css/landlim_style.css' %}">
+<link rel='stylesheet' href="{% static 'css/landlim_animation.css' %}">
+<link rel='stylesheet' href="{% static 'css/landlim_form.css' %}">
+<link rel='stylesheet' href="{% static 'css/landlim_map_size.css' %}">
+<link rel='stylesheet' href="{% static 'css/landlim_load.css' %}">
+<link rel='stylesheet' href="{% static 'css/landlim_upload.css' %}">
+<link rel='stylesheet' href="{% static 'css/landlim_message.css' %}">
+<link rel="stylesheet" href="{% static 'css/leaflet.marker.highlight.css' %}" />
+<link rel="stylesheet" href="{% static 'css/leaflet.awesome-markers.css' %}">
+<link rel="stylesheet" href="{% static 'css/message-box.css' %}">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+<script src="{% static 'js/message-box.js' %}"></script>
+<script src="{% static 'js/leaflet.awesome-markers.js' %}"></script>
+<script src="{% static 'js/leaflet.marker.highlight.js' %}"></script>
+<script src="{% static 'js/leaflet.sprite.js' %}"></script>
+<script src="{% static 'js/landlim_highlight.js' %}"></script>
+<script src="{% static 'js/landlim_message.js' %}"></script>
+<script src="{% static 'js/landlim_sidebar.js' %}"></script>
+<script src="{% static 'js/landlim_icon_pulse.js' %}"></script>
+<script src="{% static 'js/image_form_utils.js' %}"></script>
+<script src="{% static 'js/image_form_option.js' %}"></script>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/mouseover.js' %}"></script>
+<script src="{% static 'js/Leaflet.LocationShare.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{% block extend_css %}
+{% endblock %}
+</head>
+<body translate="no">
+<div class="page-wrapper chiller-theme">
+  {% include 'landlim_sidebar.html' %}
+  <div class='container'>
+    <div class='column--l'>
+      <div style="padding: 0%;" class="content">
+        <div class="px-4 pt-0 pb-4 cover">
+          <div class="media align-items-end profile-head">
+              <div class="media-body mb-5 text-white">
+                  <h4 class="mt-0 mb-0">{% trans "Notices" %}</h4>
+                  <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{% trans "I'm sure you're surrounded by wonderful things." %}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      {% block message %}
+      {% endblock %}
+    </div>
+    <div class='column--c'>
+      <div class="column--in-c">
+        <div class="content column--in--">
+          <a style="margin-top: 0; background-color: #2A2E43; border-color: #2A2E43;" id="show-sidebar" class="btn btn-sm btn-dark position-sidebar" href="#">
+            <i class="fas fa-bars"></i>
+          </a>
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+    <div class='column--r'>
+      <div style="padding: 0%;" class="content">
+        <div class="px-4 pt-0 pb-4 cover">
+          <div class="media align-items-end profile-head">
+              <div class="media-body mb-5 text-white">
+                  <h4 class="mt-0 mb-0">{% trans "Information" %}</h4>
+                  <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{% trans "I'm sure you're surrounded by wonderful things." %}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      {% block information %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1550px;
+  margin: 0 auto;
+}
+.column--l,
+.column--r,
+.column--c {
+  width: 100%;
+}
+.column--l {
+  padding: 55px 15px 0px;
+}
+.column--r {
+  padding: 15px 15px;
+  height: 1100px;
+  overflow: scroll;
+}
+.column--c {
+  padding: 0 15px;
+  margin: 0;
+}
+@media (min-width: 1024px) {
+  .column--l {
+    width: 20%;
+    margin-top: 66.5px;
+    margin-bottom: auto;
+    padding-left: 20px;
+    padding: 0;
+  }
+  .column--r {
+    width: 30%;
+    margin-top: 66.5px;
+    margin-bottom: auto;
+    padding-right: 20px;
+    padding: 0;
+  }
+  .column--c {
+    width: calc(100% - 50%);
+    margin-top: 21.05px;
+  }
+  .column--in-c {
+    padding: 15px 0;
+  }
+  .column--in-- {
+    margin-top: 30.5px !important;
+  }
+}
+</style>
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-8216c69d01441f36c0ea791ae2d4469f0f8ff5326f00ae2d00e4bb7d20e24edb.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/esm/popper.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.js'></script>
+<script id="rendered-js" >
+$(".sidebar-dropdown > a").click(function () {
+  $(".sidebar-submenu").slideUp(200);
+  if (
+  $(this).
+  parent().
+  hasClass("active"))
+  {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this).
+    parent().
+    removeClass("active");
+  } else {
+    $(".sidebar-dropdown").removeClass("active");
+    $(this).
+    next(".sidebar-submenu").
+    slideDown(200);
+    $(this).
+    parent().
+    addClass("active");
+  }
+});
+$("#show-sidebar").click(function () {
+$(".page-wrapper").addClass("toggled");
+});
+function switchByWidth(){
+$("#close-sidebar").click(function () {
+$(".page-wrapper").removeClass("toggled");});
+}
+$(function(){
+});
+$(window).on('load', function(){
+  switchByWidth();
+  endLoading();
+});
+setTimeout('endLoading()', 2000);
+function endLoading(){
+  $('.js-loading img').fadeOut(800, function(){
+    $('.js-loading').fadeOut(800);
+  });
+}
+window.onresize = switchByWidth;
+</script>
+
+{% block map %}
+<script>
+var mymap = L.map('mapid',{
+  center: [35.7122, 139.8117],
+  preferCanvas: true,
+  messagebox: true,
+});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+minZoom: 6,
+maxZoom: 19,
+attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+}).addTo(mymap);
+var pulsingIcon2 = L.icon.pulse({
+iconSize:[15, 15]
+,color:'#006400'
+,fillColor:'#009600'
+,animate: false
+});
+function onLocationFound(e){
+  L.Icon.Default.imagePath = 'https://unpkg.com/leaflet@1.3.1/dist/images/';
+  L.marker(e.latlng, {icon:pulsingIcon2}).addTo(mymap);
+}
+function InputPinLocation(Location){
+  const lat = Location.coords.longitude;
+  const lng = Location.coords.latitude;
+  var elem = document.getElementById("pin_x"); elem.innerHTML = "<input type='hidden' name='pin_x' id='id_pin_x' class='form-control' value = " + lat + ">";
+  var elem = document.getElementById("pin_y"); elem.innerHTML = "<input type='hidden' name='pin_y' id='id_pin_y' class='form-control' value = " + lng + ">";
+}
+function onLocationError(e){
+  alert("Could not retrieve current location. 現在地を取得できませんでした。" + e.message);
+}
+{% if commercial %}
+  {% for i in commercial %}
+  var message = `<div class="position-message">
+  <ul class="message_ul notification message-box">
+    <li class="message_li notification-li">
+    <a href="{% url 'post:post_details' pk=i.pk %}"><p class="mb-0">{{ i.title }}</p></a>
+    <p class="mb-0">{{ i.text | safe | linebreaksbr | truncatechars:30 }}
+    <i class="fas fa-user"></i><a href="{% url 'accounts:others_page' i.user.pk %}"><p class="mb-0">{{ i.user }}</p></a>
+    </li>
+  </ul>
+  </div>`;
+  mymap.messagebox.setPosition('bottomright');
+  mymap.messagebox.options.timeout = 15000;
+  mymap.messagebox.show(message);
+  {% endfor %}
+{% else %}
+  {% for i in good_post %}
+  var message = `<div class="position-message">
+  <ul class="message_ul notification message-box">
+    <li class="message_li notification-li">
+    <a href="{% url 'post:post_details' pk=i.pk %}"><p class="mb-0">{{ i.title }}</p></a>
+    <p class="mb-0">{{ i.text | safe | linebreaksbr | truncatechars:30 }}
+    </li>
+  </ul>
+  </div>`;
+  mymap.messagebox.setPosition('bottomright');
+  mymap.messagebox.options.timeout = 15000;
+  mymap.messagebox.show(message);
+  {% endfor %}
+{% endif %}
+var data = [
+  {% for posts in landlim_post %}
+  {% if posts.image %}
+  {"loc": [{{ posts.pin_x }}, {{ posts.pin_y }}],
+  "title": "{{ posts.title }}",
+  "user": "{{ posts.user }}",
+  "user_link": "{% url 'accounts:others_page' posts.user.pk %}",
+  "pk": "{{ posts.pk }}",
+  "title_link": "{% url 'post:post_details' pk=posts.pk %}",
+  "text": `{{ posts.text | safe | linebreaksbr | truncatechars:110 }}`,
+  "tag": "{{ posts.tags.names.0 }}",
+  "web_link": "{{ posts.web_link }}",
+  "twitter_link": "{{ posts.twitter_link }}",
+  "instagram_link": "{{ posts.instagram_link }}",
+  "image": "{{ posts.image }}",
+  "country": "{{ posts.country }}",
+  "prefecture": "{{ posts.prefecture }}",
+  "like_count": "{{ posts.like_count }}",
+  "dislike_count": "{{ posts.dislike_count }}",
+  "bookmark": "{{ posts.bookmark_count }}"},
+  {% endif %}
+  {% endfor %}
+];
+for (i in data){
+  var marker = L.marker(
+    data[i].loc,
+    { riseOnHover: true },
+    ).addTo(mymap);
+  marker.bindPopup(`
+    <div class="flex">
+    <div class="card">
+    <div class="header">
+    <div class="title">
+    <div>
+    <h1 class="white-title">` + data[i].title + `</h1>
+    <h6 class="white-title post-user-name"><span><i class="fas fa-user"></i>&nbsp;&nbsp;<a class="white" href="` + data[i].user_link + `">` + data[i].user + `</a></span></h6>
+    <h6 class="white-title from-country"><span><i class="fas fa-map"></i>&nbsp;&nbsp;` + data[i].country + `</span>&nbsp;<span>` + data[i].prefecture + `</span></h6>
+    </div>
+    </div>
+    </div>
+    <div class="content">
+    <div class="closebar">
+    <h1>5 ways to create...</h1>
+    <a href="#0" class="closebttn"><i class="material-icons">&#xE5CD;</i></a>
+    </div>
+    <p class="p">` + data[i].text + `</p>` +
+    '<p class="p"><a href="' + data[i].web_link + '">' + data[i].web_link + '</a></p>' +
+    '<p class="p"><a href="' + data[i].twitter_link + '">' + data[i].twitter_link + '</a></p>' +
+    '<p class="p"><a href="' + data[i].instagram_link + '">' + data[i].instagram_link + '</a></p>' +
+    '<img class="popImage" src="' + data[i].image + '">' +
+    '<a style="font-size: 15.5px;" href="' + data[i].title_link + '" class="bttn">Read Post</a>' + `
+    </div>
+    </div>
+    </div>
+    <div class="articlemeta">
+    <ul class="left">
+    <li>
+      <span class="" id="bookmark_count">` + data[i].bookmark + `</span>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="bookmark-button" value="` + data[i].pk + `">
+        <i class="fas fa-bookmark"></i>
+      </button>
+    </li>
+    <li>
+      <span class="" id="like_count">` + data[i].like_count + `</span>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="like-button" value="` + data[i].pk + `">
+        <i class="far fa-thumbs-up"></i>
+      </button>
+    </li>
+    <li>
+      <span class="" id="dislike_count">` + data[i].dislike_count + `</span>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="dislike-button" value="` + data[i].pk + `">
+        <i class="far fa-thumbs-down"></i>
+      </button>
+    </li>
+    </ul>
+    <ul class="right">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}` + data[i].title_link + `&text=` + data[i].title + `%0a{% trans "LandLimの世界から" %}&hashtags=LandLim" target="_blank" rel="nofollow"><i class="fab fa-twitter  "></i></a>
+      </button>
+    </li>
+    </ul>
+    </div>
+  `).openPopup();
+}
+var fooddata = [
+  {% for posts in food %}
+  {"loc": [{{ posts.pin_x }}, {{ posts.pin_y }}],
+  "title": "{{ posts.title }}",
+  "user": "{{ posts.user }}",
+  "user_link": "{% url 'accounts:others_page' posts.user.pk %}",
+  "pk": "{{ posts.pk }}",
+  "title_link": "{% url 'post:post_details' pk=posts.pk %}",
+  "text": `{{ posts.text | safe | linebreaksbr | truncatechars:110 }}`,
+  "tag": "{{ posts.tags.names.0 }}",
+  "web_link": "{{ posts.web_link }}",
+  "twitter_link": "{{ posts.twitter_link }}",
+  "instagram_link": "{{ posts.instagram_link }}",
+  {% if posts.video %}
+  "video": "{{ posts.video.url }}",
+  {% endif %}
+  "image": "{{ posts.image }}",
+  "country": "{{ posts.country }}",
+  "prefecture": "{{ posts.prefecture }}",
+  "like_count": "{{ posts.like_count }}",
+  "bookmark": "{{ posts.bookmark_count }}"},
+  {% endfor %}
+];
+for (i in fooddata){
+  options = {
+     prefix: 'fa'
+    ,icon: 'utensils'
+    ,iconShape: 'marker'
+    ,borderColor: '#006400'
+    ,textColor: '#fff'
+    ,backgroundColor: '#006400'
+    ,iconSize: [32.5, 32.5]
+    ,iconAnchor: [16.5, 35.5]
+    ,innerIconAnchor: [-1.15, 3]
+    ,innerIconStyle: 'margin-right: 1.35px; margin-top: 7.5px;'
+  };
+  var marker = L.marker(
+      fooddata[i].loc,
+      {icon: L.BeautifyIcon.icon(options), draggable: true},
+      { intentDuration: 405 },
+    ).addTo(mymap);
+  marker.setZIndexOffset(1000);
+  marker.bindPopup(`
+    <div class="flex">
+    <div class="card">
+    <div class="header">
+    <div class="title">
+    <div>
+    <h1 class="white-title">` + fooddata[i].title + `</h1>
+    <h6 class="white-title post-user-name"><span><i class="fas fa-user"></i>&nbsp;&nbsp;<a class="white" href="` + fooddata[i].user_link + `">` + fooddata[i].user + `</a></span></h6>
+    <h6 class="white-title from-country"><span><i class="fas fa-map"></i>&nbsp;&nbsp;` + fooddata[i].country + `</span>&nbsp;<span>` + fooddata[i].prefecture + `</span></h6>
+    </div>
+    </div>
+    </div>
+    <div class="content">
+    <div class="closebar">
+    <h1>5 ways to create...</h1>
+    <a href="#0" class="closebttn"><i class="material-icons">&#xE5CD;</i></a>
+    </div>
+    <p class="p">` + fooddata[i].text + `</p>` +
+    '<p class="p"><a href="' + fooddata[i].web_link + '">' + fooddata[i].web_link + '</a></p>' +
+    '<p class="p"><a href="' + fooddata[i].twitter_link + '">' + fooddata[i].twitter_link + '</a></p>' +
+    '<p class="p"><a href="' + fooddata[i].instagram_link + '">' + fooddata[i].instagram_link + '</a></p>' +
+    '<img class="popImage" src="' + fooddata[i].image + '">' +
+    '<video class="IndexCardVideo" autoplay muted playsinline preload="none" controls>' +
+      '<source src="'+ fooddata[i].video + '"></source>' +
+      '<source src="'+ fooddata[i].video + '"></source>' +
+      '<source src="'+ fooddata[i].video + '"></source>' +
+      '<source src="'+ fooddata[i].video + '"></source>' +
+    '</video>' +
+    '<a style="font-size: 15.5px;" href="' + fooddata[i].title_link + '" class="bttn">Read Post</a>' + `
+    </div>
+    </div>
+    </div>
+    <div class="articlemeta">
+    <ul class="left">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="` + fooddata[i].bookmark + `"><i class="fas fa-bookmark  "></i></a>
+      </button>
+    </li>
+    <li>
+      <span class="" id="like_count">` + fooddata[i].like_count + `</span>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="like-button" value="` + fooddata[i].pk + `">
+        <i class="far fa-thumbs-up">&#xE87D;</i>
+      </button>
+    </li>
+    </ul>
+    <ul class="right">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}` + fooddata[i].title_link + `&text=` + fooddata[i].title + `%0a{% trans "LandLimの世界から" %}&hashtags=LandLim" target="_blank" rel="nofollow"><i class="fab fa-twitter  "></i></a>
+      </button>
+    </li>
+    </ul>
+    </div>
+  `);
+  marker.on('mouseintent', function (e) {
+    this.openPopup();
+  });
+  marker.on('click', function (e) {
+    this.closePopup();
+  });
+}
+var shopdata = [
+  {% for posts in shop %}
+  {"loc": [{{ posts.pin_x }}, {{ posts.pin_y }}],
+  "title": "{{ posts.title }}",
+  "user": "{{ posts.user }}",
+  "user_link": "{% url 'accounts:others_page' posts.user.pk %}",
+  "pk": "{{ posts.pk }}",
+  "title_link": "{% url 'post:post_details' pk=posts.pk %}",
+  "text": `{{ posts.text | safe | linebreaksbr | truncatechars:110 }}`,
+  "tag": "{{ posts.tags.names.0 }}",
+  "web_link": "{{ posts.web_link }}",
+  "twitter_link": "{{ posts.twitter_link }}",
+  "instagram_link": "{{ posts.instagram_link }}",
+  {% if posts.video %}
+  "video": "{{ posts.video.url }}",
+  {% endif %}
+  "image": "{{ posts.image }}",
+  "country": "{{ posts.country }}",
+  "prefecture": "{{ posts.prefecture }}",
+  "like_count": "{{ posts.like_count }}",
+  "bookmark": "{{ posts.bookmark_count }}"},
+  {% endfor %}
+];
+for (i in shopdata){
+  options = {
+     prefix: 'fa'
+    ,icon: 'shopping-cart'
+    ,iconShape: 'marker'
+    ,borderColor: '#006400'
+    ,textColor: '#fff'
+    ,backgroundColor: '#006400'
+    ,iconSize: [32.5, 32.5]
+    ,iconAnchor: [16.5, 35.5]
+    ,innerIconAnchor: [-1.15, 3]
+    ,innerIconStyle: 'margin-right: 1.35px; margin-top: 7.5px;'
+  };
+  var marker = L.marker(
+      shopdata[i].loc,
+      {icon: L.BeautifyIcon.icon(options), draggable: true},
+      { intentDuration: 405 },
+    ).addTo(mymap);
+  marker.setZIndexOffset(1000);
+  marker.bindPopup(`
+    <div class="flex">
+    <div class="card">
+    <div class="header">
+    <div class="title">
+    <div>
+    <h1 class="white-title">` + shopdata[i].title + `</h1>
+    <h6 class="white-title post-user-name"><span><i class="fas fa-user"></i>&nbsp;&nbsp;<a class="white" href="` + shopdata[i].user_link + `">` + shopdata[i].user + `</a></span></h6>
+    <h6 class="white-title from-country"><span><i class="fas fa-map"></i>&nbsp;&nbsp;` + shopdata[i].country + `</span>&nbsp;<span>` + shopdata[i].prefecture + `</span></h6>
+    </div>
+    </div>
+    </div>
+    <div class="content">
+    <div class="closebar">
+    <h1>5 ways to create...</h1>
+    <a href="#0" class="closebttn"><i class="material-icons">&#xE5CD;</i></a>
+    </div>
+    <p class="p">` + shopdata[i].text + `</p>` +
+    '<p class="p"><a href="' + shopdata[i].web_link + '">' + shopdata[i].web_link + '</a></p>' +
+    '<p class="p"><a href="' + shopdata[i].twitter_link + '">' + shopdata[i].twitter_link + '</a></p>' +
+    '<p class="p"><a href="' + shopdata[i].instagram_link + '">' + shopdata[i].instagram_link + '</a></p>' +
+    '<img class="popImage" src="' + shopdata[i].image + '">' +
+    '<video class="IndexCardVideo" autoplay muted playsinline preload="none" controls>' +
+      '<source src="'+ shopdata[i].video + '"></source>' +
+      '<source src="'+ shopdata[i].video + '"></source>' +
+      '<source src="'+ shopdata[i].video + '"></source>' +
+      '<source src="'+ shopdata[i].video + '"></source>' +
+    '</video>' +
+    '<a style="font-size: 15.5px;" href="' + shopdata[i].title_link + '" class="bttn">Read Post</a>' + `
+    </div>
+    </div>
+    </div>
+    <div class="articlemeta">
+    <ul class="left">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="` + shopdata[i].bookmark + `"><i class="fas fa-bookmark  "></i></a>
+      </button>
+    </li>
+    <li>
+      <span class="" id="like_count">` + shopdata[i].like_count + `</span>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="like-button" value="` + shopdata[i].pk + `">
+        <i class="far fa-thumbs-up">&#xE87D;</i>
+      </button>
+    </li>
+    </ul>
+    <ul class="right">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}` + shopdata[i].title_link + `&text=` + shopdata[i].title + `%0a{% trans "LandLimの世界から" %}&hashtags=LandLim" target="_blank" rel="nofollow"><i class="fab fa-twitter  "></i></a>
+      </button>
+    </li>
+    </ul>
+    </div>
+  `);
+  marker.on('mouseintent', function (e) {
+    this.openPopup();
+  });
+  marker.on('click', function (e) {
+    this.closePopup();
+  });
+}
+var servicedata = [
+  {% for posts in service %}
+  {"loc": [{{ posts.pin_x }}, {{ posts.pin_y }}],
+  "title": "{{ posts.title }}",
+  "user": "{{ posts.user }}",
+  "user_link": "{% url 'accounts:others_page' posts.user.pk %}",
+  "pk": "{{ posts.pk }}",
+  "title_link": "{% url 'post:post_details' pk=posts.pk %}",
+  "text": `{{ posts.text | safe | linebreaksbr | truncatechars:110 }}`,
+  "tag": "{{ posts.tags.names.0 }}",
+  "web_link": "{{ posts.web_link }}",
+  "twitter_link": "{{ posts.twitter_link }}",
+  "instagram_link": "{{ posts.instagram_link }}",
+  {% if posts.video %}
+  "video": "{{ posts.video.url }}",
+  {% endif %}
+  "image": "{{ posts.image }}",
+  "country": "{{ posts.country }}",
+  "prefecture": "{{ posts.prefecture }}",
+  "like_count": "{{ posts.like_count }}",
+  "bookmark": "{{ posts.bookmark_count }}"},
+  {% endfor %}
+];
+for (i in servicedata){
+  options = {
+     prefix: 'fa'
+    ,icon: 'child'
+    ,iconShape: 'marker'
+    ,borderColor: '#006400'
+    ,textColor: '#fff'
+    ,backgroundColor: '#006400'
+    ,iconSize: [32.5, 32.5]
+    ,iconAnchor: [16.5, 35.5]
+    ,innerIconAnchor: [-1.15, 3]
+    ,innerIconStyle: 'margin-right: 1.35px; margin-top: 7.5px;'
+  };
+  var marker = L.marker(
+      servicedata[i].loc,
+      {icon: L.BeautifyIcon.icon(options), draggable: true},
+      { intentDuration: 405 },
+    ).addTo(mymap);
+  marker.setZIndexOffset(1000);
+  marker.bindPopup(`
+    <div class="flex">
+    <div class="card">
+    <div class="header">
+    <div class="title">
+    <div>
+    <h1 class="white-title">` + servicedata[i].title + `</h1>
+    <h6 class="white-title post-user-name"><span><i class="fas fa-user"></i>&nbsp;&nbsp;<a class="white" href="` + servicedata[i].user_link + `">` + servicedata[i].user + `</a></span></h6>
+    <h6 class="white-title from-country"><span><i class="fas fa-map"></i>&nbsp;&nbsp;` + servicedata[i].country + `</span>&nbsp;<span>` + servicedata[i].prefecture + `</span></h6>
+    </div>
+    </div>
+    </div>
+    <div class="content">
+    <div class="closebar">
+    <h1>5 ways to create...</h1>
+    <a href="#0" class="closebttn"><i class="material-icons">&#xE5CD;</i></a>
+    </div>
+    <p class="p">` + servicedata[i].text + `</p>` +
+    '<p class="p"><a href="' + servicedata[i].web_link + '">' + servicedata[i].web_link + '</a></p>' +
+    '<p class="p"><a href="' + servicedata[i].twitter_link + '">' + servicedata[i].twitter_link + '</a></p>' +
+    '<p class="p"><a href="' + servicedata[i].instagram_link + '">' + servicedata[i].instagram_link + '</a></p>' +
+    '<img class="popImage" src="' + servicedata[i].image + '">' +
+    '<video class="IndexCardVideo" autoplay muted playsinline preload="none" controls>' +
+      '<source src="'+ servicedata[i].video + '"></source>' +
+      '<source src="'+ servicedata[i].video + '"></source>' +
+      '<source src="'+ servicedata[i].video + '"></source>' +
+      '<source src="'+ servicedata[i].video + '"></source>' +
+    '</video>' +
+    '<a style="font-size: 15.5px;" href="' + servicedata[i].title_link + '" class="bttn">Read Post</a>' + `
+    </div>
+    </div>
+    </div>
+    <div class="articlemeta">
+    <ul class="left">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="` + servicedata[i].bookmark + `"><i class="fas fa-bookmark  "></i></a>
+      </button>
+    </li>
+    <li>
+      <span class="" id="like_count">` + servicedata[i].like_count + `</span>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="like-button" value="` + servicedata[i].pk + `">
+        <i class="far fa-thumbs-up">&#xE87D;</i>
+      </button>
+    </li>
+    </ul>
+    <ul class="right">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}` + servicedata[i].title_link + `&text=` + servicedata[i].title + `%0a{% trans "LandLimの世界から" %}&hashtags=LandLim" target="_blank" rel="nofollow"><i class="fab fa-twitter  "></i></a>
+      </button>
+    </li>
+    </ul>
+    </div>
+  `);
+  marker.on('mouseintent', function (e) {
+    this.openPopup();
+  });
+  marker.on('click', function (e) {
+    this.closePopup();
+  });
+}
+mymap.on('locationfound', onLocationFound);
+mymap.on('locationerror', onLocationError);
+mymap.locate({setView: true, minZoom: 12, maxZoom: 19, timeout: 20000});
+mymap.addControl(new L.Control.Fullscreen().setPosition('bottomright'));
+mymap.zoomControl.setPosition('bottomright');
+mymap.sharelocationControl.setPosition('bottomright');
+navigator.geolocation.getCurrentPosition(InputPinLocation,onLocationError);
+</script>
+{% endblock %}
+<script>
+window.onload = function () {
+const loader_element = document.getElementById('loader_wrap');
+loader_element.classList.add('loaded');
+};
+</script>
+<script>
+$(document).on('click', '#like-button', function (e) {
+  e.preventDefault();
+  let $btn = $(this);
+  if ($btn.hasClass('on')) {
+    $btn.removeClass('on');
+    $btn.children("i").attr('class', 'far fa-thumbs-up');
+  } else {
+    $btn.addClass('on');
+    $btn.children("i").attr('class', 'far fa-thumbs-up');
+  }
+  $.ajax({
+    type: 'POST',
+    url: '{% url "post:like" %}',
+    data: {
+      postid: $('#like-button').val(),
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      action: 'post'
+    },
+    success: function (json) {
+      document.getElementById("like_count").innerHTML = json['result']
+    },
+    error: function (xhr, errmsg, err) {
+    }
+  });
+})
+</script>
+<script>
+  $(document).on('click', '#dislike-button', function (e) {
+    e.preventDefault();
+    let $btn = $(this);
+    if ($btn.hasClass('on')) {
+      $btn.removeClass('on');
+      $btn.children("i").attr('class', 'far fa-thumbs-down');
+    } else {
+      $btn.addClass('on');
+      $btn.children("i").attr('class', 'far fa-thumbs-down');
+    }
+    $.ajax({
+      type: 'POST',
+      url: '{% url "post:dislike" %}',
+      data: {
+        postid: $('#dislike-button').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function (json) {
+        document.getElementById("dislike_count").innerHTML = json['result']
+      },
+      error: function (xhr, errmsg, err) {
+      }
+    });
+  })
+</script>
+<script>
+  $(document).on('click', '#bookmark-button', function (e) {
+    e.preventDefault();
+    let $btn = $(this);
+    if ($btn.hasClass('on')) {
+      $btn.removeClass('on');
+      $btn.children("i").attr('class', 'fas fa-bookmark smaller');
+    } else {
+      $btn.addClass('on');
+      $btn.children("i").attr('class', 'fas fa-bookmark smaller');
+    }
+    $.ajax({
+      type: 'POST',
+      url: '{% url "bookmark:bookmark_ajax" %}',
+      data: {
+        postid: $('#bookmark-button').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function (json) {
+        document.getElementById("bookmark_count").innerHTML = json['result']
+      },
+      error: function (xhr, errmsg, err) {
+      }
+    });
+  })
+</script>
+<style>
+.p {
+  font-size: 15.5px;
+}
+@keyframes heartAnimation {
+0% {
+transform: scale(0.5);
+}
+10% {
+transform: scale(0.7);
+}
+30% {
+transform: scale(0.9);
+}
+50% {
+transform: scale(1.2);
+}
+80% {
+transform: scale(1.5);
+}
+100% {
+transform: scale(1.0);
+}
+}
+.LikesIcon-fa-heart{
+  font-size: 20.5px;
+}
+.LikesIcon-fa-heart.heart{
+  animation: heartAnimation .2s;
+  color: #f54470;
+}
+.white {
+  color: #FFB400 !important;
+  text-decoration: none;
+}
+.white:hover{
+  color: #FFB400 !important;
+  text-decoration: none;
+}
+.white-title {
+  color: #ffffff !important;
+}
+.IndexCardVideo{
+  height: auto;
+  width: 192.95px;
+  margin: 0 auto;
+  margin-top: 5.5px;
+  margin-bottom: 20.5px;
+  padding: 0;
+}
+.circle {
+  width: 50px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
+	object-position: 0px 0px;
+  margin: 1.5px;
+  padding: 1.5px;
+}
+.from-country {
+  position: relative;
+  top: 46.5px;
+  font-size: 12.5px !important;
+}
+.post-user-name {
+  position: relative;
+  top: 9.5px;
+}
+#overlay{
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height:100%;
+  display: none;
+  background: rgba(0,0,0,0.5);
+}
+.cv-spinner {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px #006400 solid;
+  border-top: 4px #009600 solid;
+  border-radius: 50%;
+  animation: sp-anime 0.8s infinite linear;
+}
+@keyframes sp-anime {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.is-hide{
+  display:none;
+}
+.content{
+  margin: 0 auto;
+  max-width: 1050px;
+}
+</style>
+<script src="{% static 'js/message.js' %}"></script>
+</body>
+</html>

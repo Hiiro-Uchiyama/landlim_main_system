@@ -1,0 +1,396 @@
+{% load static %}
+{% load i18n %}
+<nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+      <div class="sidebar-brand">
+        <a class="title" style="color: #000000;" href="{% url 'index' %}">{% trans "LandLim" %}</a>
+        <div id="close-sidebar">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+      <div class="sidebar-header">
+        <div class="user-pic">
+          {% if request.user.icon_url %}
+          <img class="img-responsive img-rounded" src="{{ request.user.icon_url }}" alt="User picture">
+          {% else %}
+          <img class="img-responsive img-rounded" src="{% static 'icon/LandLim_Human.png' %}" alt="User picture">
+          {% endif %}
+        </div>
+        <div class="user-info">
+          <span class="user-name">
+            {% if request.user.is_authenticated %}
+            {% if request.user.nickname %}
+            <strong>{{ request.user.nickname }}</strong>
+            {% else %}
+            <strong>{{ request.user.username }}</strong>
+            {% endif %}
+            {% else %}
+            <strong>{% trans "Guest User" %}</strong>
+            {% endif %}
+          </span>
+          <span class="user-role">{% trans "User" %}</span>
+          <span class="user-status">
+            <i class="fas fa-user"></i>
+            <span>{% trans "Online" %}</span>
+          </span>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <ul>
+          <li class="header-menu">
+            <span style="color: #006400;">{% trans "MENU" %}</span>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-user"></i>
+              <span>{% trans "ACCOUNTS" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                {% if request.user.is_authenticated %}
+                <li>
+                  <a href="{% url 'accounts:own_page' %}">{% trans "MY PAGE" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:following_list' %}">{% trans "FOLLOWS" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:follower_list' %}">{% trans "FOLLOWERS" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:edit_accounts' %}">{% trans "EDIT" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:get_your_position' %}">{% trans "GET POSITION" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:logout_accounts' %}">{% trans "LOG OUT" %}</a>
+                </li>
+                {% else %}
+                <li>
+                  <a href="{% url 'accounts:login_accounts' %}">{% trans "LOG IN" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:signup_accounts' %}">{% trans "SIGN UP" %}</a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{% trans  "POST" %}</span>
+              <span style="background-color: #009600;" class="badge badge-pill badge-danger">{% trans "LandLim!" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'post:add_post' %}">{% trans "ADD" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'post:save_your_location' %}">{% trans "SAVE LOCATION" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-broadcast-tower"></i>
+              <span>{% trans "RECENT" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'recent:local_map' %}">{% trans "MAP" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'recent:recent' %}">{% trans "TIME LINE" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'recent:recent_video' %}">{% trans "VIDEO" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-handshake"></i>
+              <span>{% trans "FRIENDS" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'accounts:friends_map' %}">{% trans "MAP" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:friends_timeline' %}">{% trans "TIME LINE" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-bookmark"></i>
+              <span>{% trans "BOOKMARK" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'bookmark:bookmark_map' %}">{% trans "MAP" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'bookmark:bookmark' %}">{% trans "LIST" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="far fa-thumbs-up"></i>
+              <span>{% trans "LIKE" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'accounts:like_map' %}">{% trans "MAP" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'accounts:like_list' %}">{% trans "LIST" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'post:liked_timeline' %}">{% trans "TIME LINE" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-info"></i>
+              <span>{% trans "GUIDE" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'guide:landlim_guide' %}">{% trans "GUIDE" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'guide:landlim_faqs' %}">{% trans "FQA" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'guide:landlim_about' %}">{% trans "ABOUT LANDLIM" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-globe"></i>
+              <span>{% trans "SEARCH MAPS" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'search_post:search_refine' %}">{% trans "総合検索システム" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-cog"></i>
+              <span>{% trans "SETTINGS" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'guide:landlim_guide' %}">{% trans "ACCOUNT SETTING" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'guide:landlim_faqs' %}">{% trans "PRIVACY" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'guide:landlim_about' %}">{% trans "BASIC SETTINGS" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fas fa-cog"></i>
+              <span>{% trans "WANT TO DO" %}</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="{% url 'want_todo:want_todo_list' %}">{% trans "WANT TO DO LIST" %}</a>
+                </li>
+                <li>
+                  <a href="{% url 'want_todo:add_want_todo' %}">{% trans "ADD WANT TO DO" %}</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="header-menu">
+            <span style="color: #006400;">{% trans "EXTRA" %}</span>
+          </li>
+          <li>
+            <a href="{% url 'contact:post_contact' %}">
+              <i class="fas fa-envelope"></i>
+              <span>{% trans "CONTACT" %}</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-share-alt"></i>
+              <span>{% trans "SHARE" %}</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/landlim_">
+              <i class="fab fa-twitter"></i>
+              <span>{% trans "TWITTER" %}</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/landlim_/">
+              <i class="fab fa-instagram"></i>
+              <span>{% trans "INSTAGRAM" %}</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/profile.php?id=100073033226210">
+              <i class="fab fa-facebook"></i>
+              <span>{% trans "FACEBOOK" %}</span>
+            </a>
+          </li>
+          <li>
+            <form action="{% url 'set_language' %}" method="post">
+              {% csrf_token %}
+              <input name="next" type="hidden" value="{{ redirect_to }}">
+              <select class="custom-select" name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                  {{ language.name_local }}
+                </option>
+                {% endfor %}
+              </select>
+              <button type="submit" id="send" class="btn btn-block SEND">{% trans "CHANGE" %}</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <div class="footer-image"></div>
+    </div>
+    <footer class="text-center">
+      <div class="mb-2">
+        <small>
+          {% trans "ç 2022 LandLim" %}
+        </small>
+      </div>
+    </footer>
+</nav>
+<style>
+.cp_ipselect {
+	position: relative;
+	width: 80.5%;
+	margin: 2em auto;
+	text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";;
+}
+.cp_sl06 {
+	position: relative;
+	font-family: inherit;
+	background-color: transparent;
+	width: 100%;
+	padding: 10px 10px 10px 0;
+	font-size: 18px;
+	border-radius: 0;
+	border: none;
+	border-bottom: 1px solid rgba(0,0,0, 0.3);
+}
+.cp_sl06:focus {
+	outline: none;
+	border-bottom: 1px solid rgba(0,0,0, 0);
+}
+.cp_ipselect .cp_sl06 {
+	appearance: none;
+	-webkit-appearance:none
+}
+.cp_ipselect select::-ms-expand {
+	display: none;
+}
+.cp_ipselect:after {
+	position: absolute;
+	top: 18px;
+	right: 10px;
+	width: 0;
+	height: 0;
+	padding: 0;
+	content: '';
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid rgba(0, 0, 0, 0.3);
+	pointer-events: none;
+}
+.cp_sl06_selectlabel {
+	color: rgba(0,0,0, 0.5);
+	font-size: 18px;
+	font-weight: normal;
+	position: absolute;
+	pointer-events: none;
+	left: 0;
+	top: 10px;
+	transition: 0.2s ease all;
+}
+.cp_sl06:focus ~ .cp_sl06_selectlabel, .cp_sl06:valid ~ .cp_sl06_selectlabel {
+	color: #009600;
+	top: -20px;
+	transition: 0.2s ease all;
+	font-size: 14px;
+}
+.cp_sl06_selectbar {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+.cp_sl06_selectbar:before, .cp_sl06_selectbar:after {
+	content: '';
+	height: 2px;
+	width: 0;
+	bottom: 1px;
+	position: absolute;
+	background: #009600;
+	transition: 0.2s ease all;
+}
+.cp_sl06_selectbar:before {
+	left: 50%;
+}
+.cp_sl06_selectbar:after {
+	right: 50%;
+}
+.cp_sl06:focus ~ .cp_sl06_selectbar:before, .cp_sl06:focus ~ .cp_sl06_selectbar:after {
+	width: 50%;
+}
+.cp_sl06_highlight {
+	position: absolute;
+	top: 25%;
+	left: 0;
+	pointer-events: none;
+	opacity: 0.5;
+}
+.SEND{
+  width: 65.5%;
+  margin: 0 auto;
+  font-size: 15.5px !important;
+  margin-bottom: 35.55px !important;
+}
+.title{
+  font-size: 16.5px;
+  text-transform: none !important;
+  color: #2A2E43;
+}
+</style>

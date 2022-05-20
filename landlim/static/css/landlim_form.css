@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 300;
+  src: url(https://fonts.gstatic.com/s/oswald/v36/TK3_WkUHHAIjg75cFRf3bXL8LICs169vsUZiYA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/oswald/v36/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  src: url(https://fonts.gstatic.com/s/oswald/v36/TK3_WkUHHAIjg75cFRf3bXL8LICs1xZosUZiYA.ttf) format('truetype');
+}
+header {
+  margin-top: 50px;
+}
+header h2 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #fafafa;
+  color: #2c3e50;
+  font-weight: bold;
+  width: auto;
+  padding: 10px 0px 10px 0px;
+}
+section {
+  margin: 0 auto;
+  text-align: center;
+}
+.form-control {
+  background-color: #fff;
+}
+form#contact {
+  font-family: 'Oswald', sans-serif;
+  margin: 0 auto;
+  text-align: center;
+  width: auto;
+  padding: 20px;
+  background-color: #fafafa;
+}
+button#send {
+  text-transform: uppercase;
+  color: #fafafa;
+  border-bottom: 2px solid #009600;
+  background-color: #009600;
+  margin-top: 20px;
+  font-weight: bold;
+}

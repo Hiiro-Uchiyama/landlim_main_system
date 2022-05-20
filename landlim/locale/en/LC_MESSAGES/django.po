@@ -1,0 +1,143 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-07 12:35+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/accounts/password_change.html:11
+msgctxt "Main navigation item"
+msgid "Home"
+msgstr ""
+
+#: templates/accounts/password_change.html:12
+msgctxt "Main navigation item"
+msgid "Your accounts"
+msgstr ""
+
+#: templates/accounts/password_change.html:13
+msgctxt "Password change breadcrumb"
+msgid "Edit"
+msgstr ""
+
+#: templates/accounts/password_change.html:28
+msgctxt "Password change form legend"
+msgid "Change Password"
+msgstr ""
+
+#: templates/accounts/password_change.html:34
+msgctxt "Password change form primary action"
+msgid "Save new password"
+msgstr ""
+
+#: templates/accounts/password_reset.html:7
+msgctxt "Password reset page title"
+msgid "Password reset"
+msgstr ""
+
+#: templates/accounts/password_reset.html:21
+msgctxt "Password reset form title"
+msgid "Forgot your password?"
+msgstr ""
+
+#: templates/accounts/password_reset.html:23
+msgctxt "Password reset form help text"
+msgid ""
+"Please let us know the email you have used to register or purchase at our "
+"store."
+msgstr ""
+
+#: templates/accounts/password_reset.html:34
+msgctxt "Password reset primary action"
+msgid "Continue"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:10
+msgctxt "Password reset from key page title"
+msgid "Change Password"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:16
+msgid "Bad Token"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:18
+#, python-format
+msgctxt "Password reset text if key is invalid"
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.<br> Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:29
+msgctxt "Password reset from key form title"
+msgid "Password Reset"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:30
+msgctxt "Password reset from key form title"
+msgid "Now you can set new password for you accounts."
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:37
+msgctxt "Password reset from key form primary action"
+msgid "Continue"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:44
+msgctxt "Password reset link expired from key form title"
+msgid "Password Reset Link Expired"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:45
+msgctxt "Password reset from key form title"
+msgid ""
+"Sorry but this link is no longer valid. If you forget your password, please "
+"use link below."
+msgstr ""
+
+#: templates/accounts/password_reset_from_key.html:47
+msgctxt "Reset my password link"
+msgid "Reset my password"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key_done.html:5
+msgctxt "Password reset from key done page title"
+msgid "Password Changed"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key_done.html:9
+msgctxt "Password reset from key done title"
+msgid "Password Changed"
+msgstr ""
+
+#: templates/accounts/password_reset_from_key_done.html:11
+msgid "Your password is now changed."
+msgstr ""
+
+#: templates/accounts/password_reset_from_key_done.html:12
+#, python-format
+msgctxt "Password reset from key done text"
+msgid ""
+"You can now <a href=\"%(login_url)s\">sign in</a> using your new password"
+msgstr ""
+
+#: templates/core/index.html:12
+msgid ""
+"A minimal, clean, and AJAX driven free portfolio template created by the "
+"fine folks at"
+msgstr "日本語テスト"

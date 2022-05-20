@@ -1,0 +1,51 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-20 21:12+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: todolist/views.py:28
+msgid "That to-do list may not be yours!"
+msgstr "そのToDoリストはあなたのものではないかもしれません"
+
+#: todolist/views.py:29
+msgid "You don't seem to have permission to edit your to-do list"
+msgstr "ToDoリストを編集する権限がないようです"
+
+#: todolist/views.py:34
+msgid "Things to do have been removed"
+msgstr "やることは削除されました"
+
+#: todolist/views.py:35
+msgid "Thank you for your time"
+msgstr "お忙しい中ありがとうございました"
+
+#: todolist/views.py:48
+msgid "Added things to do"
+msgstr "やりたいことを追加しました"
+
+#: todolist/views.py:52
+msgid "I couldn't add anything to do"
+msgstr "追加することができませんでした"
+
+#: todolist/views.py:53
+msgid "Character count may be a problem"
+msgstr "文字数に問題があるかも知れません"
+
+#: todolist/views.py:54
+msgid "Are you already logged in to LandLim?"
+msgstr "LandLimへのログインはお済みですか？"

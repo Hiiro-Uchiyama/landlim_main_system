@@ -1,0 +1,1100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block message %}
+<!-- 多分地図は入っていた方がいい -->
+<!-- 縮小した時のサイドバーの余白について -->
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<style>
+  hr.message-inner-separator
+  {
+      clear: both;
+      margin-top: 10px;
+      margin-bottom: 13px;
+      border: 0;
+      height: 1px;
+      background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+      background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+  }
+</style>
+{% endblock %}
+{% block content %}
+{% if request.user.background %}
+<div style="background-image: url({{ request.user.background.url }}) !important;" class="px-4 pt-0 pb-4 bg-size-head range-specification">
+{% else %}
+<div class="px-4 pt-0 pb-4 cover range-specification">
+{% endif %}
+  <div class="media align-items-end profile-head-user">
+    <div style="text-align: center;" class="profile mr-3">
+      {% if request.user.icon %}
+      <img src="{{ request.user.icon_url }}" width="140" height="140" class="circle-img rounded mb-2 img-margin">
+      {% else %}
+      <img src="{% static 'icon/LandLim_Human.png' %}" width="140" height="140" class="rounded mb-2">
+      {% endif %}
+      <a href="{% url 'accounts:edit_accounts' %}" style="font-weight:500;" class="btn btn-outline-dark btn-sm btn-block a-edit-profiel">{% trans "Edit Profile" %}</a>
+    </div>
+    <div class="media-body mb-5 text-white">
+        {% if request.user.nickname %}
+        <h4 class="mt-0 mb-0">{{ request.user.nickname }}</h4>
+        {% else %}
+        <h4 class="mt-0 mb-0">{{ request.user.username }}</h4>
+        {% endif %}
+        <p class="small mb-5"><i class="fas fa-map-marker-alt mr-2"></i>{% trans "LandLim" %}</p>
+    </div>
+  </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_ range-specification"></div>
+<div class="bg-main-header p-4 d-flex justify-content-end text-center range-specification">
+    <ul class="list-inline mb-0">
+        <li class="list-inline-item">
+            <h5 class="font-weight-bold mb-0 d-block">{{ own_post_num }}</h5><small class="text-color-white"><i class="fas fa-image mr-1 text-color-white"></i>{% trans "POSTS" %}</small>
+        </li>
+        <li class="list-inline-item">
+            <h5 class="font-weight-bold mb-0 d-block">{{ own_post_is_liked_num }}</h5><small class="text-color-white"><i class="far fa-thumbs-up text-color-white"></i> {% trans "LIKE" %}</small>
+        </li>
+        <li class="list-inline-item">
+            <h5 class="font-weight-bold mb-0 d-block">{{ own_level }}</h5><small class="text-color-white"><i class="fas fa-user mr-1 user-position-icon text-color-white"></i>{% trans "USER LEVEL" %}</small>
+        </li>
+    </ul>
+</div>
+
+<div class="card shadow mt-3">
+  <div class="card-body shadow-sm p-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb breadcrumb-arrow p-0">
+        <li class="breadcrumb-item"><a href="#" class="text-uppercase pl-3">{{ request.user }}</a></li>
+        <li aria-current="page" class="breadcrumb-item pl-0 active text-uppercase pl-4">基本情報</li>
+      </ol>
+    </nav>
+    <h5 class="text-muted">基本情報</h5>
+    <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+  </div>
+</div>
+
+<div class="card shadow mt-3">
+  <div class="card-body shadow-sm p-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb breadcrumb-arrow p-0">
+        <li class="breadcrumb-item"><a href="#" class="text-uppercase pl-3">{{ request.user }}</a></li>
+        <li aria-current="page" class="breadcrumb-item pl-0 active text-uppercase pl-4">自己紹介</li>
+      </ol>
+    </nav>
+    <h5 class="text-muted">自己紹介</h5>
+    <p class="font-italic text-muted">{{ request.user.description }}</p>
+  </div>
+</div>
+
+<div class="card shadow mt-3">
+  <div class="card-body shadow-sm p-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb breadcrumb-arrow p-0">
+        <li class="breadcrumb-item"><a href="#" class="text-uppercase pl-3">{{ request.user }}</a></li>
+        <li aria-current="page" class="breadcrumb-item pl-0 active text-uppercase pl-4">趣味</li>
+      </ol>
+    </nav>
+    <h5 class="text-muted">趣味</h5>
+    <p class="font-italic text-muted">{{ request.user.hobie }}</p>
+  </div>
+</div>
+
+<!-- もし自分でないなら -->
+<div class="card shadow mt-3">
+  <div class="card-body shadow-sm p-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb breadcrumb-arrow p-0">
+        <li class="breadcrumb-item"><a href="#" class="text-uppercase pl-3">{{ request.user }}</a></li>
+      </ol>
+    </nav>
+    <h5 class="text-muted">フォローしますか?</h5>
+    <p class="font-italic text-muted">こちらのユーザーをフォローし、フォローバックされると、フレンドとなりマップやタイムラインに表示されます。</p>
+    <button type="button" class="btn btn-primary">フォロー</button>
+  </div>
+</div>
+
+<div class="card shadow mt-3">
+  <div class="card-body shadow-sm p-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb breadcrumb-arrow p-0">
+        <li class="breadcrumb-item"><a href="#" class="text-uppercase pl-3">Home</a></li>
+        <li class="breadcrumb-item pl-0"><a href="#" class="text-uppercase">Library</a></li>
+        <li aria-current="page" class="breadcrumb-item pl-0 active text-uppercase pl-4">Data</li>
+      </ol>
+    </nav>
+    <h5 class="text-muted">Breadcrumb with arrows</h5>
+    <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+  </div>
+</div>
+
+<style>
+.breadcrumb-caret .breadcrumb-item+.breadcrumb-item::before {
+  content: '\f0da';
+  font-family: 'FontAwesome';
+}
+.breadcrumb-bullet .breadcrumb-item+.breadcrumb-item::before {
+  content: '•';
+}
+.breadcrumb-arrow .breadcrumb-item+.breadcrumb-item::before {
+  content: '';
+}
+.breadcrumb-arrow {
+  height: 40px;
+  line-height: 40px;
+}
+.breadcrumb-arrow .breadcrumb-item:first-child a {
+  border-radius: 4px 0 0 4px;
+}
+.breadcrumb-arrow .breadcrumb-item,
+.breadcrumb-arrow .breadcrumb-item a,
+.breadcrumb-arrow .breadcrumb-item span {
+  display: inline-block;
+  vertical-align: top;
+}
+.breadcrumb-arrow .breadcrumb-item:not(:first-child) {
+  margin-left: -1px;
+}
+.breadcrumb-arrow .breadcrumb-item+.breadcrumb-item:before {
+  padding: 0;
+  content: "";
+}
+.breadcrumb-arrow .breadcrumb-item a,
+.breadcrumb-arrow .breadcrumb-item.active {
+  height: 40px;
+  padding: 0 10px 0 25px;
+  line-height: 40px;
+}
+.breadcrumb-arrow .breadcrumb-item a {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  background-color: #3bafda;
+  border: 1px solid #3bafda;
+}
+.breadcrumb-arrow .breadcrumb-item a:after,
+.breadcrumb-arrow .breadcrumb-item a:before {
+  position: absolute;
+  top: -1px;
+  width: 0;
+  height: 0;
+  content: '';
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+.breadcrumb-arrow .breadcrumb-item a:before {
+  right: -10px;
+  z-index: 3;
+  border-left-color: #3bafda;
+  border-left-style: solid;
+  border-left-width: 11px;
+}
+.breadcrumb-arrow .breadcrumb-item a:after {
+  right: -11px;
+  z-index: 2;
+  border-left: 11px solid #2494be;
+}
+.breadcrumb-arrow .breadcrumb-item a:focus,
+.breadcrumb-arrow li a:hover {
+  background-color: #4fc1e9;
+  border: 1px solid #4fc1e9;
+}
+.breadcrumb-arrow .breadcrumb-item a:focus:before,
+.breadcrumb-arrow li a:hover:before {
+  border-left-color: #4fc1e9;
+}
+.breadcrumb-arrow li.active:after,
+.breadcrumb-arrow li.active:before {
+  border-left-color: #2494be;
+}
+</style>
+
+<div class="timeline-content">
+  <div class="timeline">
+    <div class="timeline-container primary">
+      <div class="timeline-icon">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title first"><span class="badge">{% trans "User" %}</span></h4>
+          <p>ユーザー情報</p>
+          <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+      </div>
+    </div>
+    <div class="timeline-container primary">
+        <div class="timeline-icon">
+          <i class="fas fa-hand-holding-heart"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Emotion" %}</span></h4>
+            <p>パンツを盗まれたような気持ち</p>
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    <div class="timeline-container danger">
+        <div class="timeline-icon">
+          <i class="fas fa-gamepad"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Hobie" %}</span></h4>
+            <p>{{ request.user.hobie }}</p>
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    <div class="timeline-container success">
+        <div class="timeline-icon">
+          <i class="fas fa-address-card"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Description" %}</span></h4>
+            <p>{{ request.user.description }}</p>
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    <div class="timeline-container warning">
+        <div class="timeline-icon">
+          <i class="far fa-window-maximize"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Link" %}</span></h4>
+            <p>{% trans "Web" %} <a style="overflow-wrap: break-word;" href="{{ request.user.web_link }}">{{ request.user.web_link }}</a></p>
+            <p>{% trans "Twitter" %} <a style="overflow-wrap: break-word;" href="{{ request.user.twitter_link }}">{{ request.user.twitter_link }}</a></p>
+            <p>{% trans "Instagram" %} <a style="overflow-wrap: break-word;" href="{{ request.user.instagram_link }}">{{ request.user.instagram_link }}</a></p>
+            <p>{% trans "Facebook" %} <a style="overflow-wrap: break-word;" href="{{ request.user.facebook_link }}">{{ request.user.facebook_link }}</a></p>
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    <div class="timeline-container">
+        <div class="timeline-icon">
+          <i class="fas fa-flag"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Local" %}</span></h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam necessitatibus numquam earum ipsa fugiat veniam suscipit, officiis repudiandae, eum recusandae neque dignissimos. Cum fugit laboriosam culpa, repellendus esse commodi deserunt.</p>
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    <div class="timeline-container info">
+        <div class="timeline-icon">
+          <i class="fas fa-cut"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+            <p class="Shortcuts"><a href=".usermap"> {% trans "Shortcuts to headline user" %}</a></p>
+            <p class="timeline-subtitle">4 Days Ago</p>
+        </div>
+    </div>
+    {% if own_post_list %}
+    {% for list in own_post_list %}
+    <div class="timeline-container user">
+      {% if list.user.icon_url %}
+      <div style="background-image: url({{ list.user.icon_url }});" class="timeline-icon"></div>
+      {% else %}
+      <div style="background-image: url({% static 'icon/LandLim_Human.png' %});" class="timeline-icon"></div>
+      {% endif %}
+      <div class="timeline-body">
+          <h4 class="timeline-title"><a class="timeline-in-a" href="{% url 'post:post_details' list.pk %}"><span class="badge">タイトル</span></a></h4>
+          {% if list.postimage_set.first %}
+          <p class="text-align-center"><img class="timeline-content-image" src="{{ list.postimage_set.first.thumbnail_url }}"></p>
+          {% endif %}
+          <p>{{ list.text | safe | linebreaksbr | truncatechars:110 }}</p>
+          <p style="display:inline;" class="timeline-subtitle">6 Hours Ago - Hiiro Uhiyama</p>
+          <p class="timeline-subtitle-rightside">
+            <i class="far fa-thumbs-up i-style-timeline"></i> {{ list.like_count }}
+            <i class="far fa-thumbs-down i-style-timeline"></i> 5
+            <i class="far fa-bookmark i-style-timeline"></i> {{ list.bookmark_count }}
+            <i class="far fa-comments i-style-timeline"></i> {{ list.comment_count }}
+            <i class="far fa-eye i-style-timeline"></i> {{ list.watched_count }}
+            <div class="share-div">
+              <a class="share-a" href="#"></a>
+              <a class="share-a" href="#"></a>
+            </div>
+          </p>
+          {% if list.provisional == 'Yes' %}
+          <label><a class="timeline-in-a" href="{% url 'post:this_post' list.pk %}"><i class="fas fa-edit"></i> {% trans "Complete Post" %}</a></label>
+          {% else %}
+          <label><a class="timeline-in-a" href="{% url 'post:update_post' list.pk %}"><i class="fas fa-edit"></i> {% trans "Edit Post" %}</a></label>
+          {% endif %}
+          <label><a class="px-1 timeline-in-a" href="{% url 'post:delete_post' list.pk %}"><i class="fas fa-trash"></i> {% trans "Delete Post" %}</a></label>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-cut"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam necessitatibus numquam earum ipsa fugiat veniam suscipit, officiis repudiandae, eum recusandae neque dignissimos. Cum fugit laboriosam culpa, repellendus esse commodi deserunt.</p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-cut"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".first"> {% trans "Shortcuts to headline user" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Acount Delete" %}</span></h4>
+          <p class="Shortcuts"><a href="{% url 'accounts:delete_accounts' %}"> {% trans "Delete Account?" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+  </div>
+  <div class="map">
+    <div class="row column">
+      <div class="usermap" id="mapid"></div>
+    </div>
+  </div>
+</div>
+<style>
+.img-margin{
+  position: relative;
+  top: -10.5px;
+}
+.profile-head-user {
+  position: relative;
+  bottom: -100px;
+}
+.a-edit-profiel{
+  border-color: #ffffff;
+  color: #ffffff;
+}
+.a-edit-profiel:hover{
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+}
+.bg-size-head{
+  height: 350px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+}
+.cover {
+  background-color: #2A2E43;
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.cover_ {
+  background: linear-gradient(90deg, #009600 0% 25%, #006400 25% 50%, #BE8200 50% 75%, #FFB400 75% 100%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.blue {
+  color: #4285F4;
+}
+.white {
+  color: #ffffff;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.list {
+  text-align: right;
+}
+.user-position-icon {
+  position: relative;
+  top: 1.5px;
+}
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.item {
+  width: 50%;
+  background-color: #ffffff;
+}
+@media not all and (min-width: 768px) {
+  .item {
+    width: 100%;
+  }
+}
+.py-top {
+  margin-top: 66.5px;
+}
+.py-buttom {
+  margin-bottom: 21.5px;
+}
+.info-p {
+  font-size: 16.5px;
+}
+@import url("https://fonts.googleapis.com/css?family=Niramit:300,300i,700");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.timeline-content {
+  max-width: 1050px;
+  margin: 15px auto 0;
+}
+.timeline {
+  position: relative;
+  padding-left: 4.0rem;
+  margin: 0 0 0 25px;
+  color: #fafafa;
+}
+.timeline:before {
+  content: "";
+  position: absolute;
+  left: -1.2px;
+  top: 8.85px;
+  width: 4.5px;
+  height: 100%;
+  background: #2A2E43;
+}
+.timeline .timeline-container {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.timeline .timeline-container .timeline-icon {
+  position: absolute;
+  left: -88px;
+  top: 4px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 2rem;
+  background: #4f537b;
+}
+.timeline .timeline-container .timeline-icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18.5px;
+}
+.timeline .timeline-container .timeline-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.timeline .timeline-container .timeline-body {
+  background: #2A2E43;
+  border-radius: 3px;
+  padding: 20px 20px 20px 15px;
+  box-shadow: 1px 3px 9px rgba(0, 0, 0, 0.1);
+  max-width: 1050px;
+  width: 100%;
+}
+.timeline .timeline-container .timeline-body:before {
+  content: "";
+  background: inherit;
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  left: -10px;
+  transform: rotate(45deg);
+  border-radius: 0 0 0 2px;
+}
+.timeline .timeline-container .timeline-body .timeline-title {
+  margin-bottom: 1.4rem;
+}
+.timeline .timeline-container .timeline-body .timeline-title .badge {
+  background: #4f537b;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.timeline .timeline-container .timeline-body .timeline-subtitle {
+  font-weight: 300;
+  font-style: italic;
+  opacity: 0.4;
+  margin-top: 16px;
+  font-size: 11px;
+}
+.timeline .timeline-container.primary .badge,
+.timeline .timeline-container.primary .timeline-icon {
+  background: #1d8cf8 !important;
+}
+.timeline .timeline-container.info .badge,
+.timeline .timeline-container.info .timeline-icon {
+  background: #11cdef !important;
+}
+.timeline .timeline-container.success .badge,
+.timeline .timeline-container.success .timeline-icon {
+  background: #00bf9a !important;
+}
+.timeline .timeline-container.warning .badge,
+.timeline .timeline-container.warning .timeline-icon {
+  background: #ff8d72 !important;
+}
+.timeline .timeline-container.danger .badge,
+.timeline .timeline-container.danger .timeline-icon {
+  background: #fd5d93 !important;
+}
+.timeline .timeline-container.user .badge,
+.timeline .timeline-container.user .timeline-icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.author {
+  font-family: inherit;
+  padding: 3em;
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+.author a:link,
+.author a:visited {
+  color: white;
+}
+.author a:link:hover,
+.author a:visited:hover {
+  text-decoration: none;
+}
+.author .btn:link,
+.author .btn:visited {
+  margin-top: 1em;
+  text-decoration: none;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 100;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: black;
+  padding: 1.5em 2rem;
+  border-radius: 1em;
+  transition: 0.5s all;
+}
+.author .btn:link:hover, .author .btn:link:focus, .author .btn:link:active,
+.author .btn:visited:hover,
+.author .btn:visited:focus,
+.author .btn:visited:active {
+  background-color: #2A2E43;
+}
+.timeline-title-span{
+  margin-left: 10px;
+  font-size: 16.5px;
+}
+.timeline-subtitle-rightside {
+  text-align: right;
+}
+.i-style-timeline {
+  font-size: 18.5px;
+}
+.timeline-title-right{
+  text-align: right;
+}
+.share-div {
+  display: inline-block;
+  text-decoration:none;
+}
+.share-a {
+  color:#ffffff;
+  background: #4285F4;
+  border-radius:4px;
+  text-align:center;
+  text-decoration:none;
+  font-family:fontawesome;
+  position: relative;
+  display: inline-block;
+  width:40px;
+  height:40px;
+  padding-top:12px;
+  margin:0 2px;
+  -o-transition:all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  -webkit-font-smoothing: antialiased;
+}
+.share-a:hover {
+  color: #ffffff;
+  background: #7aa6ea;
+  text-decoration:none;
+}
+.share-a:nth-of-type(1):before {
+content:'\f09a';
+}
+.share-a:nth-of-type(2):before {
+content:'\f099';
+}
+.share-a:nth-of-type(3):before {
+content:'\f0d5';
+}
+.share-a:nth-of-type(4):before {
+content:'\f113';
+}
+.share-a:nth-of-type(5):before {
+content:'\f17d';
+}
+.share-a:nth-of-type(6):before {
+content:'\f1cb';
+}
+.bg-main-header {
+  color: #ffffff;
+  background-color: #2A2E43;
+}
+.text-color-white{
+  color: #ffffff;
+}
+.circle-img {
+  width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border-radius: 50% !important;
+  border: 1.5px solid #fafafa;
+  background-color: #fafafa;
+}
+.range-specification{
+  max-width: 1050px;
+  margin: 0 auto;
+}
+.timeline-in-a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.timeline-in-a:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+.text-align-center{
+  text-align: center;
+}
+</style>
+<script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
+<script>
+var mymap = L.map('mapid', {preferCanvas: true,});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+minZoom: 6,
+maxZoom: 19,
+attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+}).addTo(mymap);
+var pulsingIcon2 = L.icon.pulse({
+iconSize:[20,20]
+,color:'#006400'
+,fillColor:'#009600'
+,heartbeat: 2
+});
+function onLocationFound(e){
+  L.Icon.Default.imagePath = 'https://unpkg.com/leaflet@1.3.1/dist/images/';
+  L.marker(e.latlng, {icon:pulsingIcon2}).addTo(mymap);
+}
+function InputPinLocation(Location){
+  const lat = Location.coords.longitude;
+  const lng = Location.coords.latitude;
+  var elem = document.getElementById("pin_x"); elem.innerHTML = "<input type='hidden' name='pin_x' id='id_pin_x' class='form-control' value = " + lat + ">";
+  var elem = document.getElementById("pin_y"); elem.innerHTML = "<input type='hidden' name='pin_y' id='id_pin_y' class='form-control' value = " + lng + ">";
+}
+function onLocationError(e){
+  alert("Could not retrieve current location. 現在地を取得できませんでした。" + e.message);
+}
+var data = [
+  {% for posts in own_post_list %}
+  {"loc":[{{ posts.pin_x }}, {{ posts.pin_y }}],
+  "title": "{{ posts.title }}",
+  "title_link": "{% url 'post:post_details' pk=posts.pk %}",
+  "text": `{{ posts.text | safe | linebreaksbr | truncatechars:110 }}`,
+  "tag": "{{ posts.tag.names.0 }}",
+  "web_link": "{{ posts.web_link }}",
+  "twitter_link": "{{ posts.twitter_link }}",
+  "instagram_link": "{{ posts.instagram_link }}",
+  {% if posts.video %}
+  "video": "{{ posts.video.url }}",
+  {% endif %}
+  "image": "{{ posts.image }}"},
+  {% endfor %}
+];
+for (i in data){
+  var marker = L.marker(data[i].loc, { riseOnHover: true }).addTo(mymap);
+  marker.bindPopup(`
+  <figure class="figure__on__map">
+    <h1>` + data[i].title + `</h1>
+    <img src="` + data[i].image + `" alt="` + data[i].title + `"/>
+    <figcaption class="figcaption__on__map">
+      <a class="card__a" href="` + data[i].title_link + `">
+        <h3>
+          ` + data[i].title + `
+        </h3>
+      </a>
+      <p>
+        ` + data[i].text + `
+      </p>
+      <a class="card__a" href="` + data[i].title_link + `">
+        <button>
+          詳細を見る
+        </button>
+      </a>
+    </figcaption>
+  </figure>
+  `);
+}
+mymap.on('locationfound', onLocationFound);
+mymap.on('locationerror', onLocationError);
+mymap.locate({setView: true, minZoom: 6, maxZoom: 17, timeout: 20000});
+mymap.zoomControl.setPosition('bottomright');
+mymap.sharelocationControl.setPosition('bottomright');
+navigator.geolocation.getCurrentPosition(InputPinLocation,onLocationError);
+</script>
+<style>
+  .leaflet-popup-content-wrapper {
+    margin: 0;
+    padding: 0;
+  }
+  .leaflet-popup-content {
+    margin: 0;
+    padding: 0;
+  }
+  figure {
+    margin: 0!important;
+    padding: 0;
+  }
+  .figure__on__map {
+    margin: 0!important;
+    padding: 0;
+  }
+</style>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+<script>
+$('.Shortcuts a').click(function(event) {
+  var id = $(this).attr("href");
+  var offset = 70;
+  var target = $(id).offset().top - offset;
+  $('html, body').animate({
+      scrollTop: target
+  }, 500);
+  event.preventDefault();
+});
+</script>
+{% endblock %}
+{% endblock %}
+{% block information %}
+
+<div class="mt-3 box1">
+  <img src="https://i.imgur.com/8RKXAIV.jpg" alt="" class="img-thumbn">
+    <h3 class="title">Krist</h3>
+    <ul class="icon">
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fab fa-google-plus"></i></a></li>
+    </ul>
+</div>
+
+<style>
+.box1 img,
+.box1:after,
+.box1:before {
+    width: 100%;
+    transition: all .3s ease 0s
+}
+.box1 .icon,
+.box2,
+.box3,
+.box4,
+.box5 .icon li a {
+    text-align: center
+}
+.box10:after,
+.box10:before,
+.box1:after,
+.box1:before,
+.box2 .inner-content:after,
+.box3:after,
+.box3:before,
+.box4:before,
+.box5:after,
+.box5:before,
+.box6:after,
+.box7:after,
+.box7:before {
+    content: ""
+}
+.box1,
+.box11,
+.box12,
+.box13,
+.box14,
+.box16,
+.box17,
+.box18,
+.box2,
+.box20,
+.box21,
+.box3,
+.box4,
+.box5,
+.box5 .icon li a,
+.box6,
+.box7,
+.box8 {
+    overflow: hidden
+}
+.box1 .title,
+.box10 .title,
+.box4 .title,
+.box7 .title {
+    letter-spacing: 1px
+}
+.box3 .post,
+.box4 .post,
+.box5 .post,
+.box7 .post {
+    font-style: italic
+}
+.box1 .icon,
+.box1 .title {
+    margin: 0;
+    position: absolute
+}
+.box1 {
+    box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+    position: relative
+}
+.box1:after,
+.box1:before {
+    height: 50%;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transform-origin: 100% 0;
+    transform: rotateZ(90deg)
+}
+.box1:after {
+    top: auto;
+    bottom: 0;
+    transform-origin: 0 100%
+}
+.box1:hover:after,
+.box1:hover:before {
+    transform: rotateZ(0)
+}
+.box1 img {
+    height: auto;
+    transform: scale(1) rotate(0)
+}
+.box1:hover img {
+    filter: sepia(80%);
+    transform: scale(1.3) rotate(10deg)
+}
+.box1 .title {
+    font-size: 19px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 0 1px #004cbf;
+    bottom: 10px;
+    left: 10px;
+    opacity: 0;
+    z-index: 2;
+    transform: scale(0);
+    transition: all .5s ease .2s
+}
+.box1:hover .title {
+    opacity: 1;
+    transform: scale(1)
+}
+.box1 .icon {
+    padding: 7px 5px;
+    list-style: none;
+    background: #004cbf!important;
+    border-radius: 0 0 0 10px;
+    top: -100%;
+    right: 0;
+    z-index: 2;
+    transition: all .3s ease .2s
+}
+.box1:hover .icon {
+    top: 0
+}
+.box1 .icon li {
+    display: block;
+    margin: 10px 0
+}
+.box1 .icon li a {
+    display: block;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: #fff;
+    transition: all .3s ease 0s
+}
+.box2 .icon li a,
+.box3 .icon a:hover,
+.box4 .icon li a:hover,
+.box5 .icon li a,
+.box6 .icon li a {
+    border-radius: 50%
+}
+.box1 .icon li a:hover {
+    color: #fff;
+    box-shadow: 0 0 10px #000 inset, 0 0 0 3px #fff;
+}
+</style>
+
+{% if own_post_list %}
+  {% for posts in own_post_list %}
+    <div id="{{ posts.pk }}" class="media g-mb-30 media-comment">
+      <a href="{% url 'accounts:others_page' posts.user.pk %}">
+        <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{ posts.user.icon_url }}" alt="Image Description">
+      </a>
+      <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+        <div class="g-mb-15">
+          <span class="g-color-gray-dark-v4 g-font-size-12">{{ posts.user }}</span>
+          <a href="{% url 'post:post_details' pk=posts.pk %}"><h5 class="h5 g-color-gray-dark-v1 mb-0">{{ posts.title }}</h5></a>
+          <span class="g-color-gray-dark-v4 g-font-size-12">{{ posts.created_at }}</span>
+        </div>
+        <p>{{ posts.text | safe | linebreaksbr | truncatechars:200 }}</p>
+        <ul class="list-inline d-sm-flex my-0">
+          <li class="list-inline-item g-mr-20">
+            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+              <button class="none__button" id="like-button" value="{{ posts.pk }}">
+                <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                <span id="like_count">{{ posts.like_count }}</span>
+              </button>
+            </a>
+          </li>
+          <li class="list-inline-item g-mr-20">
+            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+              <button class="none__button" id="dislike-button" value="{{ posts.pk }}">
+                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                <span id="dislike_count">{{ posts.dislike_count }}</span>
+              </button>
+            </a>
+          </li>
+          <li class="list-inline-item ml-auto">
+            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+              <button class="none__button" id="bookmark-button" value="{{ posts.pk }}">
+                <i class="fa fa-bookmark g-pos-rel g-top-1 g-mr-3"></i>
+                <span id="bookmark_count">{{ posts.bookmark_count }}</span>
+              </button>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<style>
+  .g-height-50 {
+      height: 50px;
+  }
+  .g-width-50 {
+      width: 50px !important;
+  }
+  @media (min-width: 0){
+      .g-pa-30 {
+          padding: 2.14286rem !important;
+      }
+  }
+  .g-bg-secondary {
+      background-color: #fafafa !important;
+  }
+  .u-shadow-v18 {
+      box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
+  }
+  .g-color-gray-dark-v4 {
+      color: #777 !important;
+  }
+  .g-font-size-12 {
+      font-size: 0.75714rem !important;
+  }
+  .media-comment {
+      margin-top:20px
+  }
+</style>
+<style>
+  .none__button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    appearance: none;
+  }
+</style>
+
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>    
+hr.message-inner-separator
+{
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 13px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+</style>
+{% endblock %}

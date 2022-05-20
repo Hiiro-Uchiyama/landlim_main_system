@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load show_pagenated_post_list %}
+{% load show_post_list %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+{% if messages %}
+<div class="position-message">
+<ul class="message_ul notification message-box">
+  {% for message in messages %}
+  <li class="message_li notification-li">
+    {{ message }}
+    <i class="fas fa-trash delete"></i>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+{% endif %}
+<div class="bg-white shadow rounded overflow-hidden contain-card-body">
+  <div class="px-4 pt-0 pb-4 cover_">
+      <div class="media align-items-end profile-head">
+          <div class="media-body mb-5 text-white">
+              <h4 class="mt-0 mb-0">{% trans "ToDo List" %}</h4>
+              <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>LandLim</p>
+          </div>
+      </div>
+  </div>
+  <div class="card-box-top bg-light p-4 d-flex justify-content-end text-center">
+      <ul class="list-inline mb-0">
+          <li class="list-inline-item">
+            <h5 class="font-weight-bold mb-0 d-block margin-h5" id="like_count">ToDo List</h5>
+            <small class="text-muted">
+              <i class="fas fa-list-ul sideicon"></i>
+            </small>
+          </li>
+      </ul>
+  </div>
+  {% for do in todo %}
+    <div class="px-4 card-box">
+    <div class="p-4 rounded shadow-sm bg-light">
+        <p class="mb-0 margin-p">
+        {% if do.user.icon_url %}
+            <a href="{% url 'accounts:others_page' do.user.pk %}"><img src="{{ do.user.icon_url }}" class="mb-2 circle"></a>
+        {% else %}
+            <a href="{% url 'accounts:others_page' do.user.pk %}"><img src="{% static 'icon/LandLim_Human.png' %}" class="mb-2 circle"></a>
+        {% endif %}
+        {{ do.text | safe }}
+        <br><br><p class="list"><i class="fas fa-history"></i> {{ do.created_at }}
+        <br><label><a class="red" href="{% url 'todolist:delete_todolist' do.pk %}"><i class="fas fa-trash"></i> {% trans "Delete ToDo" %}</a></label></p>
+        </p>
+    </div>
+    </div>
+  {% endfor %}
+</div>
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+ .cover_ {
+  background: linear-gradient(-15.5deg, #BE8200 20%, #FFB400 20% 40%, #009600 40% 60%, #006400 60% 80%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 13.5px;
+}
+.sideicon {
+  font-size: 20.5px;
+  color: #006400;
+}
+.list-inline-item {
+  text-align: right !important;
+}
+.margin-h5 {
+  margin-bottom: 5.5px !important;
+}
+.list {
+    text-align: right;
+}
+</style>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+{% endblock %}
+{% endblock %}

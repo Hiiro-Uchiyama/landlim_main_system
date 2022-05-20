@@ -1,0 +1,535 @@
+{% extends 'base.html' %}
+{% load show_pagenated_post_list %}
+{% load show_post_list %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+<!-- もう少し感情を押していきますか -->
+<!-- もう少しページ数を減らせるようにしようか -->
+<!-- 場所や感情とどのようにして紐づけることができるのか -->
+<!-- 画像の高画質化と写真化 -->
+<!-- きっと地図を邪魔に思う人もいるかも知れない -->
+<!-- 通常のタイムラインも用意しておこう -->
+{% block message %}
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span><strong>位置情報の取得が上手くいきませんか?</strong>
+      <hr class="message-inner-separator">
+      <p>
+          再度ページをリロードするか、ご自身の端末の設定をご確認下さい。</p>
+  </div>
+</div>
+<style>
+  hr.message-inner-separator
+  {
+      clear: both;
+      margin-top: 10px;
+      margin-bottom: 13px;
+      border: 0;
+      height: 1px;
+      background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+      background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="px-4 pt-0 pb-4 cover">
+  <div class="media align-items-end profile-head">
+      <div class="profile mr-3">
+        {% if request.user.icon %}
+        <img src="{{ request.user.icon_url }}" width="120" height="120" class="rounded mb-2 img-thumbnail">
+        {% else %}
+        <img src="{% static 'icon/LandLim_Human.png' %}" width="120" height="120" class="rounded mb-2 img-thumbnail">
+        {% endif %}
+        <a href="{% url 'accounts:edit_accounts' %}" style="font-weight:500;" class="btn btn-outline-dark btn-sm btn-block">{% trans "POST" %}</a>
+      </div>
+      <div class="media-body mb-5 text-white">
+          <h4 class="mt-0 mb-0">{% trans "LandLim" %}</h4>
+          <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{% trans "I'm sure you're surrounded by wonderful things." %}</p>
+      </div>
+  </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_"></div>
+<div class="bg-light p-4 d-flex justify-content-end text-center">
+  <ul class="list-inline mb-0">
+      <li class="list-inline-item">
+        <small class="text-muted">
+          <i class="fas fa-search sideicon"></i>
+        </small>
+      </li>
+  </ul>
+</div>
+<div class="map">
+  <div class="row column">
+    <div id="mapid"></div>
+  </div>
+</div>
+<script>
+function errorFunc(error){
+  var errorMessage = {
+    0: "原因不明のエラーが発生しました",
+    1: "位置情報の取得が許可されませんでした",
+    2: "電波状況などで位置情報が取得できませんでした",
+    3: "位置情報の取得に時間がかかり過ぎてタイムアウトしました",
+  };
+  alert(errorMessage[error.code]);
+}
+var optionObj = {
+  "enableHighAccuracy": false,
+  "timeout": 8000,
+  "maximumAge": 5000,
+};
+mapboxgl.accessToken = 'pk.eyJ1IjoidWNoaXlhbWFoaWlybyIsImEiOiJja3o5aWQ2enYxdXRsMm90djdmZjh1a3NuIn0.CsK2c7AZGudf0ZNguCA3VQ';
+function successFunc(position){
+  const chapters = {};
+  console.log(chapters);
+  const map = new mapboxgl.Map({
+    container: 'mapid',
+    style: 'mapbox://styles/uchiyamahiiro/cl02g2k3000b614qmkapcuj7e',
+    center: [position.coords.longitude, position.coords.latitude],
+    zoom: 15,
+  });
+  var data = [
+    {% for posts in landlim_post %}
+    {% if posts.image %}
+    {"loc": [{{ posts.pin_y }}, {{ posts.pin_x }}],
+    "title": "{{ posts.title | truncatechars:120 }}",
+    "user": "{{ posts.user }}",
+    "user_description": "{{ posts.user.description }}",
+    "user_link": "{% url 'accounts:others_page' posts.user.pk %}",
+    "pk": "{{ posts.pk }}",
+    "title_link": "{% url 'post:post_details' pk=posts.pk %}",
+    "text": `{{ posts.text | safe | linebreaksbr | truncatechars:120 }}`,
+    "tag": "{{ posts.tags.names.0 }}",
+    "web_link": "{{ posts.web_link }}",
+    "twitter_link": "{{ posts.twitter_link }}",
+    "instagram_link": "{{ posts.instagram_link }}",
+    "image": "{{ posts.image }}",
+    "country": "{{ posts.country }}",
+    "prefecture": "{{ posts.prefecture }}",
+    "like_count": "{{ posts.like_count }}",
+    "dislike_count": "{{ posts.dislike_count }}",
+    "bookmark": "{{ posts.bookmark_count }}"},
+    {% endif %}
+    {% endfor %}
+  ];
+  for (i in data){
+    const popup = new mapboxgl.Popup({anchor:'bottom',offset:25,closeButton:false,}).setMaxWidth('800px').setHTML(`
+    <figure class="figure__on__map">
+      <h1>` + data[i].title + `</h1>
+      <img src="` + data[i].image + `" alt="` + data[i].title + `"/>
+      <figcaption class="figcaption__on__map">
+        <a class="card__a" href="` + data[i].title_link + `">
+          <h3>
+            ` + data[i].title + `
+          </h3>
+        </a>
+        <p>
+          ` + data[i].text + `
+        </p>
+        <a class="card__a" href="` + data[i].title_link + `">
+          <button>
+            詳細を見る
+          </button>
+        </a>
+      </figcaption>
+    </figure>`);
+    new mapboxgl.Marker({color:'#e50112'})
+      .setLngLat(data[i].loc)
+      .setPopup(popup)
+      .addTo(map);
+      chapters[data[i].pk] = {
+        bearing: 27,
+        center: data[i].loc,
+        zoom: 15.5,
+        pitch: 20
+      };
+  }
+  console.log(chapters)
+  let activeChapterName = 'baker';
+  function setActiveChapter(chapterName) {
+    if (chapterName === activeChapterName) return;
+    map.flyTo(chapters[chapterName]);
+    document.getElementById(chapterName).classList.add('active');
+    document.getElementById(activeChapterName).classList.remove('active');
+    activeChapterName = chapterName;
+  }
+  function isElementOnScreen(id) {
+    const element = document.getElementById(id);
+    const bounds = element.getBoundingClientRect();
+    return bounds.top < window.innerHeight && bounds.bottom > 0;
+  }
+  const scroll_group = document.getElementById('scroll-group');
+  scroll_group.onscroll = () => {
+    for (const chapterName in chapters) {
+      if (isElementOnScreen(chapterName)) {
+        setActiveChapter(chapterName);
+        break;
+      }
+    }
+  };
+  map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {enableHighAccuracy: false},
+    trackUserLocation: true,
+    showUserLocation: true
+  }));
+  map.addControl(new mapboxgl.NavigationControl());
+}
+navigator.geolocation.getCurrentPosition(successFunc,errorFunc,optionObj);
+</script>
+<style>
+  .mapboxgl-popup-content {
+    padding:0;
+    border-radius: 10px;
+  }
+</style>
+<script>
+window.onload = function () {
+  const loader_element = document.getElementById('loader_wrap');
+  loader_element.classList.add('loaded');
+};
+</script>
+<script>
+$(document).on('click', '#like-button', function(e){
+  e.preventDefault();
+  let $btn = $(this);
+  if ($btn.hasClass('on')){
+    $btn.removeClass('on');
+    $btn.children("i").attr('class', 'fa fa-thumbs-up');
+  } else {
+    $btn.addClass('on');
+    $btn.children("i").attr('class', 'far fa-thumbs-up');
+  }
+  $.ajax({
+    type: 'POST',
+    url: '{% url "post:like" %}',
+    data: {
+      postid: $('#like-button').val(),
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      action: 'post'
+    },
+    success: function (json) {
+      document.getElementById("like_count").innerHTML = json['result']
+    },
+    error: function (xhr, errmsg, err) {
+    }
+  });
+})
+</script>
+<script>
+$(document).on('click', '#dislike-button', function(e){
+  e.preventDefault();
+  let $btn = $(this);
+  if ($btn.hasClass('on')){
+    $btn.removeClass('on');
+    $btn.children("i").attr('class', 'fa fa-thumbs-down');
+  } else {
+    $btn.addClass('on');
+    $btn.children("i").attr('class', 'far fa-thumbs-down');
+  }
+  $.ajax({
+    type: 'POST',
+    url: '{% url "post:dislike" %}',
+    data: {
+      postid: $('#dislike-button').val(),
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      action: 'post'
+    },
+    success: function (json) {
+      document.getElementById("dislike_count").innerHTML = json['result']
+    },
+    error: function (xhr, errmsg, err) {
+    }
+  });
+})
+</script>
+<script>
+$(document).on('click', '#bookmark-button', function(e){
+  e.preventDefault();
+  let $btn = $(this);
+  if ($btn.hasClass('on')){
+    $btn.removeClass('on');
+    $btn.children("i").attr('class', 'fa fa-bookmark');
+  } else {
+    $btn.addClass('on');
+    $btn.children("i").attr('class', 'far fa-bookmark');
+  }
+  $.ajax({
+    type: 'POST',
+    url: '{% url "bookmark:bookmark_ajax" %}',
+    data: {
+      postid: $('#bookmark-button').val(),
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      action: 'post'
+    },
+    success: function (json) {
+      document.getElementById("bookmark_count").innerHTML = json['result']
+    },
+    error: function (xhr, errmsg, err) {
+    }
+  });
+})
+</script>
+{% endblock %}
+{% block information %}
+  <div class="text-center">
+    <!-- Button HTML (to Trigger Modal) -->
+    <a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>
+  </div>
+
+  <!-- Modal HTML -->
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-login">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="avatar">
+            <img src="/examples/images/avatar.png" alt="Avatar">
+          </div>
+          <h4 class="modal-title">Member Login</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form action="/examples/actions/confirmation.php" method="post">
+            <div class="form-group">
+              <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-lg btn-block login-btn">Login</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#">Forgot Password?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    body {
+      font-family: 'Varela Round', sans-serif;
+    }
+    .modal-login {
+      color: #636363;
+      width: 350px;
+    }
+    .modal-login .modal-content {
+      padding: 20px;
+      border-radius: 5px;
+      border: none;
+    }
+    .modal-login .modal-header {
+      border-bottom: none;
+      position: relative;
+      justify-content: center;
+    }
+    .modal-login h4 {
+      text-align: center;
+      font-size: 26px;
+      margin: 30px 0 -15px;
+    }
+    .modal-login .form-control:focus {
+      border-color: #70c5c0;
+    }
+    .modal-login .form-control, .modal-login .btn {
+      min-height: 40px;
+      border-radius: 3px;
+    }
+    .modal-login .close {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+    }
+    .modal-login .modal-footer {
+      background: #ecf0f1;
+      border-color: #dee4e7;
+      text-align: center;
+      justify-content: center;
+      margin: 0 -20px -20px;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+    .modal-login .modal-footer a {
+      color: #999;
+    }
+    .modal-login .avatar {
+      position: absolute;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      top: -70px;
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      z-index: 9;
+      background: #60c7c1;
+      padding: 15px;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    }
+    .modal-login .avatar img {
+      width: 100%;
+    }
+    .modal-login.modal-dialog {
+      margin-top: 80px;
+    }
+    .modal-login .btn, .modal-login .btn:active {
+      color: #fff;
+      border-radius: 4px;
+      background: #60c7c1 !important;
+      text-decoration: none;
+      transition: all 0.4s;
+      line-height: normal;
+      border: none;
+    }
+    .modal-login .btn:hover, .modal-login .btn:focus {
+      background: #45aba6 !important;
+      outline: none;
+    }
+    .trigger-btn {
+      display: inline-block;
+      margin: 100px auto;
+    }
+  </style>
+
+{% for posts in landlim_post %}
+<div id="{{ posts.pk }}" class="media g-mb-30 media-comment">
+  <a href="{% url 'accounts:others_page' posts.user.pk %}">
+    {% if posts.user.icon_url %}
+    <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{ posts.user.icon_url }}" alt="Image Description">
+    {% else %}
+    <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{% static 'icon/LandLim_Human.png' %}" alt="Image Description">
+    {% endif %}
+  </a>
+  <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+    <div class="g-mb-15">
+      <span class="g-color-gray-dark-v4 g-font-size-12">{{ posts.user }}</span>
+      <a href="{% url 'post:post_details' pk=posts.pk %}"><h5 class="h5 g-color-gray-dark-v1 mb-0">{{ posts.title }}</h5></a>
+      <span class="g-color-gray-dark-v4 g-font-size-12">{{ posts.created_at }}</span>
+    </div>
+    <p>{{ posts.text | safe | linebreaksbr | truncatechars:200 }}</p>
+    <ul class="list-inline d-sm-flex my-0">
+      <li class="list-inline-item g-mr-20">
+        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+          <button class="none__button" id="like-button" value="{{ posts.pk }}">
+            <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+            <span id="like_count">{{ posts.like_count }}</span>
+          </button>
+        </a>
+      </li>
+      <li class="list-inline-item g-mr-20">
+        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+          <button class="none__button" id="dislike-button" value="{{ posts.pk }}">
+            <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+            <span id="dislike_count">{{ posts.dislike_count }}</span>
+          </button>
+        </a>
+      </li>
+      <li class="list-inline-item ml-auto">
+        <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+          <button class="none__button" id="bookmark-button" value="{{ posts.pk }}">
+            <i class="fa fa-bookmark g-pos-rel g-top-1 g-mr-3"></i>
+            <span id="bookmark_count">{{ posts.bookmark_count }}</span>
+          </button>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endfor %}
+<style>
+.g-height-50 {
+    height: 50px;
+}
+.g-width-50 {
+    width: 50px !important;
+}
+@media (min-width: 0){
+    .g-pa-30 {
+        padding: 2.14286rem !important;
+    }
+}
+.g-bg-secondary {
+    background-color: #fafafa !important;
+}
+.u-shadow-v18 {
+    box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
+}
+.g-color-gray-dark-v4 {
+    color: #777 !important;
+}
+.g-font-size-12 {
+    font-size: 0.75714rem !important;
+}
+.media-comment {
+    margin-top:20px
+}
+</style>
+<style>
+.none__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+}
+</style>
+<!-- こっちは広告投稿でどうでしょうか -->
+<!-- 広告投稿との分岐 -->
+<!-- 色と位置情報の保存によって分かりやすく面白く -->
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+hr.message-inner-separator{
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 13px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+</style>
+{% endblock %}

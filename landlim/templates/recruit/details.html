@@ -1,0 +1,148 @@
+{% extends 'core/front_page.html' %}
+{% load static %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block description %}{{ post.text | safe | truncatechars:200 | striptags }}{% endblock %}
+{% block keyword %}{{ post.tag }}{% endblock %}
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.text | safe | truncatechars:200 | striptags }}{% endblock %}
+{% block twitter_title %}{{ post.title }}{% endblock %}
+{% block twitter_description %}{{ post.text | safe | truncatechars:200 | striptags }}{% endblock %}
+{% block top_image %}{% if post.image %}{{ post.image.url }}{% endif %}{% endblock %}
+{% block front_page %}
+<main>
+    <div class="slider-area">
+      <div class="slider-bg2 hero-overly slider-height2 d-flex align-items-end">
+        <div class="container">
+          <div class="row">
+            <div class="col-xxl-12">
+              <div class="hero-caption hero-caption2">
+                <h2>求人詳細</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="blog_area single-post-area section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 posts-list">
+            <div class="single-post">
+              <div class="feature-img"> {% if post.image %} <img class="img-fluid" src="{{ post.image.url }}" alt=""> {% else %} <img class="img-fluid" src="" alt=""> {% endif %} </div>
+              <div class="blog_details">
+                <h2 style="color: #2d2d2d;">{{ post.title }}</h2>
+                <ul class="blog-info-link mt-3 mb-4">
+                  <li><a href="#"><i class="fa fa-user"></i> {{ post.recruiters }}</a></li>
+                  <li><a href="#"><i class="fa fa-comments"></i> {{ post.category }}</a></li>
+                </ul>
+                <p class="excert">{{ post.text | safe }}</p>
+              </div>
+            </div>
+            <div class="navigation-top">
+              <div class="d-sm-flex justify-content-between text-center">
+                <div class="col-sm-4 text-center my-2 my-sm-0"> </div>
+                <ul class="social-icons">
+                  <li><a href="https://twitter.com/_landlim_"><i class="fab fa-twitter"></i></a></li>
+                  <li><a href="https://www.instagram.com/_landlim_/"><i class="fab fa-instagram"></i></a></li>
+                  <li><a href="https://www.facebook.com/profile.php?id=100073033226210"><i class="fab fa-facebook-f"></i></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="blog-author">
+              <div class="media align-items-center"> <img src="{% static 'icon/8090A3A1-B3CA-4EDF-BB30-49FABA5A590F.jpeg' %}" alt="">
+                <div class="media-body">
+                  <a href="#">
+                    <h4>LandLim</h4>
+                  </a>
+                  <p>私たちは今日も元気です。</p>
+                </div>
+              </div>
+            </div>
+            <div class="comment-form">
+              <h4>コメント</h4>
+              <form class="form-contact comment_form" method="POST" action="{% url 'blog:detail' post_id=post.id %}" id="commentForm"> {% csrf_token %}
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group"> <textarea class="form-control w-100" name="text" id="id_text" type="text" cols="30" rows="9" placeholder="コメント"></textarea> </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group"> <input class="form-control" name="username" id="id_username" type="text" placeholder="名前"> </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group"> <input class="form-control" name="email" id="id_email" type="email" placeholder="メールアドレス"> </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group"> <input class="form-control" name="web" id="id_web" type="text" placeholder="ウェブサイト"> </div>
+                  </div>
+                </div>
+                <div class="form-group"> <button type="submit" class="button button-contactForm btn_1 boxed-btn">コメントを投稿する</button> </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="blog_right_sidebar">
+              <aside class="single_sidebar_widget search_widget">
+                <form method="GET"> {% csrf_token %}
+                  <div class="form-group m-0">
+                    <div class="input-group"> <input type="text" id="id_q" name="q" class="form-control" placeholder="キーワードを入力して下さい">
+                      <div class="input-group-append d-flex"> <button class="boxed-btn2" type="submit">タイトル検索</button> </div>
+                    </div>
+                  </div>
+                </form>
+              </aside>
+              <aside class="single_sidebar_widget search_widget">
+                <form method="GET"> {% csrf_token %}
+                  <div class="form-group m-0">
+                    <div class="input-group"> <input type="text" id="id_q_tag" name="q_tag" class="form-control" placeholder="タグを選択して入力して下さい">
+                      <div class="input-group-append d-flex"> <button class="boxed-btn2" type="submit">タグ検索</button> </div>
+                    </div>
+                  </div>
+                </form>
+              </aside>
+              <aside class="single_sidebar_widget post_category_widget">
+                <h4 class="widget_title" style="color: #2d2d2d;">カテゴリー</h4>
+                <ul class="list cat-list"> {% for categories in category %}
+                  <li>
+                    <a href="#" class="d-flex">
+                      <p>{{ categories }}</p>
+                    </a>
+                  </li> {% endfor %} </ul>
+              </aside>
+              <aside class="single_sidebar_widget popular_post_widget">
+                <h3 class="widget_title" style="color: #2d2d2d;">最近の投稿</h3> {% for recent in recent_post %}
+                <div class="media post_item"> {% if recent.image %} <img class="recent-image" src="{{ recent.image.url }}" alt="post"> {% else %} <img class="recent-image" src="{% static 'image/school-supplies-g12fe29706_1920.jpg' %}" alt=""> {% endif %}
+                  <div class="media-body">
+                    <a href="blog_details.html">
+                      <h3 style="color: #2d2d2d;">{{ recent.title | truncatechars:25 | linebreaksbr }}</h3>
+                    </a>
+                    <p>{{ recent.created_at }}</p>
+                  </div>
+                </div> {% endfor %} </aside>
+              <aside class="single_sidebar_widget tag_cloud_widget">
+                <h4 class="widget_title" style="color: #2d2d2d;">タグ</h4>
+                <ul class="list"> {% for tag in tags %}
+                  <li> <a href="#">{{ tag }}</a> </li> {% endfor %} </ul>
+              </aside>
+              <aside class="single_sidebar_widget instagram_feeds">
+                <h4 class="widget_title" style="color: #2d2d2d;">Twitter</h4>
+                <ul class="instagram_row flex-wrap"> <a class="twitter-timeline" href="https://twitter.com/_landlim_?ref_src=twsrc%5Etfw">Tweets by _landlim_</a>
+                  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </ul>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</main>
+<style>
+#SaveEmailForm{
+    color: #2d2d2d!important;
+}
+.recent-image{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+</style>
+{% endblock %}

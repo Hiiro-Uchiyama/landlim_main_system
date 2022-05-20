@@ -1,0 +1,24 @@
+<div class="flex-comment">
+    <button class="btn btn-link p-0 border-0 btn-outline-light color-white" id="comment-like-button-{{ comments.pk }}" value="{{ comments.pk }}">
+      <i class="far fa-thumbs-up"></i>
+    </button>
+    <p class="comment-count-position" id="comment_like_count-{{ comments.pk }}">{{ comments.like_count }}</p>
+    <button class="btn btn-link p-0 border-0 btn-outline-light color-white" id="discomment-like-button-{{ comments.pk }}" value="{{ comments.pk }}">
+      <i class="far fa-thumbs-down"></i>
+    </button>
+    <p class="comment-count-position" id="discomment_like_count-{{ comments.pk }}">{{ comments.dislike_count }}</p>
+</div>
+<style>
+.comment-count-position{
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 10.5px;
+  padding: 0;
+}
+.color-white {
+  color: #ffffff;
+}
+.right-side{
+  margin: 0 0 0 auto;
+}
+</style>

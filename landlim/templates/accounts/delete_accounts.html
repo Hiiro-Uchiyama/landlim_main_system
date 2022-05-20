@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% load i18n %}
+{% load socialaccount %}
+{% block content %}
+<div class="px-4 pt-0 pb-4 cover">
+    <div class="media align-items-end profile-head">
+        <div class="media-body mb-5 text-white">
+            <h4 class="mt-0 mb-0">{% trans "Delete Account" %}</h4>
+            <p class="small mb-4"><i class="fas fa-map-marker-alt mr-2"></i>LandLim</p>
+        </div>
+    </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_"></div>
+<div class="bg-light p-4 d-flex justify-content-end text-center">
+    <ul class="list-inline mb-0">
+        <li class="list-inline-item">
+          <h5 class="font-weight-bold mb-0 d-block margin-h5 side-h5" id="like_count">Delete Accoount?</h5>
+          <small class="text-muted">
+            <i class="fas fa-user-alt-slash sideicon"></i>
+          </small>
+        </li>
+    </ul>
+</div>
+<div class="py-3">
+  <form method="POST" action="{% url 'accounts:delete_accounts' %}" id="contact" class="form-horizontal form-size" role="form">
+    {% csrf_token %}
+    {% bootstrap_form form layout='virtical' %}
+    <button type="submit" id="send" name="send" class="btn btn-block button-sizing">{% trans "Delete Account" %}</button>
+  </form>
+</div>
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+.cover {
+  background-color: #2A2E43;
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.cover_ {
+  background: linear-gradient(90deg, #009600 0% 25%, #006400 25% 50%, #BE8200 50% 75%, #FFB400 75% 100%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 13.5px;
+}
+.side-h5 {
+  font-size: 16.5px;
+}
+.sideicon {
+  font-size: 18.5px;
+  color: #006400;
+}
+.list-inline-item {
+  text-align: right !important;
+}
+.margin-h5 {
+  margin-bottom: 5.5px !important;
+}
+a {
+  color: #006400;
+}
+a:hover {
+  color: #006400;
+  text-decoration: none;
+}
+.button-sizing {
+  margin: 0 auto;
+  justify-content: center;
+  width: 60.5%;
+}
+.form-size {
+  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+  font-size: 13.5px;
+}
+.font-size {
+  font-size: 13.5px;
+}
+.social-block {
+  display: inline-block;
+}
+.social-sign-up-icon {
+  width: 300px;
+  height: auto;
+}
+.social-buttons {
+  text-align: center;
+}
+</style>
+{% endblock %}

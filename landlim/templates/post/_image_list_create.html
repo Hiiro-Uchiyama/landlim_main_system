@@ -1,0 +1,9 @@
+{% load static %}
+{% for _ in '012'|make_list %}
+<div class="col-3" style="display:inline;">
+  <div class="imgAspect ratio1_1">
+    <img id="img{{forloop.counter0}}" src="{% static 'icon/Add_Post_LandLim.png' %}" width="50%" height="50%" alt="img" onclick="$('#file_{{forloop.counter0}}').click();" name="thumbnail_img"> 
+  </div>
+  <div id="edde{{forloop.counter0}}" class="text-right"></div>
+</div>
+{% endfor %}

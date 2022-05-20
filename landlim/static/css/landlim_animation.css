@@ -1,0 +1,24 @@
+.seven span {
+	color: #006400;
+	opacity: 0;
+	transform: translate(-150px, 0) scale(.3);
+	animation: leftRight .5s forwards;
+}
+@keyframes leftRight {
+	40% {
+		transform: translate(50px, 0) scale(.7);
+		opacity: 1;
+		color: #006400;
+	}
+	60% {
+		color: #009600;
+	}
+	80% {
+		transform: translate(0) scale(2);
+		opacity: 0;
+	}
+	100% {
+		transform: translate(0) scale(1);
+		opacity: 1;
+	}
+}

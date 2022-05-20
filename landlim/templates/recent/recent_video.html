@@ -1,0 +1,417 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% block content %}
+{% if messages %}
+<div class="position-message">
+<ul class="message_ul notification message-box">
+  {% for message in messages %}
+  <li class="message_li notification-li">
+    {{ message }}
+    <i class="fas fa-trash delete"></i>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+{% endif %}
+<div class="px-4 pt-0 pb-4 cover">
+  <div class="media align-items-end profile-head">
+      <div class="profile mr-3">
+        {% if request.user.icon %}
+        <img src="{{ request.user.icon_url }}" width="130" class="rounded mb-2 img-thumbnail">
+        {% else %}
+        <img src="{% static 'icon/LandLim_Human.png' %}" width="130" class="rounded mb-2 img-thumbnail">
+        {% endif %}
+        <a href="{% url 'accounts:edit_accounts' %}" style="font-weight:500;" class="btn btn-outline-dark btn-sm btn-block">{% trans "Post" %}</a>
+      </div>
+      <div class="media-body mb-5 text-white">
+          <h4 class="mt-0 mb-0">{% trans "Recent Video" %}</h4>
+          <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{% trans "I'm sure you're surrounded by wonderful things." %}</p>
+      </div>
+  </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_"></div>
+<div class="bg-light p-4 d-flex justify-content-end text-center">
+  <ul class="list-inline mb-0">
+      <li class="list-inline-item">
+        <h5 class="font-weight-bold mb-0 d-block margin-h5 side-h5">{% trans "Find a post you like" %}</h5>
+        <small class="text-muted">
+          <i class="fas fa-search sideicon"></i>
+        </small>
+      </li>
+  </ul>
+</div>
+<div class="timeline-content">
+  <div class="timeline">
+    {% for list in landlim_post %}
+    {% if list.video %}
+    <div class="timeline-container user">
+      {% if list.user.icon_url %}
+      <div style="background-image: url({{ list.user.icon_url }});" class="timeline-icon"></div>
+      {% else %}
+      <div style="background-image: url({% static 'icon/LandLim_Human.png' %});" class="timeline-icon"></div>
+      {% endif %}
+      <div class="timeline-body">
+          <h4 class="timeline-title"><a class="timeline-in-a" href="{% url 'post:post_details' list.pk %}"><span class="badge">{{ list.title }}</span></a></h4>
+          <p class="text-align-center">
+            <video class="image-tm" autoplay muted playsinline preload="none" controls>
+              <source src="{{ list.video.url }}" type="video/webm">
+              <source src="{{ list.video.url }}" type="video/mp4">
+              <source src="{{ list.video.url }}" type="video/mov">
+              <source src="{{ list.video.url }}">
+            </video>
+          </p>
+          <p>{{ list.text | safe | linebreaksbr | truncatechars:110 }}</p>
+          <p style="display:inline;" class="timeline-subtitle">6 Hours Ago - Hiiro Uhiyama</p>
+          <p class="timeline-subtitle-rightside">
+            <i class="far fa-thumbs-up i-style-timeline"></i> {{ list.like_count }}
+            <i class="far fa-thumbs-down i-style-timeline"></i> 5
+            <i class="far fa-bookmark i-style-timeline"></i> {{ list.bookmark_count }}
+            <i class="far fa-comments i-style-timeline"></i> {{ list.comment_count }}
+            <i class="far fa-eye i-style-timeline"></i> {{ list.watched_count }}
+            <div class="share-div">
+              <a class="share-a" href="#"></a>
+              <a class="share-a" href="#"></a>
+            </div>
+          </p>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+.cover {
+  background-color: #2A2E43;
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.cover_ {
+  background: linear-gradient(90deg, #009600 0% 25%, #006400 25% 50%, #BE8200 50% 75%, #FFB400 75% 100%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.blue {
+  color: royalblue;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 13.5px;
+}
+.flex-comment {
+  display: flex;
+  padding: 1.5px;
+}
+.circle {
+  width: 50px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
+	object-position: 0px 0px;
+  margin: 1.5px;
+  padding: 1.5px;
+}
+.nonestyle {
+  color: black;
+  text-decoration: none;
+}
+.nonestyle:hover{
+  color: black;
+  text-decoration: none;
+}
+.message_ul {
+  padding: 0;
+}
+.message_li {
+  color: #404040;
+  border-left: solid 6px #006400;
+  border-bottom: solid 2px #dadada;
+  background: whitesmoke;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  padding: 0.5em;
+  list-style-type: none!important;
+  font-weight: bold;
+}
+.side-h5 {
+  font-size: 16.5px;
+}
+.sideicon {
+  font-size: 18.5px;
+  color: #006400;
+}
+.list-inline-item {
+  text-align: right !important;
+}
+.margin-h5 {
+  margin-bottom: 5.5px !important;
+}
+.list {
+  text-align: right;
+}
+@import url("https://fonts.googleapis.com/css?family=Niramit:300,300i,700");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.timeline-content {
+  max-width: 1050px;
+  margin: 15px auto 0;
+}
+.timeline {
+  position: relative;
+  padding-left: 4.0rem;
+  margin: 0 0 0 25px;
+  color: #fafafa;
+}
+.timeline:before {
+  content: "";
+  position: absolute;
+  left: -1.2px;
+  top: 8.65px;
+  width: 4.5px;
+  height: 100%;
+  background: #2A2E43;
+}
+.timeline .timeline-container {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.timeline .timeline-container .timeline-icon {
+  position: absolute;
+  left: -88px;
+  top: 4px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 2rem;
+  background: #4f537b;
+}
+.timeline .timeline-container .timeline-icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18.5px;
+}
+.timeline .timeline-container .timeline-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.timeline .timeline-container .timeline-body {
+  background: #2A2E43;
+  border-radius: 3px;
+  padding: 20px 20px 20px 15px;
+  box-shadow: 1px 3px 9px rgba(0, 0, 0, 0.1);
+  max-width: 1050px;
+  width: 100%;
+}
+.timeline .timeline-container .timeline-body:before {
+  content: "";
+  background: inherit;
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  left: -10px;
+  transform: rotate(45deg);
+  border-radius: 0 0 0 2px;
+}
+.timeline .timeline-container .timeline-body .timeline-title {
+  margin-bottom: 1.4rem;
+}
+.timeline .timeline-container .timeline-body .timeline-title .badge {
+  background: #4f537b;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.timeline .timeline-container .timeline-body .timeline-subtitle {
+  font-weight: 300;
+  font-style: italic;
+  opacity: 0.4;
+  margin-top: 16px;
+  font-size: 11px;
+}
+.timeline .timeline-container.primary .badge,
+.timeline .timeline-container.primary .timeline-icon {
+  background: #1d8cf8 !important;
+}
+.timeline .timeline-container.info .badge,
+.timeline .timeline-container.info .timeline-icon {
+  background: #11cdef !important;
+}
+.timeline .timeline-container.success .badge,
+.timeline .timeline-container.success .timeline-icon {
+  background: #00bf9a !important;
+}
+.timeline .timeline-container.warning .badge,
+.timeline .timeline-container.warning .timeline-icon {
+  background: #ff8d72 !important;
+}
+.timeline .timeline-container.danger .badge,
+.timeline .timeline-container.danger .timeline-icon {
+  background: #fd5d93 !important;
+}
+.timeline .timeline-container.user .badge,
+.timeline .timeline-container.user .timeline-icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.author {
+  font-family: inherit;
+  padding: 3em;
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+.author a:link,
+.author a:visited {
+  color: white;
+}
+.author a:link:hover,
+.author a:visited:hover {
+  text-decoration: none;
+}
+.author .btn:link,
+.author .btn:visited {
+  margin-top: 1em;
+  text-decoration: none;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 100;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: black;
+  padding: 1.5em 2rem;
+  border-radius: 1em;
+  transition: 0.5s all;
+}
+.author .btn:link:hover, .author .btn:link:focus, .author .btn:link:active,
+.author .btn:visited:hover,
+.author .btn:visited:focus,
+.author .btn:visited:active {
+  background-color: #2A2E43;
+}
+.timeline-title-span{
+  margin-left: 10px;
+  font-size: 16.5px;
+}
+.timeline-subtitle-rightside {
+  text-align: right;
+}
+.i-style-timeline {
+  font-size: 18.5px;
+}
+.timeline-title-right{
+  text-align: right;
+}
+.share-div {
+  display: inline-block;
+  text-decoration:none;
+}
+.share-a {
+  color:#ffffff;
+  background: #4285F4;
+  border-radius:4px;
+  text-align:center;
+  text-decoration:none;
+  font-family:fontawesome;
+  position: relative;
+  display: inline-block;
+  width:40px;
+  height:40px;
+  padding-top:12px;
+  margin:0 2px;
+  -o-transition:all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  -webkit-font-smoothing: antialiased;
+}
+.share-a:hover {
+  color: #ffffff;
+  background: #7aa6ea;
+  text-decoration:none;
+}
+.share-a:nth-of-type(1):before {
+content:'\f09a';
+}
+.share-a:nth-of-type(2):before {
+content:'\f099';
+}
+.share-a:nth-of-type(3):before {
+content:'\f0d5';
+}
+.share-a:nth-of-type(4):before {
+content:'\f113';
+}
+.share-a:nth-of-type(5):before {
+content:'\f17d';
+}
+.share-a:nth-of-type(6):before {
+content:'\f1cb';
+}
+.bg-main-header {
+  color: #ffffff;
+  background-color: #2A2E43;
+}
+.text-color-white{
+  color: #ffffff;
+}
+.circle-img {
+  width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border-radius: 50% !important;
+  border: 1.5px solid #fafafa;
+  background-color: #fafafa;
+}
+.range-specification{
+  max-width: 1050px;
+  margin: 0 auto;
+}
+.timeline-in-a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.timeline-in-a:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+.text-align-center{
+  text-align: center;
+}
+.the-right {
+  margin: 0 0 0 auto;
+}
+</style>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+{% endblock %}
+{% endblock %}

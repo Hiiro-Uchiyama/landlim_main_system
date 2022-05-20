@@ -1,0 +1,494 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>ランドリム｜LandLim Web版</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{% block description %}LandLimはあなたの『ローカル』をもっと豊かにします。さあLandLimを始めよう。こちらのリンクからLandLim Web Editionを始めることができます。{% endblock %}" />
+    <meta name="keywords" content="{% block keyword %}LandLim, ランドリム{% endblock %}" />
+    <meta name="format-detection" content="email=no,telephone=no,address=no">
+    <meta name="msapplication-TileImage" content="{% static 'images/igor-miske-Px3iBXV-4TU-unsplash.jpg' %}" />
+    <meta name="msapplication-TileColor" content="#EEEEEE" />
+    <meta property="og:url" content="https://landlim-homepage.herokuapp.com/ja/" />
+    <meta property="og:title" content="{% block og_title %}ランドリム｜LandLim Web版{% endblock %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{% block top_image %}{% static 'images/igor-miske-Px3iBXV-4TU-unsplash.jpg' %}{% endblock %}" />
+    <meta property="og:site_name" content="ランドリム｜LandLim Web版"/>
+    <meta property="og:description" content="{% block og_description %}LandLimはあなたの『ローカル』をもっと豊かにします。さあLandLimを始めよう。こちらのリンクからLandLim Web Editionを始めることができます。{% endblock %}" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@_landlim_" />
+    <meta name="twitter:creator" content="@_landlim_" />
+    <meta property="og:url" content="https://landlim-homepage.herokuapp.com/ja/" />
+    <meta property="og:title" content="{% block twitter_title %}ランドリム｜LandLim Web版{% endblock %}" />
+    <meta property="og:description" content="{% block twitter_description %}LandLimはあなたの『ローカル』をもっと豊かにします。さあLandLimを始めよう。こちらのリンクからLandLim Web Editionを始めることができます。{% endblock %}" />
+    <link href="https://fonts.googleapis.com/css?family=B612+Mono|Cabin:400,700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/vnd.microsoft.icon">
+    <meta name="application-name" content="ランドリム｜LandLim Web版"/>
+    <meta name="msapplication-square70x70logo" content="small.jpg"/>
+    <meta name="msapplication-square150x150logo" content="medium.jpg"/>
+    <meta name="msapplication-wide310x150logo" content="wide.jpg"/>
+    <meta name="msapplication-square310x310logo" content="large.jpg"/>
+    <meta name="msapplication-TileColor" content="#FAA500"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icon/apple-touch-icon.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'icon/Logo.png' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+<body>
+{% load static %}
+<header>
+    <div class="header-area header-transparent">
+        <div class="main-header header-sticky">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <div class="header-info-left d-flex align-items-center">
+                        <div class="logo">
+                            <a href="{% url 'first' %}"><img src="{% static 'logo/landlim-impact.png' %}" alt=""></a>
+                        </div>
+                        <div class="main-menu d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                    <li><a href=""><i class="fas fa-home"></i>&nbsp;&nbsp;&nbsp;公式ホームページ</a></li>
+                                    <li><a href=""><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;ビジネスのお客さま</a></li>
+                                    <li><a href=""><i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;開発者のお客さま</a></li>
+                                    <li><a href="{% url 'blog:blog' %}"><i class="fas fa-blog"></i>&nbsp;&nbsp;&nbsp;開発者ブログ</a></li>
+                                    <li><a href=""><i class="fas fa-envelope"></i>&nbsp;&nbsp;&nbsp;お問い合わせ</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mobile_menu d-block d-lg-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<style>
+.logo{
+    background-color: #1E1E1E !important;
+}
+</style>
+{% block front_page %}
+<main>
+  <div class="slider-area position-relative">
+    <div class="slider-active">
+        <div class="single-slider slider-bg2 slider-height hero-overly d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 col-xl-9 col-lg-9 col-md-11 col-sm-10">
+                        <div style="display: inline-block;" class="hero-caption">
+                            <div style="white-space: nowrap;" class="stock-text">
+                                <h2>If it's not funny, <br>it's not <br>the LandLim Gr.</h2>
+                                <h2>If it's not funny, <br>it's not <br>the LandLim Gr.</h2>
+                            </div>
+                            <h1 style="white-space: nowrap;" data-animation="pulse" data-delay=".4s">&nbsp;&nbsp;あなたの<br>『ローカル』を<br>&nbsp;&nbsp;もっと豊かに</h1>
+                            <span style="white-space: nowrap;" data-animation="fadeInUp" data-delay=".3s" style="animation-delay: 0.3s;" class=""><a href="#">LandLimへようこそ!!</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    <section class="about-area section-padding">
+      <div class="container wrapper-border">
+          <div class="row align-items-center">
+              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12">
+                  <div class="about-img">
+                      <img src="{% static 'assets/img/front_page/AdobeStock_227315497.jpeg' %}" alt="">
+                  </div>
+              </div>
+              <div class="col-xxl-5 col-xl-6 col-lg-6 col-md-9">
+                  <div class="about-caption">
+                      <div class="section-tittle section-tittle2 mb-25">
+                          <h2>まずはアカウントを作成しましょう</h2>
+                          <p class="pt-20 pb-20">あらゆるものを紐付ける。<br>あなたの『ローカル』を豊かにする<br>ソーシャルネットワーキングシステム『LandLim』は<br>こちらから開始することができます。</p>
+                          <a href="{% url 'accounts:signup_accounts' %}" class="btn">アカウント作成</a>
+                          <a href="{% url 'accounts:login_accounts' %}" class="btn">ログイン</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+    <section class="home-blog section-bg1">
+      <div class="container">
+          <div class="row">
+              <div class="col-xl-7 col-lg-9 col-md-8">
+                  <div class="section-tittle section-tittle2 mb-60">
+                      <h2><span>/ </span>LandLimについて</h2>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-4">
+                  <div class="single-blogs mb-40">
+                      <div class="blog-img">
+                          <a href="#"><img src="{% static 'front_image/AdobeStock_91731609.jpeg' %}" alt=""></a>
+                          <a href="services.html" class="blog-btn">詳細を見る</a>
+                      </div>
+                      <div class="blogs-cap">
+                          <h5><a href="#">LandLimとは?</a></h5>
+                          <p>私たちLandLim Grのホームページへご案内します。</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="single-blogs mb-40">
+                      <div class="blog-img">
+                          <a href="#"><img src="{% static 'front_image/AdobeStock_178578355.jpeg' %}" alt=""></a>
+                          <a href="services.html" class="blog-btn">詳細を見る</a>
+                      </div>
+                      <div class="blogs-cap">
+                          <h5><a href="#">LandLim Web Editionとは?</a></h5>
+                          <p>LandLim Web Editionの使用方法などについて簡単なご説明を行なっています。</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="single-blogs mb-40">
+                      <div class="blog-img">
+                          <a href="#"><img src="{% static 'front_image/AdobeStock_168534848.jpeg' %}" alt=""></a>
+                          <a href="services.html" class="blog-btn">詳細を見る</a>
+                      </div>
+                      <div class="blogs-cap">
+                          <h5><a href="#">LandLim Mobile Editionとは?</a></h5>
+                          <p>LandLim Mobile Editionの使用方法などについて簡単なご説明を行なっています。</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="single-blogs mb-40">
+                      <div class="blog-img">
+                          <a href="#"><img src="{% static 'front_image/AdobeStock_116368729.jpeg' %}" alt=""></a>
+                          <a href="services.html" class="blog-btn">詳細を見る</a>
+                      </div>
+                      <div class="blogs-cap">
+                          <h5><a href="#">LandLim API Systemとは?</a></h5>
+                          <p>LandLim API Systemに関する利用規約や使用方法に関するご説明を行っています。</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="single-blogs mb-40">
+                      <div class="blog-img">
+                          <a href="#"><img src="{% static 'front_image/AdobeStock_81130852.jpeg' %}" alt=""></a>
+                          <a href="services.html" class="blog-btn">詳細を見る</a>
+                      </div>
+                      <div class="blogs-cap">
+                          <h5><a href="#">LandLim Network Systemとは?</a></h5>
+                          <p>LandLimを使用したネットワークシステムに参加するためのご説明を行っています。</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="single-blogs mb-40">
+                    <div class="blog-img">
+                        <a href="#"><img src="{% static 'front_image/AdobeStock_72532931.jpeg' %}" alt=""></a>
+                        <a href="services.html" class="blog-btn">詳細を見る</a>
+                    </div>
+                    <div class="blogs-cap">
+                        <h5><a href="#">LandLim Ads Systemとは?</a></h5>
+                        <p>LandLimに広告や求人を出したいお客さまへのご説明とご案内を行っています。</p>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </section>
+    <section class="about-area section-padding">
+        <div class="container wrapper-border">
+            <div class="row align-items-center">
+                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12">
+                    <div class="about-img">
+                        <img src="{% static 'front_image/AdobeStock_171053852.jpeg' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-xxl-5 col-xl-6 col-lg-6 col-md-9">
+                    <div class="about-caption">
+                        <div class="section-tittle section-tittle2 mb-25">
+                            <h2>アプリ版でもっとシンプルに</h2>
+                            <p class="pt-20 pb-20">アプリ版ではもっとシンプルにあなただけの『ローカル』を楽しみむことができます。</p>
+                            <a href="#" class="btn">iOS版はこちら</a>
+                            <a href="#" class="btn">Android版はこちら</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="team-area section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-12">
+                    <div class="section-tittle text-center mb-60">
+                        <h2><span>/ </span>その他</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="team-active">
+                <div class="single-team text-center">
+                    <div class="team-img">
+                        <img src="{% static 'image/AdobeStock_381592585.jpeg' %}" alt="">
+                    </div>
+                    <div class="team-caption">
+                        <h3><a href="#">Q&A</a></h3>
+                        <p class="team-description-furigana">&nbsp;</p>
+                        <p class="team-description">LandLim GrやLandLimの提供するサービスについての疑問にお答え致します。</p>
+                    </div>
+                </div>
+                <div class="single-team text-center">
+                    <div class="team-img">
+                        <img src="{% static 'image/AdobeStock_400522055.jpeg' %}" alt="">
+                    </div>
+                    <div class="team-caption">
+                        <h3><a href="#">開発者ブログ</a></h3>
+                        <p class="team-description-furigana">&nbsp;</p>
+                        <p class="team-description">LandLim開発者ブログはこちらから閲覧することができます。</p>
+                    </div>
+                </div>
+                <div class="single-team text-center">
+                    <div class="team-img">
+                        <img src="{% static 'image/AdobeStock_233160472.jpeg' %}" alt="">
+                    </div>
+                    <div class="team-caption">
+                        <h3><a href="#">利用規約</a></h3>
+                        <p class="team-description-furigana">&nbsp;</p>
+                        <p class="team-description">LandLimの利用規約についてご説明を行っています。</p>
+                    </div>
+                </div>
+                <div class="single-team text-center">
+                    <div class="team-img">
+                        <img src="{% static 'front_image/AdobeStock_310714148.jpeg' %}" alt="">
+                    </div>
+                    <div class="team-caption">
+                        <h3><a href="#">お問い合わせ</a></h3>
+                        <p class="team-description-furigana">&nbsp;</p>
+                        <p class="team-description">LandLim Grへのお問い合わせはこちらから行うことができます。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="about-area section-padding">
+      <div class="container wrapper-border">
+          <div class="row align-items-center">
+              <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12">
+                  <div class="about-img">
+                      <img src="{% static 'front_image/AdobeStock_169258781.jpeg' %}" alt="">
+                  </div>
+              </div>
+              <div class="col-xxl-5 col-xl-6 col-lg-6 col-md-9">
+                  <div class="about-caption">
+                      <div class="section-tittle section-tittle2 mb-25">
+                          <h2 style="line-height: 40.5px;">広告投稿でもっと<br>あなたの『ローカル』に<br>知ってもらいましょう</h2>
+                          <p class="pt-20 pb-20">LandLimへ広告を出してみませんか?<br>どんなに小さな広告でも構いません。<br>あなたの事業を『ローカル』に知ってもらいましょう。</p>
+                          <a href="#" class="btn">LandLim Ads System</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+</main>
+{% endblock %}
+<style>
+.margin-bottom-h2{
+    margin-bottom: 5.5px;
+}
+</style>
+<footer>
+    <div class="footer-area footer-padding">
+        <div class="footer-wrapper ">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <div class="footer-logo mb-25">
+                                    <a class="logo-flex none-action" href="">
+                                        <img class="footer-icon" src="{% static 'icon/landlim.png' %}" alt="">
+                                        <img class="footer-logo-landlim" src="{% static 'logo/simple.png' %}" alt="">
+                                    </a>
+                                </div>
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Web開発&nbsp;&nbsp;&nbsp;アプリケーション開発</p>
+                                        <p><i class="fas fa-chart-line"></i>&nbsp;&nbsp;&nbsp;ブランディング</p>
+                                        <p><i class="fas fa-laptop-code"></i>&nbsp;&nbsp;&nbsp;Python&nbsp;&nbsp;Java&nbsp;&nbsp;JavaScript&nbsp;&nbsp;Dart</p>
+                                        <p><i class="fas fa-crop-alt"></i>&nbsp;&nbsp;&nbsp;Django&nbsp;&nbsp;Flutter</p>
+                                    </div>
+                                </div>
+                                <ul class="footer-social">
+                                    <li><a href="https://twitter.com/_landlim_"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="https://www.instagram.com/_landlim_/"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="https://www.facebook.com/profile.php?id=100073033226210"><i class="fab fa-facebook-f"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-xl-1 col-xl-2 col-lg-2 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>サイト案内</h4>
+                                <ul>
+                                    <li><a href=""><i class="fas fa-home"></i>&nbsp;&nbsp;&nbsp;公式ホームページ</a></li>
+                                    <li><a href=""><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;LandLimとは</a></li>
+                                    <li><a href=""><i class="far fa-copy"></i>&nbsp;&nbsp;&nbsp;LandLim Web Edition</a></li>
+                                    <li><a href=""><i class="far fa-copy"></i>&nbsp;&nbsp;&nbsp;LandLim Mobile Edition</a></li>
+                                    <li><a href="{% url 'blog:blog' %}"><i class="fas fa-blog"></i>&nbsp;&nbsp;&nbsp;LandLim API System</a></li>
+                                    <li><a href="{% url 'recruit:recruit' %}"><i class="fas fa-blog"></i>&nbsp;&nbsp;&nbsp;LandLim Network System</a></li>
+                                    <li><a href=""><i class="fas fa-blog"></i>&nbsp;&nbsp;&nbsp;LandLim Ads System</a></li>
+                                    <li><a href=""><i class="fas fa-envelope"></i>&nbsp;&nbsp;&nbsp;お問い合わせ</a></li>
+                                    <li><a href=""><i class="fas fa-vote-yea"></i>&nbsp;&nbsp;&nbsp;利用規約</a></li>
+                                    <li><a href=""><i class="fas fa-user-shield"></i>&nbsp;&nbsp;&nbsp;プライバシーポリシー</a></li>
+                                    <li><a href=""><i class="fab fa-quora"></i>&nbsp;&nbsp;&nbsp;Q&A</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-xl-1 col-xl-2 col-lg-2 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>公式ホームページ</h4>
+                                <ul>
+                                    <li><a href=""><i class="fas fa-home"></i>&nbsp;&nbsp;&nbsp;ホーム</a></li>
+                                    <li><a href=""><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;サービス</a></li>
+                                    <li><a href=""><i class="far fa-copy"></i>&nbsp;&nbsp;&nbsp;プロジェクト</a></li>
+                                    <li><a href=""><i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;概要</a></li>
+                                    <li><a href=""><i class="fas fa-blog"></i>&nbsp;&nbsp;&nbsp;ブログ</a></li>
+                                    <li><a href=""><i class="fas fa-envelope"></i>&nbsp;&nbsp;&nbsp;お問い合わせ</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-xl-1 col-xl-2 col-lg-2 col-md-4 col-sm-5">
+                        <div class="single-footer-caption mb-50">
+                            <div class="footer-tittle">
+                                <h4>その他サービス</h4>
+                                <ul>
+                                    <li><a href=""><i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;LandLim Ads</a></li>
+                                    <li><a href=""><i class="fas fa-shopping-cart"></i>&nbsp;&nbsp;&nbsp;LandLim EC</a></li>
+                                    <li><a href=""><i class="fas fa-comment"></i>&nbsp;&nbsp;&nbsp;かごっちゃ</a></li>
+                                    <li><a href=""><i class="fas fa-bell"></i>&nbsp;&nbsp;&nbsp;Nocfy</a></li>
+                                    <li><a href=""><i class="fas fa-book"></i>&nbsp;&nbsp;&nbsp;Diemo</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom-area">
+                <div class="container">
+                    <div class="footer-border">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-xl-12 ">
+                                <div class="footer-copy-right text-center">
+                                    <p>ç 2022 LandLim Gr</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div id="back-top">
+    <a class="wrapper" title="Go to Top" href="#">
+        <div class="arrows-container">
+            <div class="arrow arrow-one">
+            </div>
+            <div class="arrow arrow-two">
+            </div>
+        </div>
+    </a>
+</div>
+<style>
+.footer-logo-landlim{
+    width: 225.5px;
+    height: auto;
+    padding-left: 3.5px;
+}
+.footer-icon{
+    width: 75.5px;
+    height: auto;
+    padding-right: 3.5px;
+}
+.logo-flex{
+    display: flex;
+    -webkit-box-align: end;
+	-ms-flex-align: end;
+	align-items: flex-end;
+}
+.japanese-h4{
+    font-size: 14px !important;
+    line-height: 25.5px;
+}
+.none-action{
+    pointer-events: none;
+}
+.japanese-h6 {
+    font-size: 12px;
+    color: #ffffff;
+    line-height: 25.5px;
+}
+.footer-bottom{
+    margin-top: 29px;
+}
+#SaveEmailForm{
+    color: #ffffff;
+}
+</style>
+<style>
+*{
+    margin:0;
+    padding:0;
+}
+.cant-click{
+    pointer-events: none;
+}
+</style>
+<script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/js/slick.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+<script src="{% static 'assets/js/hover-direction-snake.min.js' %}"></script>
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+<script src="{% static 'assets/js/contact.js' %}"></script>
+<script src="{% static 'assets/js/emailcheck.js' %}"></script>
+<script src="{% static 'assets/js/jquery.form.js' %}"></script>
+<script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'assets/js/mail-script.js' %}"></script>
+<script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

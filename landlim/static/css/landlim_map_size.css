@@ -1,0 +1,118 @@
+@media screen and (min-width: 781px){
+#mapid {
+  height: 850px;
+  width: 100%;
+  object-fit: cover;
+  margin-top: 20px;
+}
+}
+@media (min-height: 1300px){
+#mapid {
+  height: 850px;
+  width: 100%;
+  object-fit: cover;
+  margin-top: 20px;
+}
+.footer-image{
+  padding-bottom: 355px;
+  background-image: url(../logo/LandLim.png);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  top: 295.5px !important;
+}
+}
+@media (min-height: 1440px){
+  .footer-image{
+    padding-bottom: 355px;
+    background-image: url(../logo/LandLim.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    top: 1200px !important;
+  }
+  }
+@media (min-height: 2300px){
+  .footer-image{
+    padding-bottom: 355px;
+    background-image: url(../logo/LandLim.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    top: 1500px !important;
+  }
+  }
+@media (max-height: 1299px){
+  #mapid {
+    height: 850px;
+    width: 100%;
+    object-fit: cover;
+    margin-top: 20px;
+  }
+  .footer-image{
+    padding-bottom: 355px;
+    background-image: url(../logo/LandLim.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    top: 235.5px !important;
+  }
+  }
+@media (min-width: 1500px){
+  #mapid {
+    height: 1550px;
+    width: 100%;
+    object-fit: cover;
+    margin-top: 20px;
+  }
+  }
+@media screen and (max-width: 780px){
+#mapid {
+  height: 450px;
+  width: 100%;
+  object-fit: cover;
+  margin-top: 20px;
+}
+}
+@media screen and (max-width: 320px){
+#mapid {
+  height: 450px;
+  width: 100%;
+  object-fit: cover;
+  margin-top: 20px;
+}
+.LandLim-Logo-Image {
+  width: 95.5% !important;
+}
+.LandLim-First-Image {
+  width: 95.5% !important;
+}
+.LandLim-First-Logo {
+  width: 45.5% !important;
+}
+}
+@media screen and (max-width: 415px){ 
+#mapid {
+  height: 450px;
+  width: 100%;
+  object-fit: cover;
+  margin-top: 20px;
+}
+.LandLim-Logo-Image {
+  width: 95.5% !important;
+}
+.LandLim-First-Image {
+  width: 95.5% !important;
+}
+.LandLim-First-Logo {
+  width: 45.5% !important;
+}
+}
+@media screen and (min-height: 834px){ 
+#mapid {
+  height: 850px;
+  width: 100%;
+  object-fit: cover;
+  margin-top: 20px;
+}
+}

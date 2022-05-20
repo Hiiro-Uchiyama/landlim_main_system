@@ -1,0 +1,162 @@
+.mapboxgl-popup-content {
+  border-radius: 10px;
+  padding: 0;
+}
+.figure__on__map {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 500px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+.figure__on__map:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.figure__on__map:hover img {
+  transform: scale(1.25);
+}
+.figure__on__map:hover .figcaption__on__map {
+  display: block;
+  bottom: 0;
+}
+.figure__on__map h1 {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+}
+.figure__on__map img {
+  height: 100%;
+  transition: 0.25s;
+}
+.figure__on__map .figcaption__on__map {
+  position: absolute;
+  bottom: -30%;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 30px;
+  background-color: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  color: white;
+  line-height: 1;
+  transition: 0.25s;
+  display: none;
+}
+.figure__on__map .figcaption__on__map h3 {
+  margin: 0 0 20px;
+  padding: 0;
+}
+.figure__on__map .figcaption__on__map p {
+  font-size: 14px;
+  line-height: 1.75;
+}
+.figure__on__map .figcaption__on__map button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0 0;
+  padding: 10px 30px;
+  background-color: #1abc9c;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 15px;
+}
+.card__a {
+  color: #fff;
+}
+.card__a:hover {
+  text-decoration: none;
+  color: #fff;
+}
+@media screen and (max-width: 480px){
+  .figure__on__map {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0.6px 1.8px rgba(0, 0, 0, 0.12), 0 0.6px 1.2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  .figure__on__map:hover {
+    box-shadow: 0 8.4px 16.8px rgba(0, 0, 0, 0.25), 0 6px 6px rgba(0, 0, 0, 0.22);
+  }
+  .figure__on__map:hover img {
+    transform: scale(1.25);
+  }
+  .figure__on__map:hover .figcaption__on__map {
+    bottom: 0;
+  }
+  .figure__on__map h1 {
+    position: absolute;
+    top: 30px;
+    left: 12px;
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .figure__on__map img {
+    height: 100%;
+    transition: 0.25s;
+  }
+  .figure__on__map .figcaption__on__map {
+    position: absolute;
+    bottom: -30%;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 30px;
+    background-color: #2A2E43;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+    color: white;
+    line-height: 0.6;
+    transition: 0.25s;
+  }
+  .figure__on__map .figcaption__on__map h3 {
+    margin: 0 0 12px;
+    padding: 0;
+    font-size: 16.8px;
+  }
+  .figure__on__map .figcaption__on__map p {
+    font-size: 9.8px;
+    line-height: 1.75;
+  }
+  .figure__on__map .figcaption__on__map button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0 0;
+    padding: 6px 18px;
+    background-color: #1abc9c;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 10.5px;
+  }
+}

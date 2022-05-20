@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-20 21:12+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: accounts/forms.py:87
+msgid ""
+"The account for that email address does not exist or has not been registered"
+msgstr "そのメールアドレスのアカウントは存在しないか登録されていません"
+
+#: accounts/forms.py:106
+msgid "Please enter the correct password"
+msgstr "正しいパスワードを入力してください"
+
+#: accounts/views.py:54
+msgid "Your temporary registration is now complete!"
+msgstr "仮登録が完了しました"
+
+#: accounts/views.py:55
+msgid ""
+"You will have received a URL to activate your account at your registered "
+"email address."
+msgstr ""
+"ご登録いただいたメールアドレスにアカウントを有効化するためのURLをお送りして"
+"います"
+
+#: accounts/views.py:59
+msgid "There seems to be a mistake in your input"
+msgstr "入力内容に誤りがあるようです"
+
+#: accounts/views.py:60
+msgid "Is there a problem with my password confirmation or email address?"
+msgstr "パスワードやメールアドレスに問題はありませんか？"
+
+#: accounts/views.py:61
+msgid "The username must be a unique username"
+msgstr "ユーザー名は固有のものである必要があります"
+
+#: accounts/views.py:62
+msgid "By the way, you can also register with a Google account etc."
+msgstr "ちなみにGoogleアカウントなどでも登録可能です"
+
+#: accounts/views.py:70
+msgid "Welcome home"
+msgstr "お帰りなさい"
+
+#: accounts/views.py:135
+msgid "You have been logged out."
+msgstr "ログアウトしました"
+
+#: accounts/views.py:136
+msgid "Have a good day!"
+msgstr "良い一日を"
+
+#: accounts/views.py:151
+msgid "Your registration is now complete!"
+msgstr "登録は完了しました!!"
+
+#: accounts/views.py:152
+msgid "Welcome to LandLim"
+msgstr "LandLimへようこそ"
+
+#: accounts/views.py:153
+msgid "Come and enjoy LandLim to your heart's content!"
+msgstr "ぜひ心ゆくまでLandLimを楽しんでください"
+
+#: accounts/views.py:193
+msgid "LandLim has successfully changed your password!"
+msgstr "パスワードの変更に成功しました"
+
+#: accounts/views.py:205
+msgid "Profile information has been changed."
+msgstr "プロフィール情報を変更しました"
+
+#: accounts/views.py:224
+msgid "You have successfully withdrawn your membership"
+msgstr "退会手続きが完了しました"
+
+#: accounts/views.py:225
+msgid "LandLim looks forward to welcoming you back!"
+msgstr "またLandLimに戻ってきてくれることを楽しみにしています。"

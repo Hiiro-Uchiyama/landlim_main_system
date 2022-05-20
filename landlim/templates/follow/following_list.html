@@ -1,0 +1,486 @@
+{% extends 'base.html' %}
+{% load show_pagenated_post_list %}
+{% load show_post_list %}
+{% load i18n %}
+{% load static %}
+{% block message %}
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<style>
+  hr.message-inner-separator
+  {
+      clear: both;
+      margin-top: 10px;
+      margin-bottom: 13px;
+      border: 0;
+      height: 1px;
+      background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+      background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="px-4 pt-0 pb-4 cover">
+    <div class="media align-items-end profile-head">
+        <div class="media-body mb-5 text-white">
+            <h4 class="mt-0 mb-0">{% trans "フォローしているユーザー" %}</h4>
+            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>LandLim</p>
+        </div>
+    </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_ range-specification"></div>
+<div class="card-box-top bg-light p-4 d-flex justify-content-end text-center">
+    <ul class="list-inline mb-0">
+        <li class="list-inline-item">
+          <small class="text-muted">
+            <i class="fas fa-user sideicon"></i>
+          </small>
+        </li>
+    </ul>
+</div>
+<!-- 何の情報が欲しいのか明らかにすること -->
+{% for usr in user %}
+<div class="card-list p-3 mt-3">
+  <div class="d-flex justify-content-between align-items-center">
+      <div class="user d-flex flex-row align-items-center">
+        {% if usr.icon_url %}
+        <a href="{% url 'accounts:others_page' usr.pk %}"><img src="{{ usr.icon_url }}" width="30" height="30" class="user-img rounded-circle mr-2"></a>
+        {% else %}
+        <a href="{% url 'accounts:others_page' usr.pk %}"><img src="{% static 'icon/LandLim_Human.png' %}" width="30" class="user-img rounded-circle mr-2"></a>
+        {% endif %}
+        <span>
+          <a href="{% url 'accounts:others_page' usr.pk %}"><small class="font-weight-bold text-primary">{{ usr.username }}</small></a>
+          <small class="font-weight-bold">{{ usr.discription | safe | linebreaksbr | truncatechars:160 }}</small>
+        </span>
+      </div>
+      <small>{{ usr.created_at }}</small>
+  </div>
+  <div class="action d-flex justify-content-between mt-2 align-items-center">
+      <div class="reply px-4"> <small>Remove</small>
+        <span class="dots"></span>
+        <small>Reply</small>
+        <span class="dots"></span>
+        <small>Translate</small>
+      </div>
+      <div class="icons align-items-center"> <i class="fa fa-star text-warning"></i> <i class="fa fa-check-circle-o check-icon"></i> </div>
+  </div>
+</div>
+{% endfor %}
+<style>
+.card-list {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    border-radius: 4px
+}
+.dots {
+    height: 4px;
+    width: 4px;
+    margin-bottom: 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block
+}
+.badge {
+    padding: 7px;
+    padding-right: 9px;
+    padding-left: 16px;
+    box-shadow: 5px 6px 6px 2px #e9ecef
+}
+.user-img {
+    margin-top: 4px
+}
+.check-icon {
+    font-size: 17px;
+    color: #c3bfbf;
+    top: 1px;
+    position: relative;
+    margin-left: 3px
+}
+.form-check-input {
+    margin-top: 6px;
+    margin-left: -24px !important;
+    cursor: pointer
+}
+.form-check-input:focus {
+    box-shadow: none
+}
+.icons i {
+    margin-left: 8px
+}
+.reply {
+    margin-left: 12px
+}
+.reply small {
+    color: #b7b4b4
+}
+.reply small:hover {
+    color: green;
+    cursor: pointer
+}
+</style>
+
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+.cover {
+  background-color: #2A2E43;
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.cover_ {
+  background: linear-gradient(90deg, #009600 0% 25%, #006400 25% 50%, #BE8200 50% 75%, #FFB400 75% 100%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 13.5px;
+}
+.side-h5 {
+  font-size: 16.5px;
+}
+.sideicon {
+  font-size: 16.5px;
+  color: #006400;
+}
+.list-inline-item {
+  text-align: right !important;
+}
+.margin-h5 {
+  margin-bottom: 5.5px !important;
+}
+.button-sizing {
+  margin: 0 auto;
+  justify-content: center;
+  width: 60.5%;
+}
+.form-size {
+  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+  font-size: 13.5px;
+}
+.font-size {
+  font-size: 13.5px;
+}
+@import url("https://fonts.googleapis.com/css?family=Niramit:300,300i,700");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.timeline-content {
+  max-width: 1050px;
+  margin: 15px auto 0;
+}
+.timeline {
+  position: relative;
+  padding-left: 4.0rem;
+  margin: 0 0 0 25px;
+  color: #fafafa;
+}
+.timeline:before {
+  content: "";
+  position: absolute;
+  left: -1.2px;
+  top: 8.65px;
+  width: 4.5px;
+  height: 100%;
+  background: #2A2E43;
+  content: none;
+}
+.timeline .timeline-container {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.timeline .timeline-container .timeline-icon {
+  position: absolute;
+  left: -88px;
+  top: 4px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 2rem;
+  background: #4f537b;
+}
+.timeline .timeline-container .timeline-icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18.5px;
+}
+.timeline .timeline-container .timeline-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.timeline .timeline-container .timeline-body {
+  background: #2A2E43;
+  border-radius: 3px;
+  padding: 20px 20px 20px 15px;
+  box-shadow: 1px 3px 9px rgba(0, 0, 0, 0.1);
+  max-width: 1050px;
+  width: 100%;
+}
+.timeline .timeline-container .timeline-body:before {
+  content: "";
+  background: inherit;
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  left: -10px;
+  transform: rotate(45deg);
+  border-radius: 0 0 0 2px;
+}
+.timeline .timeline-container .timeline-body .timeline-title {
+  margin-bottom: 1.4rem;
+}
+.timeline .timeline-container .timeline-body .timeline-title .badge {
+  background: #4f537b;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.timeline .timeline-container .timeline-body .timeline-subtitle {
+  font-weight: 300;
+  font-style: italic;
+  opacity: 0.4;
+  margin-top: 16px;
+  font-size: 11px;
+}
+.timeline .timeline-container.primary .badge,
+.timeline .timeline-container.primary .timeline-icon {
+  background: #1d8cf8 !important;
+}
+.timeline .timeline-container.info .badge,
+.timeline .timeline-container.info .timeline-icon {
+  background: #11cdef !important;
+}
+.timeline .timeline-container.success .badge,
+.timeline .timeline-container.success .timeline-icon {
+  background: #00bf9a !important;
+}
+.timeline .timeline-container.warning .badge,
+.timeline .timeline-container.warning .timeline-icon {
+  background: #ff8d72 !important;
+}
+.timeline .timeline-container.danger .badge,
+.timeline .timeline-container.danger .timeline-icon {
+  background: #fd5d93 !important;
+}
+.timeline .timeline-container.user .badge,
+.timeline .timeline-container.user .timeline-icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.author {
+  font-family: inherit;
+  padding: 3em;
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+.author a:link,
+.author a:visited {
+  color: white;
+}
+.author a:link:hover,
+.author a:visited:hover {
+  text-decoration: none;
+}
+.author .btn:link,
+.author .btn:visited {
+  margin-top: 1em;
+  text-decoration: none;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 100;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: black;
+  padding: 1.5em 2rem;
+  border-radius: 1em;
+  transition: 0.5s all;
+}
+.author .btn:link:hover, .author .btn:link:focus, .author .btn:link:active,
+.author .btn:visited:hover,
+.author .btn:visited:focus,
+.author .btn:visited:active {
+  background-color: #2A2E43;
+}
+.timeline-title-span{
+  margin-left: 10px;
+  font-size: 16.5px;
+}
+.timeline-subtitle-rightside {
+  text-align: right;
+}
+.i-style-timeline {
+  font-size: 18.5px;
+}
+.timeline-title-right{
+  text-align: right;
+}
+.share-div {
+  display: inline-block;
+  text-decoration:none;
+}
+.share-a {
+  color:#ffffff;
+  background: #4285F4;
+  border-radius:4px;
+  text-align:center;
+  text-decoration:none;
+  font-family:fontawesome;
+  position: relative;
+  display: inline-block;
+  width:40px;
+  height:40px;
+  padding-top:12px;
+  margin:0 2px;
+  -o-transition:all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  -webkit-font-smoothing: antialiased;
+}
+.share-a:hover {
+  color: #ffffff;
+  background: #7aa6ea;
+  text-decoration:none;
+}
+.share-a:nth-of-type(1):before {
+content:'\f09a';
+}
+.share-a:nth-of-type(2):before {
+content:'\f099';
+}
+.share-a:nth-of-type(3):before {
+content:'\f0d5';
+}
+.share-a:nth-of-type(4):before {
+content:'\f113';
+}
+.share-a:nth-of-type(5):before {
+content:'\f17d';
+}
+.share-a:nth-of-type(6):before {
+content:'\f1cb';
+}
+.bg-main-header {
+  color: #ffffff;
+  background-color: #2A2E43;
+}
+.text-color-white{
+  color: #ffffff;
+}
+.circle-img {
+  width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border-radius: 50% !important;
+  border: 1.5px solid #fafafa;
+  background-color: #fafafa;
+}
+.range-specification{
+  max-width: 1050px;
+  margin: 0 auto;
+}
+.timeline-in-a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.timeline-in-a:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+.text-align-center{
+  text-align: center;
+}
+</style>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block information %}
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>    
+hr.message-inner-separator
+{
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 13px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+</style>
+{% endblock %}

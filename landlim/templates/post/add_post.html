@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block message %}
+<!-- Release the image size limit. -->
+<!-- エラーを返したい -->
+{% for error in post_form.errors %}
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+    <span class="glyphicon glyphicon-ok"></span> <strong>Error</strong>
+      <hr class="message-inner-separator">
+      <p>
+        {{ error }}</p>
+  </div>
+</div>
+{% endfor %}
+{% for error in post_image_forms.errors %}
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+    <span class="glyphicon glyphicon-ok"></span> <strong>Error</strong>
+      <hr class="message-inner-separator">
+      <p>
+        {{ error }}</p>
+  </div>
+</div>
+{% endfor %}
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<style>
+  hr.message-inner-separator
+  {
+      clear: both;
+      margin-top: 10px;
+      margin-bottom: 13px;
+      border: 0;
+      height: 1px;
+      background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+      background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+  }
+</style>
+{% endblock %}
+{% block content %}
+<script>
+  let PLACEHOLDER_IMAGE = "{% static 'icon/Add_Post_LandLim.png' %}";
+</script>
+<style>
+label .label {
+  margin-bottom: 25px;
+}
+</style>
+<div class="px-4 pt-0 pb-4 cover">
+    <div class="media align-items-end profile-head">
+        <div class="media-body mb-5 text-white">
+            <h4 class="mt-0 mb-0">{% trans "Add Post" %}</h4>
+            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>LandLim</p>
+        </div>
+    </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_"></div>
+<div class="bg-light p-4 d-flex justify-content-end text-center">
+    <ul class="list-inline mb-0">
+        <li class="list-inline-item">
+          <small class="text-muted">
+            <i class="fas fa-share sideicon"></i>
+          </small>
+        </li>
+    </ul>
+</div>
+<div class="py-3">
+  <form id="contact" class="form-horizontal" role="form">
+    <div class="form-group">
+      <div class="col-sm-12">
+        <div class="form-group">
+            {% if post_image_thumbnail_urls %}
+              {% include "post/_image_list_update.html" %}
+            {% else %}
+              {% include "post/_image_list_create.html" %}
+            {% endif %}
+          <small class="form-text text-muted">写真をクリックすることで画像を選択し、投稿することが可能です。</small>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="mb-3">
+  <form method="POST" action="{% url 'post:add_post' %}" enctype="multipart/form-data" id="contact" class="form-horizontal" role="form">
+    {% csrf_token %}
+    <div class="form-group">
+      <div class="col-sm-12">
+        <lavel for="title">タイトル</lavel>
+        <input id="id_title" name="title" type="text" placeholder="{% trans 'Title, Your input is mandatory' %}" class="form-control form-size text-center" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <lavel for="text">テキスト</lavel>
+        <textarea style="min-height: 175px;" class="form-control id_text form-size text-center" id="id_text" name="text" placeholder="{% trans 'Text, Your input is mandatory' %}" required></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <lavel for="tag">タグ</lavel>
+        <input id="id_tags" name="tags" type="text" placeholder="{% trans 'Tag, If there is more than one, separate them with a comma or space.' %}" class="form-control form-size text-center">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <lavel for="web_link">Webサイトリンク</lavel>
+        <input id="id_web_link" name="web_link" type="text" placeholder="{% trans 'Web Link' %}" class="form-control form-size text-center">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <lavel for="twitter_link">Twitterリンク</lavel>
+        <input id="id_twitter_link" name="twitter_link" type="text" placeholder="{% trans 'Twitter Link' %}" class="form-control form-size text-center">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <lavel for="instagram_link">Instagramリンク</lavel>
+        <input id="id_instagram" name="instagram_link" type="text" placeholder="{% trans 'Instagram Link' %}" class="form-control form-size text-center">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12 hidden">
+        {% for _ in '012'|make_list %}
+          <input type="hidden" name="image_{{forloop.counter0}}_exists" value="0">
+        {% endfor %}
+        <p id="pin_x"></p>
+        <p id="pin_y"></p>
+        {% for post_image_form in post_image_forms %}
+        {% bootstrap_form post_image_form %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <lavel for="provisional">仮投稿ですか?</lavel>
+        <!--<input id="id_provisional" name="provisional" type="text" value="No" class="form-control form-size text-center">-->
+        <select id="id_provisional" class="custom-select" name="provisional">
+          <option value="No">{% trans 'いいえ' %}</option>
+          <option value="Yes">{% trans 'はい' %}</option>
+        </select>
+        <small class="form-text text-muted">Yesにすると仮投稿として保存され、位置情報を保存し、お好きな場所から後ほど投稿することが可能です。</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <!-- 公開かプライベートかフレンド -->
+        <lavel for="public">公開設定</lavel>
+        <!--<input id="id_access_level" name="access_level" type="text" value="public" class="form-control form-size text-center">-->
+        <select id="id_access_level" class="custom-select" name="access_level">
+          <option value="public">{% trans '公開' %}</option>
+          <option value="private">{% trans '非公開' %}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <label for="custom-select-1">感情セレクト</label>
+        <select id="custom-select-1" class="custom-select" name="emotion">
+          <option value="喜び">{% trans '喜び' %}</option>
+          <option value="信頼">{% trans '信頼' %}</option>
+          <option value="恐れ">{% trans '恐れ' %}</option>
+          <option value="驚き">{% trans '驚き' %}</option>
+          <option value="悲しみ">{% trans '悲しみ' %}</option>
+          <option value="嫌悪">{% trans '嫌悪' %}</option>
+          <option value="怒り">{% trans '怒り' %}</option>
+          <option value="期待">{% trans '期待' %}</option>
+          <option value="平穏">{% trans '平穏' %}</option>
+          <option value="容認">{% trans '容認' %}</option>
+          <option value="不安">{% trans '不安' %}</option>
+          <option value="放心">{% trans '放心' %}</option>
+          <option value="哀愁">{% trans '哀愁' %}</option>
+          <option value="うんざり">{% trans 'うんざり' %}</option>
+          <option value="苛立ち">{% trans '苛立ち' %}</option>
+          <option value="関心">{% trans '関心' %}</option>
+        </select>
+      </div>
+    </div>
+    <!-- <div class="form-group">
+      <label for="inputFile">ビデオファイルを選択して下さい</label>
+      <div class="input-group">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="id_video" name="video">
+          <label class="custom-file-label" for="inputFile" data-browse="参照">ドラッグも可能です。</label>
+        </div>
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-secondary input-group-text" id="inputFileReset">取消</button>
+        </div>
+      </div>
+      <small class="form-text text-muted">1分程度の簡単な動画を投稿することが可能です。</small>
+    </div>
+    <style>
+      .custom-file-label::after {
+        content:"参照";
+        font-size:1rem;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script>
+      bsCustomFileInput.init();
+      document.getElementById('inputFileReset').addEventListener('click', function() {
+        bsCustomFileInput.destroy();
+        var elem = document.getElementById('inputFile');
+        elem.value = '';
+        var clone = elem.cloneNode(false);
+        elem.parentNode.replaceChild(clone, elem);
+        bsCustomFileInput.init();
+      });
+    </script> -->
+    <button type="submit" id="send" class="btn btn-block button-sizing font-size">{% trans "SEND" %}</button>
+  </form>
+</div>
+<script>
+function InputPinLocation(Location){
+  const lat = Location.coords.longitude;
+  lats = Math.floor(lat * 100000) / 100000;
+  const lng = Location.coords.latitude;
+  lngs = Math.floor(lng * 1000000) / 1000000;
+  var elem = document.getElementById("pin_x"); elem.innerHTML = "<input name='pin_x' id='id_pin_x' class='form-control' value = " + lngs + ">";
+  var elem = document.getElementById("pin_y"); elem.innerHTML = "<input name='pin_y' id='id_pin_y' class='form-control' value = " + lats + ">";
+}
+function onLocationError(e){
+  alert("Could not retrieve current location." + e.message);
+}
+navigator.geolocation.getCurrentPosition(InputPinLocation,onLocationError);
+</script>
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+.cover {
+  background-color: #2A2E43;
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.cover_ {
+  background: linear-gradient(90deg, #009600 0% 25%, #006400 25% 50%, #BE8200 50% 75%, #FFB400 75% 100%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 13.5px;
+}
+.icon-input-files {
+  text-align: left;
+}
+.left{
+  text-align: left;
+}
+.sideicon {
+  font-size: 20.5px;
+  color: #006400;
+}
+.list-inline-item {
+  text-align: right !important;
+}
+.margin-h5 {
+  margin-bottom: 5.5px !important;
+}
+.side-h5 {
+  font-size: 16.5px;
+}
+.sideicon {
+  font-size: 18.5px;
+  color: #006400;
+}
+.button-sizing {
+  margin: 0 auto;
+  justify-content: center;
+  width: 60.5%;
+}
+.form-size {
+  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+  font-size: 13.5px;
+}
+.font-size {
+  font-size: 13.5px;
+}
+</style>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block information %}
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+hr.message-inner-separator
+{
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 13px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+</style>
+{% endblock %}

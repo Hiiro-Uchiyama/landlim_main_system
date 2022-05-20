@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+{% if messages %}
+<div class="position-message">
+<ul class="message_ul notification message-box">
+  {% for message in messages %}
+  <li class="message_li notification-li">
+    {{ message }}
+    <i class="fas fa-trash delete"></i>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+{% endif %}
+<div class="bg-white shadow rounded overflow-hidden contain-card-body">
+  <div class="px-4 pt-0 pb-4 cover_">
+      <div class="media align-items-end profile-head">
+          <div class="media-body mb-5 text-white">
+              <h4 class="mt-0 mb-0">{% trans "Bookmark List" %}</h4>
+              <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>LandLim</p>
+          </div>
+      </div>
+  </div>
+  <div class="card-box-top bg-light p-4 d-flex justify-content-end text-center">
+      <ul class="list-inline mb-0">
+          <li class="list-inline-item">
+            <h5 class="font-weight-bold mb-0 d-block margin-h5" id="like_count">Bookmark</h5>
+            <small class="text-muted">
+              <i class="fas fa-bookmark sideicon"></i>
+            </small>
+          </li>
+      </ul>
+  </div>
+  {% if bookmark %}
+  {% for in in bookmark %}
+  {% for i in in.bookmark.all %}
+  <div class="px-4 card-box">
+    <div class="p-4 rounded shadow-sm bg-light">
+        <p class="mb-0">
+          {% if i.user.icon_url %}
+          <a href="{% url 'accounts:others_page' i.user.pk %}"><img src="{{ i.user.icon_url }}" class="mb-2 circle"></a>
+          {% else %}
+          <a href="{% url 'accounts:others_page' i.user.pk %}"><img src="{% static 'icon/LandLim_Human.png' %}" class="mb-2 circle"></a>
+          {% endif %}
+          <a href="{% url 'post:post_details' i.pk %}">{{ i.title }}</a>
+          {% if i.postimage_set.first %}
+            <br><img class="timelineImage" src="{{ i.postimage_set.first.thumbnail_url }}">
+            {% endif %}
+          <br>{{ i.text | safe | linebreaksbr | truncatechars:110 }}
+          <br><br><p class="list"><i class="fas fa-heart red"></i> {{ i.like_count }} 
+          <i class="fas fa-bookmark blue"></i> {{ i.bookmark_count }} 
+          <i class="fas fa-comments"></i> {{ i.comment_count }} 
+          <i class="fas fa-eye"></i> {{ i.watched_count }} 
+          <br><i class="fas fa-history"></i> {{ i.created_at }} 
+          <br><i class="fas fa-user"></i> <a href="{% url 'accounts:others_page' i.user.pk %}">{{ i.user }}</a>
+          <br><label class="right"><a class="red" href="{% url 'bookmark:delete_bookmark' i.pk %}">{% trans "Delete Bookmark" %}</a></label>
+          <p class="left-share-link">
+          <a href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}{% url 'post:post_details' i.pk %}" target="_blank" rel="nofollow">
+            <i class="fab fa-twitter-square"></i>
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ request.get_host }}{% url 'post:post_details' i.pk %}" target="_blank" rel="nofollow">
+            <i class="fab fa-facebook-square"></i>
+          </a>
+          <a href="http://b.hatena.ne.jp/entry/{{ request.scheme }}://{{ request.get_host }}{% url 'post:post_details' i.pk %}" target="_blank" rel="nofollow">
+            <i class="fas fa-bold"></i>
+          </a>
+          </p>
+          </p>
+        </p>
+    </div>
+  </div>
+  {% endfor %}
+  {% endfor %}
+  {% endif %}
+</div>
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+ .cover_ {
+  background: linear-gradient(-15.5deg, #BE8200 20%, #FFB400 20% 40%, #009600 40% 60%, #006400 60% 80%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.blue {
+  color: royalblue;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 13.5px;
+}
+.right{
+  text-align: right;
+}
+.sideicon {
+  font-size: 20.5px;
+  color: #006400;
+}
+.list-inline-item {
+  text-align: right !important;
+}
+.margin-h5 {
+  margin-bottom: 5.5px !important;
+}
+.list {
+  text-align: right;
+}
+</style>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+{% endblock %}
+{% endblock %}

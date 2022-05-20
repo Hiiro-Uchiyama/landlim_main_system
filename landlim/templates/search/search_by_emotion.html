@@ -1,0 +1,676 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %
+{% load show_pagenated_post_list %}
+{% load show_post_list %}
+{% load static %}
+{% load i18n %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer_sell_button.css' %}">
+{% endblock %}
+{% block content %}
+<div class="px-4 pt-0 pb-4 cover">
+  <div class="media align-items-end profile-head">
+      <div class="media-body mb-5 text-white">
+          <h4 class="mt-0 mb-0">{% trans "Search By Emotion" %}</h4>
+          <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>LandLim</p>
+      </div>
+  </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_"></div>
+<div class="bg-light p-4 d-flex justify-content-end text-center">
+  <ul class="list-inline mb-0">
+      <li class="list-inline-item">
+        <h5 class="font-weight-bold mb-0 d-block margin-h5" id="like_count">Let's Search</h5>
+        <small class="text-muted">
+          <i class="fas fa-search sideicon"></i>
+        </small>
+      </li>
+  </ul>
+</div>
+{% if is_searched == False %}
+<div class="pt-3">
+  <form method="GET" id="contact" class="form-horizontal">
+    {% csrf_token %}
+    <div id="main_suggest_area"></div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input id="id_q_emo" name="q_emo" type="text" placeholder="{% trans 'Search By Emotion' %}" class="form-control">
+      </div>
+    </div>
+    <button type="submit" id="send" name="send" class="btn btn-block SEND">{% trans "SEND" %}</button>
+  </form>
+</div>
+<div class="timeline-content">
+  <div class="timeline">
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".map"> {% trans "Shortcuts to map" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    <div class="timeline-container user">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+        <h4 class="timeline-title"><span class="badge">{% trans "Tags" %}</span></h4>
+        {% if emotion %}
+        {% for i in emotion %}
+          <p>{{ i }} </p>
+        {% endfor %}
+        {% endif %}
+        <p style="display:inline;" class="timeline-subtitle">6 Hours Ago - Hiiro Uhiyama</p>
+      </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".map"> {% trans "Shortcuts to map" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="pt-3">
+  <form method="GET" id="contact" class="form-horizontal">
+    {% csrf_token %}
+    <div id="main_suggest_area"></div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input id="id_q_emo" name="q_emo" type="text" placeholder="{% trans 'Search By Emotion' %}" class="form-control">
+      </div>
+    </div>
+    <button type="submit" id="send" name="send" class="btn btn-block SEND">{% trans "SEND" %}</button>
+  </form>
+</div>
+<div class="map">
+  <div class="row column">
+    <div id="mapid"></div>
+  </div>
+</div>
+<div class="timeline-content">
+  <div class="timeline">
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".map"> {% trans "Shortcuts to map" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    <div class="timeline-container user">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+        <h4 class="timeline-title"><span class="badge">{% trans "Tags" %}</span></h4>
+        {% if emotion %}
+        {% for i in emotion %}
+          <p>{{ i }} </p>
+        {% endfor %}
+        {% endif %}
+        <p style="display:inline;" class="timeline-subtitle">6 Hours Ago - Hiiro Uhiyama</p>
+      </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".map"> {% trans "Shortcuts to map" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    {% for list in post_list %}
+    <div class="timeline-container user">
+      {% if list.user.icon_url %}
+      <div style="background-image: url({{ list.user.icon_url }});" class="timeline-icon"></div>
+      {% else %}
+      <div style="background-image: url({% static 'icon/LandLim_Human.png' %});" class="timeline-icon"></div>
+      {% endif %}
+      <div class="timeline-body">
+          <h4 class="timeline-title"><a class="timeline-in-a" href="{% url 'post:post_details' list.pk %}"><span class="badge">タイトル</span></a></h4>
+          {% if list.postimage_set.first %}
+          <p class="text-align-center"><img class="timeline-content-image" src="{{ list.postimage_set.first.thumbnail_url }}"></p>
+          {% endif %}
+          <p>{{ list.text | safe | linebreaksbr | truncatechars:110 }}</p>
+          <p style="display:inline;" class="timeline-subtitle">6 Hours Ago - Hiiro Uhiyama</p>
+          <p class="timeline-subtitle-rightside">
+            <i class="far fa-thumbs-up i-style-timeline"></i> {{ list.like_count }}
+            <i class="far fa-thumbs-down i-style-timeline"></i> 5
+            <i class="far fa-bookmark i-style-timeline"></i> {{ list.bookmark_count }}
+            <i class="far fa-comments i-style-timeline"></i> {{ list.comment_count }}
+            <i class="far fa-eye i-style-timeline"></i> {{ list.watched_count }}
+            <div class="share-div">
+              <a class="share-a" href="#"></a>
+              <a class="share-a" href="#"></a>
+            </div>
+          </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+.cover {
+  background-color: #2A2E43;
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.cover_ {
+  background: linear-gradient(90deg, #009600 0% 25%, #006400 25% 50%, #BE8200 50% 75%, #FFB400 75% 100%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.image_tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: 327.5px;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 13.5px;
+}
+.side-h5 {
+  font-size: 16.5px;
+}
+.sideicon {
+  font-size: 18.5px;
+  color: #006400;
+}
+.list-inline-item {
+  text-align: right !important;
+}
+.margin-h5 {
+  margin-bottom: 5.5px !important;
+}
+.conA .icon{
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 40px;
+    width: 2em;
+    line-height: 2em;
+    border-radius: 50%;
+    text-align: center;
+    background-color: #ddd;
+    color: #fff;
+}
+.conA .text{
+    text-align: center;
+}
+@media (min-width: 768px){
+    .conA .container{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .conA .text{
+        flex: 1;
+    }
+}
+.conA .container{
+    padding-top: 80px;
+    padding-bottom: 20px;
+}
+.conA .text{
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 60px;
+    text-align: center;
+}
+.item {
+  width: 100%;
+}
+.item-img {
+  padding: 0;
+}
+.item-body {
+  padding: 0;
+}
+.item-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ef5350;
+}
+.item-body p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+}
+.items {
+  display: flex;
+  justify-content: space-between;
+}
+.items .item {
+  width: 30%;
+}
+.items2 {
+  display: flex;
+  flex-direction: column;
+}
+.items2 .item {
+  width: 100%;
+}
+@media screen and (max-width: 767px) {
+	.items {
+		flex-direction: column;
+	}
+	.items .item {
+		width: 100%;
+	}
+}
+.items3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.items3 .item {
+  width: 30%;
+}
+@import url("https://fonts.googleapis.com/css?family=Niramit:300,300i,700");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.timeline-content {
+  max-width: 1050px;
+  margin: 15px auto 0;
+}
+.timeline {
+  position: relative;
+  padding-left: 4.0rem;
+  margin: 0 0 0 25px;
+  color: #fafafa;
+}
+.timeline:before {
+  content: "";
+  position: absolute;
+  left: -1.2px;
+  top: 8.65px;
+  width: 4.5px;
+  height: 100%;
+  background: #2A2E43;
+}
+.timeline .timeline-container {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.timeline .timeline-container .timeline-icon {
+  position: absolute;
+  left: -88px;
+  top: 4px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 2rem;
+  background: #4f537b;
+}
+.timeline .timeline-container .timeline-icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18.5px;
+}
+.timeline .timeline-container .timeline-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.timeline .timeline-container .timeline-body {
+  background: #2A2E43;
+  border-radius: 3px;
+  padding: 20px 20px 20px 15px;
+  box-shadow: 1px 3px 9px rgba(0, 0, 0, 0.1);
+  max-width: 1050px;
+  width: 100%;
+}
+.timeline .timeline-container .timeline-body:before {
+  content: "";
+  background: inherit;
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  left: -10px;
+  transform: rotate(45deg);
+  border-radius: 0 0 0 2px;
+}
+.timeline .timeline-container .timeline-body .timeline-title {
+  margin-bottom: 1.4rem;
+}
+.timeline .timeline-container .timeline-body .timeline-title .badge {
+  background: #4f537b;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.timeline .timeline-container .timeline-body .timeline-subtitle {
+  font-weight: 300;
+  font-style: italic;
+  opacity: 0.4;
+  margin-top: 16px;
+  font-size: 11px;
+}
+.timeline .timeline-container.primary .badge,
+.timeline .timeline-container.primary .timeline-icon {
+  background: #1d8cf8 !important;
+}
+.timeline .timeline-container.info .badge,
+.timeline .timeline-container.info .timeline-icon {
+  background: #11cdef !important;
+}
+.timeline .timeline-container.success .badge,
+.timeline .timeline-container.success .timeline-icon {
+  background: #00bf9a !important;
+}
+.timeline .timeline-container.warning .badge,
+.timeline .timeline-container.warning .timeline-icon {
+  background: #ff8d72 !important;
+}
+.timeline .timeline-container.danger .badge,
+.timeline .timeline-container.danger .timeline-icon {
+  background: #fd5d93 !important;
+}
+.timeline .timeline-container.user .badge,
+.timeline .timeline-container.user .timeline-icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.author {
+  font-family: inherit;
+  padding: 3em;
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+.author a:link,
+.author a:visited {
+  color: white;
+}
+.author a:link:hover,
+.author a:visited:hover {
+  text-decoration: none;
+}
+.author .btn:link,
+.author .btn:visited {
+  margin-top: 1em;
+  text-decoration: none;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 100;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: black;
+  padding: 1.5em 2rem;
+  border-radius: 1em;
+  transition: 0.5s all;
+}
+.author .btn:link:hover, .author .btn:link:focus, .author .btn:link:active,
+.author .btn:visited:hover,
+.author .btn:visited:focus,
+.author .btn:visited:active {
+  background-color: #2A2E43;
+}
+.timeline-title-span{
+  margin-left: 10px;
+  font-size: 16.5px;
+}
+.timeline-subtitle-rightside {
+  text-align: right;
+}
+.i-style-timeline {
+  font-size: 18.5px;
+}
+.timeline-title-right{
+  text-align: right;
+}
+.share-div {
+  display: inline-block;
+  text-decoration:none;
+}
+.share-a {
+  color:#ffffff;
+  background: #4285F4;
+  border-radius:4px;
+  text-align:center;
+  text-decoration:none;
+  font-family:fontawesome;
+  position: relative;
+  display: inline-block;
+  width:40px;
+  height:40px;
+  padding-top:12px;
+  margin:0 2px;
+  -o-transition:all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  -webkit-font-smoothing: antialiased;
+}
+.share-a:hover {
+  color: #ffffff;
+  background: #7aa6ea;
+  text-decoration:none;
+}
+.share-a:nth-of-type(1):before {
+content:'\f09a';
+}
+.share-a:nth-of-type(2):before {
+content:'\f099';
+}
+.share-a:nth-of-type(3):before {
+content:'\f0d5';
+}
+.share-a:nth-of-type(4):before {
+content:'\f113';
+}
+.share-a:nth-of-type(5):before {
+content:'\f17d';
+}
+.share-a:nth-of-type(6):before {
+content:'\f1cb';
+}
+.bg-main-header {
+  color: #ffffff;
+  background-color: #2A2E43;
+}
+.text-color-white{
+  color: #ffffff;
+}
+.circle-img {
+  width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border-radius: 50% !important;
+  border: 1.5px solid #fafafa;
+  background-color: #fafafa;
+}
+.range-specification{
+  max-width: 1050px;
+  margin: 0 auto;
+}
+.timeline-in-a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.timeline-in-a:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+.text-align-center{
+  text-align: center;
+}
+.button-sizing {
+  margin: 0 auto;
+  justify-content: center;
+  width: 60.5%;
+}
+.form-size {
+  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+  font-size: 13.5px;
+}
+.font-size {
+  font-size: 13.5px;
+}
+.font-family-send {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+</style>
+<script>
+var mymap = L.map('mapid', {preferCanvas: true,});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+minZoom: 8,
+maxZoom: 19,
+attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+}).addTo(mymap);
+var pulsingIcon2 = L.icon.pulse({
+iconSize:[20,20]
+,color:'#006400'
+,fillColor:'#009600'
+,heartbeat: 2
+});
+function onLocationFound(e){
+  L.Icon.Default.imagePath = 'https://unpkg.com/leaflet@1.3.1/dist/images/';
+  L.marker(e.latlng, {icon:pulsingIcon2}).addTo(mymap);
+}
+function InputPinLocation(Location){
+  const lat = Location.coords.longitude;
+  const lng = Location.coords.latitude;
+  var elem = document.getElementById("pin_x"); elem.innerHTML = "<input type='hidden' name='pin_x' id='id_pin_x' class='form-control' value = " + lat + ">";
+  var elem = document.getElementById("pin_y"); elem.innerHTML = "<input type='hidden' name='pin_y' id='id_pin_y' class='form-control' value = " + lng + ">";
+}
+function onLocationError(e){
+  alert("Could not retrieve current location. 現在地を取得できませんでした。" + e.message);
+}
+var data = [
+  {% for posts in post_list %}
+  {"loc": [{{ posts.pin_x }}, {{ posts.pin_y }}],
+  "title": "{{ posts.title }}",
+  "user": "{{ posts.user }}",
+  "user_link": "{% url 'accounts:others_page' posts.user.pk %}",
+  "pk": "{{ posts.pk }}",
+  "title_link": "{% url 'post:post_details' pk=posts.pk %}",
+  "text": `{{ posts.text | safe | linebreaksbr | truncatechars:110 }}`,
+  "tag": "{{ posts.tag.names.0 }}",
+  "web_link": "{{ posts.web_link }}",
+  "twitter_link": "{{ posts.twitter_link }}",
+  "instagram_link": "{{ posts.instagram_link }}",
+  {% if posts.video %}
+  "video": "{{ posts.video.url }}",
+  {% endif %}
+  "image": "{{ posts.image }}", "like_count": "{{ posts.like_count }}"},
+  {% endfor %}
+];
+for (i in data){
+  var marker = L.marker(data[i].loc, { riseOnHover: true }).addTo(mymap);
+  marker.bindPopup(`
+    <div class="flex">
+    <div class="card">
+    <div class="header">
+    <div class="title">
+    <div>
+    <h1 class="white-title">` + data[i].title + `</h1>
+    <h6 class="white-title"><span>by&nbsp;<a class="white" href="` + data[i].user_link + `">` + data[i].user + `</a></span></h6>
+    </div>
+    </div>
+    </div>
+    <div class="content">
+    <div class="closebar">
+    <h1>5 ways to create...</h1>
+    <a href="#0" class="closebttn"><i class="material-icons">&#xE5CD;</i></a>
+    </div>
+    <p class="p">` + data[i].text + `</p><hr>` +
+    '<p class="p"><a href="' + data[i].web_link + '">' + data[i].web_link + '</a></p>' +
+    '<p class="p"><a href="' + data[i].twitter_link + '">' + data[i].twitter_link + '</a></p>' +
+    '<p class="p"><a href="' + data[i].instagram_link + '">' + data[i].instagram_link + '</a></p>' +
+    '<img class="popImage" src="' + data[i].image + '">' +
+    '<video class="IndexCardVideo" autoplay muted playsinline preload="none" controls>' +
+      '<source src="'+ data[i].video + '"></source>' +
+      '<source src="'+ data[i].video + '"></source>' +
+      '<source src="'+ data[i].video + '"></source>' +
+      '<source src="'+ data[i].video + '"></source>' +
+    '</video>' +
+    '<a style="font-size: 15.5px;" href="' + data[i].title_link + '" class="bttn">Read Post</a>' + `
+    </div>
+    </div>
+    </div>
+    <div class="articlemeta">
+    <ul class="left">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <i class="fas fa-bookmark  "></i>
+      </button>
+    </li>
+    <li>
+      <span class="" id="like_count">` + data[i].like_count + `</span>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="like-button" value="` + data[i].pk + `">
+        <i class="far fa-thumbs-up">&#xE87D;</i>
+      </button>
+    </li>
+    </ul>
+    <ul class="right">
+    <li>
+      <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like">
+        <a href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}` + data[i].title_link + `" target="_blank" rel="nofollow"><i class="fab fa-twitter  "></i></a>
+      </button>
+    </li>
+    </ul>
+    </div>
+  `);
+}
+mymap.on('locationfound', onLocationFound);
+mymap.on('locationerror', onLocationError);
+mymap.locate({setView: true, minZoom: 8, maxZoom: 19, timeout: 20000});
+mymap.zoomControl.setPosition('bottomright');
+mymap.sharelocationControl.setPosition('bottomright');
+navigator.geolocation.getCurrentPosition(InputPinLocation,onLocationError);
+</script>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+<script>
+$('.Shortcuts a').click(function(event) {
+  var id = $(this).attr("href");
+  var offset = 70;
+  var target = $(id).offset().top - offset;
+  $('html, body').animate({
+      scrollTop: target
+  }, 500);
+  event.preventDefault();
+});
+</script>
+{% endblock %}
+{% endblock %}

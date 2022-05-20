@@ -1,0 +1,60 @@
+{% load static %}
+{% load i18n %}
+{% for post in post_list %}
+<article class="blog_item">
+    <div class="blog_item_img">
+        {% if post.image %}
+        <img class="card-img rounded-0" src="{{ post.image.url }}" alt="">
+        {% else %}
+        <img class="card-img rounded-0" src="{% static 'image/school-supplies-g12fe29706_1920.jpg' %}" alt="">
+        {% endif %}
+        <a href="#" class="blog_item_date">
+            <h3>{{ post.date }}</h3>
+            <p>{{ post.month }}</p>
+        </a>
+    </div>
+    <div class="blog_details">
+        <a class="d-inline-block" href="{% url 'recruit:detail' post_id=post.id %}">
+            <h2 class="blog-head" style="color: #2d2d2d;">{{ post.title | truncatechars:25 | linebreaksbr }}</h2>
+        </a>
+        <p>{{ post.text | striptags | truncatechars:25 | linebreaksbr }}</p>
+        <ul class="blog-info-link">
+            <li><a href="#"><i class="fa fa-user"></i> {{ post.recruiters }}</a></li>
+            <li><a href="#"><i class="fa fa-comments"></i>{{ post.category }}</a></li>
+        </ul>
+    </div>
+</article>
+{% endfor %}
+<nav class="blog-pagination justify-content-center d-flex">
+    <ul class="pagination">
+        {% if post_list.has_previous %}
+            <li class="page-item">
+                <a href="?page={{ post_list.previous_page_number }}" class="page-link" aria-label="Previous">
+                    <i class="ti-angle-left"></i>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a href="#" class="page-link" aria-label="Previous">
+                    <i class="ti-angle-left"></i>
+                </a>
+            </li>
+        {% endif %}
+            <li class="page-item">
+                <a href="?page={{ post_list.paginator.page_range }}" class="page-link">{{ post_list.number }}</a>
+            </li>
+        {% if post_list.has_next %}
+            <li class="page-item">
+                <a href="?page={{ post_list.next_page_number }}" class="page-link" aria-label="Next">
+                    <i class="ti-angle-right"></i>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a href="#" class="page-link" aria-label="Next">
+                    <i class="ti-angle-right"></i>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

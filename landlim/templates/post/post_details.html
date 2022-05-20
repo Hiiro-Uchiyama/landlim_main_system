@@ -1,0 +1,1019 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+<!-- 中央の投稿部分はアカウントのやつと同じようにやろう -->
+
+{% block message %}
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<style>
+  hr.message-inner-separator
+  {
+      clear: both;
+      margin-top: 10px;
+      margin-bottom: 13px;
+      border: 0;
+      height: 1px;
+      background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+      background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+      background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="px-4 pt-0 pb-4 cover">
+    <div class="media align-items-end profile-head">
+        <div class="media-body mb-5 text-white">
+          {% if post.title %}
+            <h4 class="mt-0 mb-0 page-top">{{ post.title }}</h4>
+            <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>LandLim</p>
+          {% endif %}
+        </div>
+    </div>
+</div>
+<div class="px-4 pt-0 pb-2 cover_ range-specification"></div>
+<div class="bg-light p-4 d-flex justify-content-end text-center">
+    <ul class="list-inline mb-0">
+        <li class="list-inline-item">
+          <h5 class="font-weight-bold mb-0 d-block" id="like_count">{{ post.like_count }}</h5>
+          <small class="text-muted">
+            <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="like-button" value="{{ post.pk }}">
+              <i class="far fa-thumbs-up"></i>
+            </button>
+            &nbsp;{% trans "Like" %}
+          </small>
+        </li>
+        <li class="list-inline-item">
+          <h5 class="font-weight-bold mb-0 d-block" id="dislike_count">{{ post.dislike_count }}</h5>
+          <small class="text-muted">
+            <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="dislike-button" value="{{ post.pk }}">
+              <i class="far fa-thumbs-down"></i>
+            </button>
+            &nbsp;{% trans "DisLike" %}
+          </small>
+        </li>
+        <li class="list-inline-item">
+          <h5 class="font-weight-bold mb-0 d-block" id="bookmark_count">{{ post.bookmark_count }}</h5>
+          <small class="text-muted">
+            <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="bookmark-button" value="{{ post.pk }}">
+              <i class="fas fa-bookmark"></i>
+            </button>
+            &nbsp;{% trans "Bookmark" %}
+          </small>
+        </li>
+        <li class="list-inline-item">
+          <h5 class="font-weight-bold mb-0 d-block">{% trans "Secrets" %}</h5>
+          <small class="text-muted">
+            <a class="nonestyle" href="{% url 'report:add_or_delete_report' post.pk %}">
+              <i class="fas fa-times-circle"></i>
+            &nbsp;{% trans "Report an offence" %}
+            </a>
+          </small>
+        </li>
+    </ul>
+</div>
+<div class="timeline-content">
+  <div class="timeline">
+    <div class="timeline-container primary">
+      <div class="timeline-icon">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title first"><span class="badge">{% trans "User" %}</span></h4>
+          <p><a href="{% url 'accounts:others_page' post.user.pk %}">{{ post.user }}</a></p>
+          <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+      </div>
+    </div>
+    <div class="timeline-container primary">
+        <div class="timeline-icon">
+          <i class="fas fa-hand-holding-heart"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Emotion" %}</span></h4>
+            <p>パンツを盗まれたような気持ち</p>
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    <div class="timeline-container success">
+        <div class="timeline-icon">
+          <i class="fas fa-address-card"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Description" %}</span></h4>
+            {% if post.text %}
+              <p>{{ post.text | safe | linebreaksbr }}</p>
+            {% endif %}
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    {% if post.link %}
+    <div class="timeline-container warning">
+        <div class="timeline-icon">
+          <i class="far fa-window-maximize"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Link" %}</span></h4>
+            {% if post.web_link %}
+              <p>{% trans "Web" %} <a href="{{ post.web_link }}">{{ post.web_link }}</a></p>
+            {% endif %}
+            {% if post.twitter_link %}
+              <p>{% trans "Twitter" %} <a href="{{ post.twitter_link }}">{{ post.twitter_link }}</a></p>
+            {% endif %}
+            {% if post.instagram_link %}
+              <p>{% trans "Instagram" %} <a href="{{ post.instagram_link }}">{{ post.instagram_link }}</a></p>
+            {% endif %}
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    {% endif %}
+    <div class="timeline-container success">
+      <div class="timeline-icon">
+        <i class="fas fa-share-alt-square"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Share Link" %}</span></h4>
+          <p>
+            <a href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}{% url 'post:post_details' post.pk %}" target="_blank" rel="nofollow">
+              &nbsp;{% trans "Share on Twitter" %}
+            </a>
+          </p>
+          <p>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.scheme }}://{{ request.get_host }}{% url 'post:post_details' post.pk %}" target="_blank" rel="nofollow">
+              &nbsp;{% trans "Share on FaceBook" %}
+            </a>
+          </p>
+          <p>
+            <a href="http://b.hatena.ne.jp/entry/{{ request.scheme }}://{{ request.get_host }}{% url 'post:post_details' post.pk %}" target="_blank" rel="nofollow">
+              &nbsp;{% trans "Share on Hatena Bookmarks" %}
+            </a>
+          </p>
+          <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+      </div>
+    </div>
+    <div class="timeline-container">
+        <div class="timeline-icon">
+          <i class="fas fa-flag"></i>
+        </div>
+        <div class="timeline-body">
+            <h4 class="timeline-title"><span class="badge">{% trans "Local" %}</span></h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam necessitatibus numquam earum ipsa fugiat veniam suscipit, officiis repudiandae, eum recusandae neque dignissimos. Cum fugit laboriosam culpa, repellendus esse commodi deserunt.</p>
+            <p class="timeline-subtitle">最終更新日 2021-12-1</p>
+        </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-cut"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".comment">{% trans "Shortcuts to headline comment" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-cut"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="Shortcuts"><a href=".usermap">{% trans "Shortcuts to headline comment form" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="far fa-image"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Images" %}</span></h4>
+          {% if post.postimage_set.all.0.thumbnail_url %}
+          <p class="text-align-center"><img class="timeline-content-image" src="{{ post.postimage_set.all.0.thumbnail_url }}"></p>
+          {% endif %}
+          {% if post.postimage_set.all.1.thumbnail_url %}
+          <p class="text-align-center"><img class="timeline-content-image" src="{{ post.postimage_set.all.1.thumbnail_url }}"></p>
+          {% endif %}
+          {% if post.postimage_set.all.2.thumbnail_url %}
+          <p class="text-align-center"><img class="timeline-content-image" src="{{ post.postimage_set.all.2.thumbnail_url }}"></p>
+          {% endif %}
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    {% if post.video %}
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="far fa-image"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Video" %}</span></h4>
+          <p class="text-align-center">
+            <video class="image-tm" autoplay muted playsinline preload="none" controls>
+              <source src="{{ post.video.url }}" type="video/webm">
+              <source src="{{ post.video.url }}" type="video/mp4">
+              <source src="{{ post.video.url }}" type="video/mov">
+              <source src="{{ post.video.url }}">
+            </video>
+          </p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    {% endif %}
+    <div class="mt-2 mb-2 comment-form">
+      <form role="form" id="contact" class="form-horizontal">
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="col-sm-12">
+            <textarea style="min-height: 145px;" id="id_comment_text" name="comment_text" placeholder="Comment" class="form-control id_text form-size"></textarea>
+          </div>
+        </div>
+        <button type="submit" id="send" name="send" class="btn btn-block button-sizing font-size">{% trans "SEND" %}</button>
+      </form>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-cut"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="mb-0 Shortcuts"><a href=".comment">{% trans "Shortcuts to headline comment" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+    <div class="timeline-container info">
+      <div class="timeline-icon">
+        <i class="fas fa-cut"></i>
+      </div>
+      <div class="timeline-body">
+          <h4 class="timeline-title"><span class="badge">{% trans "Shortcuts" %}</span></h4>
+          <p class="mb-0 Shortcuts"><a href=".page-top">{% trans "Shortcuts to headline user" %}</a></p>
+          <p class="timeline-subtitle">4 Days Ago</p>
+      </div>
+    </div>
+  </div>
+  <div class="map">
+    <div class="row column">
+      <div class="usermap" id="mapid"></div>
+    </div>
+  </div>
+</div>
+<style>
+.profile-head {
+  transform: translateY(5rem)
+}
+.cover {
+  background-color: #2A2E43;
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.cover_ {
+  background: linear-gradient(90deg, #009600 0% 25%, #006400 25% 50%, #BE8200 50% 75%, #FFB400 75% 100%);
+  background-size: cover;
+  background-repeat: no-repeat
+}
+.column {
+  display: inline;
+  flex-direction: column;
+}
+.green {
+  color: #006400;
+}
+.red {
+  color: #FF3333;
+}
+.image-tm {
+  object-fit: cover;
+  width: 327.5px;
+  height: auto;
+  margin: 3.5px;
+}
+.material-icons {
+  font-size: 15.55px !important;
+  position: relative;
+  bottom: 2.75px;
+}
+.flex-comment {
+  display: flex;
+  padding: 1.5px;
+}
+.circle {
+  width: 50px;
+	height: 50px;
+	object-fit: cover;
+	border-radius: 50%;
+	object-position: 0px 0px;
+  margin: 1.5px;
+  padding: 1.5px;
+}
+.nonestyle {
+  color: black;
+  text-decoration: none;
+}
+.nonestyle:hover{
+  color: black;
+  text-decoration: none;
+}
+.flex-p {
+  display: inline;
+  flex-wrap: column;
+}
+.comment-count-position {
+  position: relative;
+  top: 4.85px;
+}
+.button-sizing {
+  margin: 0 auto;
+  justify-content: center;
+  width: 60.5%;
+}
+.form-size {
+  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+  font-size: 13.5px;
+}
+.font-size {
+  font-size: 13.5px;
+}
+@import url("https://fonts.googleapis.com/css?family=Niramit:300,300i,700");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.timeline-content {
+  max-width: 1050px;
+  margin: 15px auto 0;
+}
+.timeline {
+  position: relative;
+  padding-left: 4.0rem;
+  margin: 0 0 0 25px;
+  color: #fafafa;
+}
+.timeline:before {
+  content: "";
+  position: absolute;
+  left: -1.2px;
+  top: 8.65px;
+  width: 4.5px;
+  height: 100%;
+  background: #2A2E43;
+}
+.timeline .timeline-container {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.timeline .timeline-container .timeline-icon {
+  position: absolute;
+  left: -88px;
+  top: 4px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 2rem;
+  background: #4f537b;
+}
+.timeline .timeline-container .timeline-icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18.5px;
+}
+.timeline .timeline-container .timeline-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.timeline .timeline-container .timeline-body {
+  background: #2A2E43;
+  border-radius: 3px;
+  padding: 20px 20px 20px 15px;
+  box-shadow: 1px 3px 9px rgba(0, 0, 0, 0.1);
+  max-width: 1050px;
+  width: 100%;
+}
+.timeline .timeline-container .timeline-body:before {
+  content: "";
+  background: inherit;
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  left: -10px;
+  transform: rotate(45deg);
+  border-radius: 0 0 0 2px;
+}
+.timeline .timeline-container .timeline-body .timeline-title {
+  margin-bottom: 1.4rem;
+}
+.timeline .timeline-container .timeline-body .timeline-title .badge {
+  background: #4f537b;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.timeline .timeline-container .timeline-body .timeline-subtitle {
+  font-weight: 300;
+  font-style: italic;
+  opacity: 0.4;
+  margin-top: 16px;
+  font-size: 11px;
+}
+.timeline .timeline-container.primary .badge,
+.timeline .timeline-container.primary .timeline-icon {
+  background: #1d8cf8 !important;
+}
+.timeline .timeline-container.info .badge,
+.timeline .timeline-container.info .timeline-icon {
+  background: #11cdef !important;
+}
+.timeline .timeline-container.success .badge,
+.timeline .timeline-container.success .timeline-icon {
+  background: #00bf9a !important;
+}
+.timeline .timeline-container.warning .badge,
+.timeline .timeline-container.warning .timeline-icon {
+  background: #ff8d72 !important;
+}
+.timeline .timeline-container.danger .badge,
+.timeline .timeline-container.danger .timeline-icon {
+  background: #fd5d93 !important;
+}
+.timeline .timeline-container.user .badge,
+.timeline .timeline-container.user .timeline-icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.author {
+  font-family: inherit;
+  padding: 3em;
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+.author a:link,
+.author a:visited {
+  color: white;
+}
+.author a:link:hover,
+.author a:visited:hover {
+  text-decoration: none;
+}
+.author .btn:link,
+.author .btn:visited {
+  margin-top: 1em;
+  text-decoration: none;
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 100;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: black;
+  padding: 1.5em 2rem;
+  border-radius: 1em;
+  transition: 0.5s all;
+}
+.author .btn:link:hover, .author .btn:link:focus, .author .btn:link:active,
+.author .btn:visited:hover,
+.author .btn:visited:focus,
+.author .btn:visited:active {
+  background-color: #2A2E43;
+}
+.timeline-title-span{
+  margin-left: 10px;
+  font-size: 16.5px;
+}
+.timeline-subtitle-rightside {
+  text-align: right;
+}
+.i-style-timeline {
+  font-size: 18.5px;
+}
+.timeline-title-right{
+  text-align: right;
+}
+.share-div {
+  display: inline-block;
+  text-decoration:none;
+}
+.share-a {
+  color:#ffffff;
+  background: #4285F4;
+  border-radius:4px;
+  text-align:center;
+  text-decoration:none;
+  font-family:fontawesome;
+  position: relative;
+  display: inline-block;
+  width:40px;
+  height:40px;
+  padding-top:12px;
+  margin:0 2px;
+  -o-transition:all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  -webkit-font-smoothing: antialiased;
+}
+.share-a:hover {
+  color: #ffffff;
+  background: #7aa6ea;
+  text-decoration:none;
+}
+.share-a:nth-of-type(1):before {
+content:'\f09a';
+}
+.share-a:nth-of-type(2):before {
+content:'\f099';
+}
+.share-a:nth-of-type(3):before {
+content:'\f0d5';
+}
+.share-a:nth-of-type(4):before {
+content:'\f113';
+}
+.share-a:nth-of-type(5):before {
+content:'\f17d';
+}
+.share-a:nth-of-type(6):before {
+content:'\f1cb';
+}
+.bg-main-header {
+  color: #ffffff;
+  background-color: #2A2E43;
+}
+.text-color-white{
+  color: #ffffff;
+}
+.circle-img {
+  width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border-radius: 50% !important;
+  border: 1.5px solid #fafafa;
+  background-color: #fafafa;
+}
+.range-specification{
+  max-width: 1050px;
+  margin: 0 auto;
+}
+.timeline-in-a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.timeline-in-a:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+.text-align-center{
+  text-align: center;
+}
+.the-right {
+  margin: 0 0 0 auto;
+}
+</style>
+{% block extend_js %}
+<script src="{% static 'js/message.js' %}"></script>
+<script>
+$('.Shortcuts a').click(function(event) {
+  var id = $(this).attr("href");
+  var offset = 70;
+  var target = $(id).offset().top - offset;
+  $('html, body').animate({
+      scrollTop: target
+  }, 500);
+  event.preventDefault();
+});
+</script>
+{% endblock %}
+{% block map %}
+<script>
+var mymap = L.map('mapid', {
+  preferCanvas: true,
+});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  minZoom: 3,
+  maxZoom: 19,
+  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+}).addTo(mymap);
+var pulsingIcon2 = L.icon.pulse({
+  iconSize: [20, 20],
+  color: '#006400',
+  fillColor: '#009600',
+  heartbeat: 2
+});
+function onLocationFound(e) {
+  L.Icon.Default.imagePath = 'https://unpkg.com/leaflet@1.3.1/dist/images/';
+  L.marker(e.latlng, {
+    icon: pulsingIcon2
+  }).addTo(mymap);
+}
+function onLocationError(e) {
+  alert("Could not retrieve current location. 現在地を取得できませんでした。" + e.message);
+}
+var data = [{
+  "loc": [{{post.pin_x }}, {{post.pin_y}}]
+}];
+for (i in data) {
+  var marker = L.marker(data[i].loc, {
+    riseOnHover: true
+  }).addTo(mymap);
+}
+mymap.on('locationfound', onLocationFound);
+mymap.on('locationerror', onLocationError);
+mymap.locate({
+  setView: true,
+  minZoom: 3,
+  maxZoom: 19,
+  timeout: 20000
+});
+mymap.sharelocationControl.setPosition('topright');
+mymap.zoomControl.setPosition('topright');
+navigator.geolocation.getCurrentPosition(InputPinLocation, onLocationError);
+</script>
+{% endblock %}
+<script>
+{% for comments in comment %}
+$(document).on('click', '#comment-like-button-{{ comments.pk }}', function (e) {
+  e.preventDefault();
+  let $btn = $(this);
+  if ($btn.hasClass('on')) {
+    $btn.removeClass('on');
+    $btn.children("i").attr('class', 'fa fa-thumbs-up');
+  } else {
+    $btn.addClass('on');
+    $btn.children("i").attr('class', 'far fa-thumbs-up heart');
+  }
+  $.ajax({
+    type: 'POST',
+    url: '{% url "post:comment_like" %}',
+    data: {
+      commentid: $('#comment-like-button-{{ comments.pk }}').val(),
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      action: 'post'
+    },
+    success: function (json) {
+      document.getElementById("comment_like_count-{{ comments.pk }}").innerHTML = json['result']
+    },
+    error: function (xhr, errmsg, err) {
+    }
+  });
+})
+$(document).on('click', '#discomment-like-button-{{ comments.pk }}', function (e) {
+  e.preventDefault();
+  let $btn = $(this);
+  if ($btn.hasClass('on')) {
+    $btn.removeClass('on');
+    $btn.children("i").attr('class', 'fa fa-thumbs-down');
+  } else {
+    $btn.addClass('on');
+    $btn.children("i").attr('class', 'far fa-thumbs-down');
+  }
+  $.ajax({
+    type: 'POST',
+    url: '{% url "post:discomment_like" %}',
+    data: {
+      commentid: $('#discomment-like-button-{{ comments.pk }}').val(),
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      action: 'post'
+    },
+    success: function (json) {
+      document.getElementById("discomment_like_count-{{ comments.pk }}").innerHTML = json['result']
+    },
+    error: function (xhr, errmsg, err) {
+    }
+  });
+})
+{% endfor %}
+</script>
+<script>
+jQuery(function($){
+  $(document).ajaxSend(function() {
+    $("#overlay").fadeIn(300);
+  });
+  $(document).on('click', '#send', function (e) {
+  e.preventDefault();
+  $.ajax({
+    type: 'POST',
+    url: '{% url "post:comment" post.pk %}',
+    data: {
+      comment_text: $('#id_comment_text').val(),
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      action: 'post'
+    },
+    success: function (json) {
+      setTimeout(function(){
+        $("#overlay").fadeOut(250);
+      },450);
+      let element = document.getElementById('comment-div');
+      const data = json['result']
+      const comment = JSON.parse(data)
+      element.insertAdjacentHTML('beforeend', `
+      <div class="px-4 card-box">
+        <div class="p-4 rounded shadow-sm bg-light">
+          <div class="flex-comment">
+            {% if result.user.icon %}
+            <a href="http://127.0.0.1:8000/en/accounts/others_page/` +  comment[0].fields.user + `/"><img src="` + comment[2].user_icon + `" class="mb-2 circle"></a>
+            {% else %}
+            <a href="http://127.0.0.1:8000/en/accounts/others_page/` +  comment[0].fields.user + `/"><img src="{% static 'icon/LandLim_Human.png' %}" class="mb-2 circle"></a>
+            {% endif %}
+            <p class="mb-0 flex-p">` +
+              comment[0].fields.comment_text + `
+              <br><i class="fas fa-user"></i> <a href="http://127.0.0.1:8000/en/accounts/others_page/` +  comment[0].fields.user + `/">` + comment[1].username + `</a>
+              <br><i class="fas fa-history"></i> ` + comment[0].fields.created_at + `
+            </p>
+          </div>
+          <div class="flex-comment">
+            <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="comment-like-button-` + comment[0].pk + `" value="` + comment[0].pk + `">
+              <i class="far fa-thumbs-up">&#xE87D;</i>
+            </button><p class="comment-count-position" id="comment_like_count-` + comment[0].pk + `">` + comment[0].fields.like_count + `</p>
+          </div>
+          <div class="flex-comment">
+            <button class="btn btn-link text-dark p-0 border-0 btn-outline-light button-like" id="discomment-like-button-` + comment[0].pk + `" value="` + comment[0].pk + `">
+              <i class="far fa-thumbs-up">&#xE87D;</i>
+            </button><p class="comment-count-position" id="comment_like_count-` + comment[0].pk + `">` + comment[0].fields.dislike_count + `</p>
+          </div>
+        </div>
+      </div>
+      `);
+      document.getElementById('contact').reset();
+      $(document).on('click', '#comment-like-button-' + comment[0].pk + '', function (e) {
+      e.preventDefault();
+      let $btn = $(this);
+      if ($btn.hasClass('on')) {
+        $btn.removeClass('on');
+        $btn.children("i").attr('class', 'far fa-thumbs-up');
+      } else {
+        $btn.addClass('on');
+        $btn.children("i").attr('class', 'far fa-thumbs-up heart');
+      }
+      $.ajax({
+        type: 'POST',
+        url: '{% url "post:comment_like" %}',
+        data: {
+          commentid: $('#comment-like-button-' + comment[0].pk + '').val(),
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'post'
+        },
+        success: function (json) {
+          document.getElementById("comment_like_count-" + comment[0].pk + "").innerHTML = json['result']
+          setTimeout(function(){
+        $("#overlay").fadeOut(250);
+        },450);
+        },
+        error: function (xhr, errmsg, err) {
+        }
+      });
+    })
+    $(document).on('click', '#discomment-like-button-' + comment[0].pk + '', function (e) {
+      e.preventDefault();
+      let $btn = $(this);
+      if ($btn.hasClass('on')) {
+        $btn.removeClass('on');
+        $btn.children("i").attr('class', 'far fa-thumbs-down');
+      } else {
+        $btn.addClass('on');
+        $btn.children("i").attr('class', 'far fa-thumbs-down');
+      }
+      $.ajax({
+        type: 'POST',
+        url: '{% url "post:discomment_like" %}',
+        data: {
+          commentid: $('#discomment-like-button-' + comment[0].pk + '').val(),
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'post'
+        },
+        success: function (json) {
+          document.getElementById("discomment_like_count-" + comment[0].pk + "").innerHTML = json['result']
+          setTimeout(function(){
+        $("#overlay").fadeOut(250);
+        },450);
+        },
+        error: function (xhr, errmsg, err) {
+        }
+      });
+    })
+    },
+    error: function (xhr, errmsg, err) {
+    }
+  });
+})
+});
+</script>
+<script>
+(function($) {
+ var indicatorController = {
+  __name: 'indicatorController',
+  '#send click': function(){
+   var indicator = this.indicator({
+    message: 'block'
+   }).show();
+   setTimeout(function() {
+    indicator.hide();
+   }, 690);
+  }
+ };
+ $(function(){ h5.core.controller('#container', indicatorController)});
+})(jQuery);
+</script>
+{% block jquery_js %}
+<script src="http://www.htmlhifive.com/ja/res/lib/jquery/jquery-2.js"></script>
+{% endblock %}
+{% endblock %}
+{% block information %}
+<div id="comment-div">
+  {% if comment %}
+    {% for comments in comment %}
+      <div class="media g-mb-30 media-comment">
+        {% if comments.user.icon_url %}
+        <a href="{% url 'accounts:others_page' comments.user.pk %}">
+          <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{ comments.user.icon_url }}" alt="Image Description">
+        </a>
+        {% else %}
+        <a href="{% url 'accounts:others_page' comments.user.pk %}">
+          <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{% static 'icon/LandLim_Human.png' %}" alt="Image Description">
+        </a>
+        {% endif %}
+        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+          <div class="g-mb-15">
+            <span class="g-color-gray-dark-v4 g-font-size-12">{{ comments.user }}</span><br>
+            <span class="g-color-gray-dark-v4 g-font-size-12">{{ comments.created_at }}</span>
+          </div>
+          <p>{{ comments.comment_text | safe | linebreaksbr }}</p>
+          <ul class="list-inline d-sm-flex my-0">
+            <li class="list-inline-item g-mr-20">
+              <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+                <button class="none__button" id="comment-like-button-{{ comments.pk }}" value="{{ comments.pk }}">
+                  <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                  <span id="comment_like_count-{{ comments.pk }}">{{ comments.like_count }}</span>
+                </button>
+              </a>
+            </li>
+            <li class="list-inline-item g-mr-20">
+              <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                <button class="none__button" id="discomment-like-button-{{ comments.pk }}" value="{{ comments.pk }}">
+                  <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                  <span id="discomment_like_count-{{ comments.pk }}">{{ comments.dislike_count }}</span>
+                </button>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <!-- landlimのアイコンから発言を行う -->
+    <div class="media g-mb-30 media-comment">
+      <a href="{% url 'accounts:others_page' post.user.pk %}">
+        <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{ post.user.icon_url }}" alt="Image Description">
+      </a>
+      <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+        <div class="g-mb-15">
+          <span class="g-color-gray-dark-v4 g-font-size-12">{{ post.user }}</span>
+          <a href="{% url 'post:post_details' pk=post.pk %}"><h5 class="h5 g-color-gray-dark-v1 mb-0">{{ post.title }}</h5></a>
+          <span class="g-color-gray-dark-v4 g-font-size-12">{{ post.created_at }}</span>
+        </div>
+        <p>{{ post.text | safe | linebreaksbr | truncatechars:200 }}</p>
+        <ul class="list-inline d-sm-flex my-0">
+          <li class="list-inline-item g-mr-20">
+            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+              <button class="none__button" id="like-button" value="{{ post.pk }}">
+                <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                <span id="like_count">{{ post.like_count }}</span>
+              </button>
+            </a>
+          </li>
+          <li class="list-inline-item g-mr-20">
+            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+              <button class="none__button" id="dislike-button" value="{{ post.pk }}">
+                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                <span id="dislike_count">{{ post.dislike_count }}</span>
+              </button>
+            </a>
+          </li>
+          <li class="list-inline-item ml-auto">
+            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+              <button class="none__button" id="bookmark-button" value="{{ post.pk }}">
+                <i class="fa fa-bookmark g-pos-rel g-top-1 g-mr-3"></i>
+                <span id="bookmark_count">{{ post.bookmark_count }}</span>
+              </button>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+</div>
+<style>
+.g-height-50 {
+    height: 50px;
+}
+.g-width-50 {
+    width: 50px !important;
+}
+@media (min-width: 0){
+    .g-pa-30 {
+        padding: 2.14286rem !important;
+    }
+}
+.g-bg-secondary {
+    background-color: #fafafa !important;
+}
+.u-shadow-v18 {
+    box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
+}
+.g-color-gray-dark-v4 {
+    color: #777 !important;
+}
+.g-font-size-12 {
+    font-size: 0.75714rem !important;
+}
+.media-comment {
+    margin-top:20px
+}
+</style>
+<style>
+.none__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+}
+</style>
+<div class="mt-3">
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+          ×</button>
+     <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+      <hr class="message-inner-separator">
+      <p>
+          You successfully read this important alert message.</p>
+  </div>
+</div>
+<!-- こっちは広告投稿でどうでしょうか -->
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-3">
+  <div class="bg-white rounded shadow-sm"><img src="https://bootstrapious.com/i/snippets/sn-gallery/img-2.jpg" alt="" class="img-fluid card-img-top">
+    <div class="p-4">
+      <h5> <a href="#" class="text-dark">Blorange</a></h5>
+      <p class="small text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+      <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">PNG</span></p>
+        <div class="badge badge-primary px-3 rounded-pill font-weight-normal">Trend</div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+hr.message-inner-separator{
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 13px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+</style>
+{% endblock %}
